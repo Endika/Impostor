@@ -29,7 +29,13 @@ export const initialState: GameState = {
 }
 
 export type GameAction =
-  | { type: 'START_GAME'; config: GameConfig; bank: WordBank; rng: Rng }
+  | {
+      type: 'START_GAME'
+      config: GameConfig
+      bank: WordBank
+      rng: Rng
+      excludeWords?: string[]
+    }
   | { type: 'NEXT_REVEAL' }
   | { type: 'END_ROUND' }
   | { type: 'CAST_VOTE'; votedPlayerId: string }
@@ -40,7 +46,12 @@ export type GameAction =
 export function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case 'START_GAME': {
-      const assignment = assignRoles(action.config, action.bank, action.rng)
+      const assignment = assignRoles(
+        action.config,
+        action.bank,
+        action.rng,
+        action.excludeWords ?? [],
+      )
       return {
         ...state,
         config: action.config,

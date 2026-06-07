@@ -28,4 +28,24 @@ describe('InMemoryWordBank', () => {
       'no_words_available',
     )
   })
+
+  it('falls back to the full pool when every word is excluded', () => {
+    const single: CategoryData = { general: { es: ['Playa'] } }
+    const bank = new InMemoryWordBank(single)
+    // 'Playa' is the only candidate and it is excluded: rather than throwing,
+    // the bank resets and returns it again.
+    expect(bank.pick(['general'], 'es', () => 0, ['Playa'])).toEqual({
+      word: 'Playa',
+      categoryId: 'general',
+    })
+  })
+
+  it('never returns an excluded word when alternatives exist', () => {
+    const two: CategoryData = { general: { es: ['A', 'B'] } }
+    const bank = new InMemoryWordBank(two)
+    // Span the whole rng range; with 'A' excluded only 'B' should ever appear.
+    for (const r of [0, 0.25, 0.5, 0.75, 0.99]) {
+      expect(bank.pick(['general'], 'es', () => r, ['A']).word).toBe('B')
+    }
+  })
 })

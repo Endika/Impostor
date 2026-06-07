@@ -54,4 +54,18 @@ describe('assignRoles', () => {
     const ids = assignment.players.map((p) => p.id)
     expect(new Set(ids).size).toBe(ids.length)
   })
+
+  it('does not pick an excluded word when alternatives exist', () => {
+    const multiBank = new InMemoryWordBank({
+      general: { es: ['Playa', 'Montaña'] },
+    })
+    // rng=0 would normally pick 'Playa'; excluding it leaves only 'Montaña'.
+    const assignment = assignRoles(
+      makeConfig(),
+      multiBank,
+      () => 0,
+      ['Playa'],
+    )
+    expect(assignment.word).toBe('Montaña')
+  })
 })

@@ -6,8 +6,14 @@ export function assignRoles(
   config: GameConfig,
   bank: WordBank,
   rng: Rng,
+  excludeWords: string[] = [],
 ): Assignment {
-  const { word, categoryId } = bank.pick(config.categoryIds, config.locale, rng)
+  const { word, categoryId } = bank.pick(
+    config.categoryIds,
+    config.locale,
+    rng,
+    excludeWords,
+  )
   const indices = config.players.map((_, i) => i)
   for (let i = indices.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1))

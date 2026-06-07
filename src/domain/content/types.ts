@@ -7,5 +7,6 @@ export interface WordBank {
     categoryIds: string[],
     locale: LocaleCode,
     rng: Rng,
+    excludeWords?: string[],
   ): { word: string; categoryId: string }
 }
