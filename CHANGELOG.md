@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.1.0](https://github.com/Endika/Impostor/compare/v1.0.1...v1.1.0) (2026-06-07)
+
+
+### Features
+
+* **app:** resolveElimination with parity win conditions ([b9e49be](https://github.com/Endika/Impostor/commit/b9e49bed2a41d538edf1df945b6303342b8ca2da))
+* **content:** expand to 6 categories and 1000+ words ([796d57c](https://github.com/Endika/Impostor/commit/796d57cb35280760c5b8aad2a70e5e5a319f5710))
+* **content:** no-repeat word selection across rounds ([82d261d](https://github.com/Endika/Impostor/commit/82d261d83bfafe4ad52ac97560b4c55e2d83ddca))
+* **domain:** restrict impostor count to keep crew majority ([64292ad](https://github.com/Endika/Impostor/commit/64292ad5f587090c9bfc8c4393688e86b3566f9b))
+* **i18n:** elimination strings and new category names ([7e818aa](https://github.com/Endika/Impostor/commit/7e818aa224e4984861bab85739bca6aa27f39166))
+* **state:** multi-round elimination state machine ([95d647d](https://github.com/Endika/Impostor/commit/95d647dbd1caaad04e64d0c1fe487ed89585929c))
+* **ui:** 3D flip reveal card with large player name ([bd86b58](https://github.com/Endika/Impostor/commit/bd86b584713abfd3038e9d849c7f0af599b0234c))
+* **ui:** elimination reveal screen ([2e99e81](https://github.com/Endika/Impostor/commit/2e99e818acac2482d44d97f890ae29d778496b26))
+* **ui:** persist config, prefill setup, wire no-repeat words ([baeafed](https://github.com/Endika/Impostor/commit/baeafedb89d4efd5b954f8e2ea2c5990a8c99592))
+* **ui:** refresh design tokens, app shell and brand identity ([8c3e1db](https://github.com/Endika/Impostor/commit/8c3e1db87824d968f3fef7c60c8e85a089ca3cb0))
+* **ui:** vote and round screens operate on alive players ([f856dde](https://github.com/Endika/Impostor/commit/f856ddef9419855222703c40503392daad40ddec))
+
 ## [1.0.1](https://github.com/Endika/Impostor/compare/v1.0.0...v1.0.1) (2026-06-07)
 
 
