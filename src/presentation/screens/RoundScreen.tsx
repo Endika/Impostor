@@ -16,9 +16,12 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
 
   const assignment = state.assignment
 
-  // Pick the starting player once on mount; tests inject a deterministic rng.
+  // Pick the starting player once on mount among alive players only;
+  // tests inject a deterministic rng.
   const [starter] = useState(() => {
-    const players = assignment?.players ?? []
+    const players = (assignment?.players ?? []).filter(
+      (p) => !state.eliminatedIds.includes(p.id),
+    )
     if (players.length === 0) return null
     return players[Math.floor(rng() * players.length)] ?? players[0]
   })

@@ -50,6 +50,8 @@ describe('VoteScreen', () => {
       revealIndex: 3,
       outcome: null,
       votedPlayerId: null,
+      eliminatedIds: [],
+      lastElimination: null,
     }
     renderWithProviders(
       <>
@@ -64,6 +66,26 @@ describe('VoteScreen', () => {
 
     expect(screen.getByTestId('screen')).toHaveTextContent('result')
     expect(screen.getByTestId('winner')).toHaveTextContent('crew')
+  })
+
+  it('does not list players that have already been eliminated', () => {
+    const state: GameState = {
+      screen: 'vote',
+      config,
+      assignment,
+      revealIndex: 3,
+      outcome: null,
+      votedPlayerId: 'p3',
+      eliminatedIds: ['p3'],
+      lastElimination: null,
+    }
+    renderWithProviders(<VoteScreen />, { initialState: state })
+
+    expect(screen.getByRole('button', { name: 'Ana' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Ben' })).toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Cleo' }),
+    ).not.toBeInTheDocument()
   })
 })
 

@@ -13,6 +13,10 @@ export function VoteScreen() {
   const assignment = state.assignment
   if (!assignment) return null
 
+  const alivePlayers = assignment.players.filter(
+    (p) => !state.eliminatedIds.includes(p.id),
+  )
+
   function confirm() {
     if (!selectedId) return
     try {
@@ -30,7 +34,7 @@ export function VoteScreen() {
       </h1>
 
       <div className="flex flex-1 flex-col gap-3">
-        {assignment.players.map((player) => {
+        {alivePlayers.map((player) => {
           const isSelected = player.id === selectedId
           return (
             <button
