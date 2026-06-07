@@ -1,0 +1,135 @@
+import { describe, it, expect } from 'vitest'
+import { fireEvent, screen } from '@testing-library/react'
+import { renderWithProviders } from '../helpers/renderWithProviders'
+import { VoteScreen } from '../../src/presentation/screens/VoteScreen'
+import { ResultScreen } from '../../src/presentation/screens/ResultScreen'
+import { useGame } from '../../src/presentation/state/useGame'
+import type { GameState } from '../../src/presentation/state/gameReducer'
+import type { Assignment, GameConfig, GameOutcome } from '../../src/domain/game/types'
+
+function ScreenProbe() {
+  const { state } = useGame()
+  return (
+    <div>
+      <span data-testid="screen">{state.screen}</span>
+      <span data-testid="winner">{state.outcome?.winner ?? ''}</span>
+      <span data-testid="config-players">
+        {state.config?.players.join(',') ?? ''}
+      </span>
+    </div>
+  )
+}
+
+const config: GameConfig = {
+  players: ['Ana', 'Ben', 'Cleo'],
+  impostorCount: 1,
+  impostorSeesClue: true,
+  impostorsSeeEachOther: false,
+  categoryIds: ['general'],
+  locale: 'en',
+}
+
+const assignment: Assignment = {
+  players: [
+    { id: 'p1', name: 'Ana', isImpostor: false },
+    { id: 'p2', name: 'Ben', isImpostor: true },
+    { id: 'p3', name: 'Cleo', isImpostor: false },
+  ],
+  word: 'Playa',
+  categoryId: 'places',
+  clue: null,
+  impostorIds: ['p2'],
+}
+
+describe('VoteScreen', () => {
+  it('casts a vote for the selected player and resolves the outcome', () => {
+    const state: GameState = {
+      screen: 'vote',
+      config,
+      assignment,
+      revealIndex: 3,
+      outcome: null,
+      votedPlayerId: null,
+    }
+    renderWithProviders(
+      <>
+        <VoteScreen />
+        <ScreenProbe />
+      </>,
+      { initialState: state },
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Ben' }))
+    fireEvent.click(screen.getByRole('button', { name: /confirm vote/i }))
+
+    expect(screen.getByTestId('screen')).toHaveTextContent('result')
+    expect(screen.getByTestId('winner')).toHaveTextContent('crew')
+  })
+})
+
+describe('ResultScreen (crew win)', () => {
+  const outcome: GameOutcome = {
+    winner: 'crew',
+    votedWasImpostor: true,
+    word: 'Playa',
+    impostorIds: ['p2'],
+  }
+  const state: GameState = {
+    screen: 'result',
+    config,
+    assignment,
+    revealIndex: 3,
+    outcome,
+    votedPlayerId: 'p2',
+  }
+
+  it('reveals the voted player was the impostor and the crew won', () => {
+    renderWithProviders(<ResultScreen />, { initialState: state })
+    expect(screen.getByText(/ben was the impostor/i)).toBeInTheDocument()
+    expect(screen.getByText(/the crew wins/i)).toBeInTheDocument()
+    expect(screen.getByText('Playa')).toBeInTheDocument()
+    // impostor name under "the impostors were"
+    expect(screen.getByText(/the impostors were/i)).toBeInTheDocument()
+    expect(screen.getByText('Ben')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /play again/i }),
+    ).toBeInTheDocument()
+  })
+
+  it('returns to setup keeping the config on Play again', () => {
+    renderWithProviders(
+      <>
+        <ResultScreen />
+        <ScreenProbe />
+      </>,
+      { initialState: state },
+    )
+    fireEvent.click(screen.getByRole('button', { name: /play again/i }))
+    expect(screen.getByTestId('screen')).toHaveTextContent('setup')
+    expect(screen.getByTestId('config-players')).toHaveTextContent(
+      'Ana,Ben,Cleo',
+    )
+  })
+})
+
+describe('ResultScreen (impostor win)', () => {
+  it('shows the voted player was not the impostor and the impostors won', () => {
+    const outcome: GameOutcome = {
+      winner: 'impostors',
+      votedWasImpostor: false,
+      word: 'Playa',
+      impostorIds: ['p2'],
+    }
+    const state: GameState = {
+      screen: 'result',
+      config,
+      assignment,
+      revealIndex: 3,
+      outcome,
+      votedPlayerId: 'p1',
+    }
+    renderWithProviders(<ResultScreen />, { initialState: state })
+    expect(screen.getByText(/ana was not the impostor/i)).toBeInTheDocument()
+    expect(screen.getByText(/the impostors win/i)).toBeInTheDocument()
+  })
+})
