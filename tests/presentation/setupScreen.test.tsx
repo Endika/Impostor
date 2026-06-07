@@ -28,15 +28,15 @@ describe('SetupScreen', () => {
     window.localStorage.clear()
   })
 
-  it('shows the invalid impostor count error with 3 players and count 3', () => {
+  it('shows the invalid impostor count error with 3 players, min 1 and max 3', () => {
     setup()
     fillPlayer(0, 'Ana')
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
 
-    const count = screen.getByLabelText(/number of impostors/i) as HTMLInputElement
-    // New rule: max impostors = players - 1 = 2 for 3 players; 3 is invalid.
-    fireEvent.change(count, { target: { value: '3' } })
+    const max = screen.getByLabelText(/max impostors/i) as HTMLInputElement
+    // New rule: max impostors = players - 1 = 2 for 3 players; max 3 is invalid.
+    fireEvent.change(max, { target: { value: '3' } })
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
@@ -46,23 +46,21 @@ describe('SetupScreen', () => {
     expect(screen.getByTestId('screen')).toHaveTextContent('setup')
   })
 
-  it('does not show the invalid-count error with 5 players and count 2', () => {
+  it('dispatches START_GAME and transitions to reveal with a valid 3-player min1/max2 config', () => {
     setup()
     fillPlayer(0, 'Ana')
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
-    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
-    fillPlayer(3, 'Dan')
-    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
-    fillPlayer(4, 'Eve')
 
-    const count = screen.getByLabelText(/number of impostors/i) as HTMLInputElement
-    // 5 players → max = floor(4/2) = 2, so count 2 is valid.
-    fireEvent.change(count, { target: { value: '2' } })
+    const min = screen.getByLabelText(/min impostors/i) as HTMLInputElement
+    const max = screen.getByLabelText(/max impostors/i) as HTMLInputElement
+    fireEvent.change(min, { target: { value: '1' } })
+    fireEvent.change(max, { target: { value: '2' } })
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
     expect(screen.queryByText(/choose between 1 and/i)).not.toBeInTheDocument()
+    expect(screen.getByTestId('screen')).toHaveTextContent('reveal')
   })
 
   it('dispatches START_GAME and transitions to reveal with a valid config', () => {
@@ -74,6 +72,25 @@ describe('SetupScreen', () => {
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
     expect(screen.getByTestId('screen')).toHaveTextContent('reveal')
+  })
+
+  it('bumps max up when min is raised above it', () => {
+    setup()
+    fillPlayer(0, 'Ana')
+    fillPlayer(1, 'Ben')
+    fillPlayer(2, 'Cleo')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(3, 'Dan')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(4, 'Eve')
+
+    const min = screen.getByLabelText(/min impostors/i) as HTMLInputElement
+    const max = screen.getByLabelText(/max impostors/i) as HTMLInputElement
+    // Raise min above the current max (1) -> max should follow.
+    fireEvent.change(min, { target: { value: '3' } })
+
+    expect(min.value).toBe('3')
+    expect(max.value).toBe('3')
   })
 
   it('renders chips for the new categories', () => {

@@ -13,7 +13,9 @@
     "playerName": "Player name",
     "removePlayer": "Remove",
     "impostors": "Impostors",
-    "impostorCount": "Number of impostors",
+    "impostorsRange": "Number of impostors",
+    "impostorMin": "Min impostors",
+    "impostorMax": "Max impostors",
     "seesClue": "Impostors see a clue (the category)",
     "seeEachOther": "Impostors see each other",
     "categories": "Word categories",
@@ -60,7 +62,10 @@
     "wasImpostor": "{{name}} was an impostor",
     "wasCrew": "{{name}} was not an impostor",
     "remaining": "{{crew}} crew vs {{impostors}} impostors left",
-    "nextRound": "Next round"
+    "nextRound": "Next round",
+    "guessPrompt": "An eliminated impostor may now say the word out loud.",
+    "guessedRight": "They said it right — impostors win",
+    "seeResult": "See result"
   },
   "result": {
     "isImpostor": "{{name}} WAS the impostor",

@@ -15,7 +15,7 @@ import i18n from '../i18n'
 const LOCALES: LocaleCode[] = ['ca', 'en', 'es', 'eu', 'gl', 'va']
 
 const maxImpostorsFor = (playerCount: number): number =>
-  Math.max(1, Math.floor((playerCount - 1) / 2))
+  Math.max(1, playerCount - 1)
 
 const ERROR_KEY = {
   too_few_players: 'setup.errorTooFewPlayers',
@@ -37,9 +37,8 @@ export function SetupScreen() {
       ? saved.players
       : ['', '', ''],
   )
-  const [impostorCount, setImpostorCount] = useState(
-    () => saved?.impostorMin ?? 1,
-  )
+  const [impostorMin, setImpostorMin] = useState(() => saved?.impostorMin ?? 1)
+  const [impostorMax, setImpostorMax] = useState(() => saved?.impostorMax ?? 1)
   const [impostorSeesClue, setImpostorSeesClue] = useState(
     () => saved?.impostorSeesClue ?? false,
   )
@@ -72,6 +71,21 @@ export function SetupScreen() {
     return count
   }
 
+  // Raising min above max pushes max up; lowering max below min pulls min down.
+  // The upper bound (players - 1) is enforced by validateConfig on Start so an
+  // out-of-range value still surfaces the invalid-count error.
+  function changeMin(value: number) {
+    const next = Math.max(1, value)
+    setImpostorMin(next)
+    setImpostorMax((m) => Math.max(m, next))
+  }
+
+  function changeMax(value: number) {
+    const next = Math.max(1, value)
+    setImpostorMax(next)
+    setImpostorMin((m) => Math.min(m, next))
+  }
+
   function updatePlayer(index: number, value: string) {
     setPlayers((prev) => prev.map((p, i) => (i === index ? value : p)))
   }
@@ -84,7 +98,8 @@ export function SetupScreen() {
     setPlayers((prev) => {
       const next = prev.filter((_, i) => i !== index)
       const max = maxImpostorsFor(next.length)
-      setImpostorCount((c) => clampCount(c, max))
+      setImpostorMin((c) => clampCount(c, max))
+      setImpostorMax((c) => clampCount(c, max))
       return next
     })
   }
@@ -100,13 +115,14 @@ export function SetupScreen() {
     void i18n.changeLanguage(code)
   }
 
-  const seeEachOtherDisabled = impostorCount < 2
+  // The game might have >= 2 impostors, so enable the toggle when max allows it.
+  const seeEachOtherDisabled = impostorMax < 2
 
   function handleStart() {
     const config: GameConfig = {
       players: players.map((p) => p.trim()),
-      impostorMin: impostorCount,
-      impostorMax: impostorCount,
+      impostorMin,
+      impostorMax,
       impostorSeesClue,
       impostorsSeeEachOther: seeEachOtherDisabled ? false : impostorsSeeEachOther,
       categoryIds: selectedCategories,
@@ -170,43 +186,79 @@ export function SetupScreen() {
         </Button>
       </section>
 
-      <section className="flex flex-col gap-2">
-        <label
-          htmlFor="impostor-count"
-          className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400"
-        >
-          {t('setup.impostorCount')}
-        </label>
-        <div className="flex items-center gap-3">
-          <Button
-            variant="secondary"
-            aria-label="-"
-            className="h-11 w-11 shrink-0 px-0 text-xl"
-            onClick={() =>
-              setImpostorCount((c) => clampCount(c - 1, maxImpostors))
-            }
-          >
-            −
-          </Button>
-          <input
-            id="impostor-count"
-            type="number"
-            min={1}
-            max={maxImpostors}
-            className="min-h-11 w-20 rounded-xl border border-slate-300/80 bg-white/80 px-3 py-2 text-center text-lg font-bold text-slate-900 shadow-sm backdrop-blur focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
-            value={impostorCount}
-            onChange={(e) => setImpostorCount(Number(e.target.value) || 1)}
-          />
-          <Button
-            variant="secondary"
-            aria-label="+"
-            className="h-11 w-11 shrink-0 px-0 text-xl"
-            onClick={() =>
-              setImpostorCount((c) => clampCount(c + 1, maxImpostors))
-            }
-          >
-            +
-          </Button>
+      <section className="flex flex-col gap-3">
+        <SectionLabel>{t('setup.impostorsRange')}</SectionLabel>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="impostor-min"
+              className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400"
+            >
+              {t('setup.impostorMin')}
+            </label>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="secondary"
+                aria-label="-"
+                className="h-11 w-11 shrink-0 px-0 text-xl"
+                onClick={() => changeMin(impostorMin - 1)}
+              >
+                −
+              </Button>
+              <input
+                id="impostor-min"
+                type="number"
+                min={1}
+                max={maxImpostors}
+                className="min-h-11 w-full min-w-0 rounded-xl border border-slate-300/80 bg-white/80 px-3 py-2 text-center text-lg font-bold text-slate-900 shadow-sm backdrop-blur focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
+                value={impostorMin}
+                onChange={(e) => changeMin(Number(e.target.value) || 1)}
+              />
+              <Button
+                variant="secondary"
+                aria-label="+"
+                className="h-11 w-11 shrink-0 px-0 text-xl"
+                onClick={() => changeMin(impostorMin + 1)}
+              >
+                +
+              </Button>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="impostor-max"
+              className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400"
+            >
+              {t('setup.impostorMax')}
+            </label>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="secondary"
+                aria-label="-"
+                className="h-11 w-11 shrink-0 px-0 text-xl"
+                onClick={() => changeMax(impostorMax - 1)}
+              >
+                −
+              </Button>
+              <input
+                id="impostor-max"
+                type="number"
+                min={1}
+                max={maxImpostors}
+                className="min-h-11 w-full min-w-0 rounded-xl border border-slate-300/80 bg-white/80 px-3 py-2 text-center text-lg font-bold text-slate-900 shadow-sm backdrop-blur focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
+                value={impostorMax}
+                onChange={(e) => changeMax(Number(e.target.value) || 1)}
+              />
+              <Button
+                variant="secondary"
+                aria-label="+"
+                className="h-11 w-11 shrink-0 px-0 text-xl"
+                onClick={() => changeMax(impostorMax + 1)}
+              >
+                +
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
 

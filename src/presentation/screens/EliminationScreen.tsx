@@ -16,6 +16,7 @@ export function EliminationScreen() {
   // Catching an impostor is good news for the crew (positive tone); voting out
   // an innocent is a setback (warn tone). Never the brand color for semantics.
   const caughtImpostor = lastElimination.votedWasImpostor
+  const isContinue = lastElimination.status === 'continue'
 
   return (
     <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
@@ -47,13 +48,38 @@ export function EliminationScreen() {
         })}
       </p>
 
-      <Button
-        size="lg"
-        className="mt-auto w-full"
-        onClick={() => dispatch({ type: 'NEXT_ROUND' })}
-      >
-        {t('elimination.nextRound')}
-      </Button>
+      {caughtImpostor && (
+        <section className="flex flex-col gap-3 rounded-2xl border border-amber-300/70 bg-amber-50/80 px-4 py-4 text-center shadow-sm backdrop-blur-sm dark:border-amber-500/30 dark:bg-amber-500/10">
+          <p className="text-sm font-medium text-amber-900 dark:text-amber-200">
+            {t('elimination.guessPrompt')}
+          </p>
+          <Button
+            variant="secondary"
+            className="w-full border-amber-400 bg-amber-400 text-amber-950 hover:bg-amber-300 dark:border-amber-500/50 dark:bg-amber-500/30 dark:text-amber-100"
+            onClick={() => dispatch({ type: 'IMPOSTOR_GUESSED_RIGHT' })}
+          >
+            {t('elimination.guessedRight')}
+          </Button>
+        </section>
+      )}
+
+      {isContinue ? (
+        <Button
+          size="lg"
+          className="mt-auto w-full"
+          onClick={() => dispatch({ type: 'NEXT_ROUND' })}
+        >
+          {t('elimination.nextRound')}
+        </Button>
+      ) : (
+        <Button
+          size="lg"
+          className="mt-auto w-full"
+          onClick={() => dispatch({ type: 'SHOW_RESULT' })}
+        >
+          {t('elimination.seeResult')}
+        </Button>
+      )}
     </div>
   )
 }

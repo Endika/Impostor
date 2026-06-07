@@ -41,16 +41,15 @@ const state: GameState = {
   },
 }
 
-describe('EliminationScreen', () => {
-  it('shows the eliminated player was not an impostor and the remaining count', () => {
-    renderWithProviders(<EliminationScreen />, { initialState: state })
-    expect(screen.getByText(/ben was not an impostor/i)).toBeInTheDocument()
-    expect(
-      screen.getByText(/2 crew vs 1 impostors left/i),
-    ).toBeInTheDocument()
-  })
+function ResultProbe() {
+  const { state } = useGame()
+  return (
+    <span data-testid="winner">{state.outcome ? state.outcome.winner : ''}</span>
+  )
+}
 
-  it('dispatches NEXT_ROUND when clicking Next round', () => {
+describe('EliminationScreen', () => {
+  it('shows a crew elimination with no guess button and continues to the next round', () => {
     renderWithProviders(
       <>
         <EliminationScreen />
@@ -58,7 +57,79 @@ describe('EliminationScreen', () => {
       </>,
       { initialState: state },
     )
+    expect(screen.getByText(/ben was not an impostor/i)).toBeInTheDocument()
+    expect(
+      screen.getByText(/2 crew vs 1 impostors left/i),
+    ).toBeInTheDocument()
+    // Voted player was crew -> no last-chance guess section.
+    expect(
+      screen.queryByRole('button', { name: /they said it right/i }),
+    ).not.toBeInTheDocument()
+
     fireEvent.click(screen.getByRole('button', { name: /next round/i }))
     expect(screen.getByTestId('screen')).toHaveTextContent('round')
+  })
+
+  it('shows the guess button when an impostor is eliminated and the game continues', () => {
+    const impostorOut: GameState = {
+      ...state,
+      votedPlayerId: 'p1',
+      eliminatedIds: ['p1'],
+      lastElimination: {
+        votedPlayerId: 'p1',
+        votedWasImpostor: true,
+        status: 'continue',
+        aliveImpostorCount: 1,
+        aliveCrewCount: 3,
+      },
+    }
+    renderWithProviders(
+      <>
+        <EliminationScreen />
+        <ScreenProbe />
+        <ResultProbe />
+      </>,
+      { initialState: impostorOut },
+    )
+    expect(screen.getByText(/ana was an impostor/i)).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: /they said it right/i }))
+    expect(screen.getByTestId('screen')).toHaveTextContent('result')
+    expect(screen.getByTestId('winner')).toHaveTextContent('impostors')
+  })
+
+  it('shows See result on a terminal status and keeps the guess button', () => {
+    const crewWin: GameState = {
+      ...state,
+      votedPlayerId: 'p1',
+      eliminatedIds: ['p1'],
+      outcome: {
+        winner: 'crew',
+        votedWasImpostor: true,
+        word: 'Playa',
+        impostorIds: ['p1'],
+      },
+      lastElimination: {
+        votedPlayerId: 'p1',
+        votedWasImpostor: true,
+        status: 'crew_win',
+        aliveImpostorCount: 0,
+        aliveCrewCount: 3,
+      },
+    }
+    renderWithProviders(
+      <>
+        <EliminationScreen />
+        <ScreenProbe />
+      </>,
+      { initialState: crewWin },
+    )
+    // Last impostor could still steal it -> guess button present.
+    expect(
+      screen.getByRole('button', { name: /they said it right/i }),
+    ).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: /see result/i }))
+    expect(screen.getByTestId('screen')).toHaveTextContent('result')
   })
 })

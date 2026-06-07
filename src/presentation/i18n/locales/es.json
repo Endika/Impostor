@@ -13,7 +13,9 @@
     "playerName": "Nombre del jugador",
     "removePlayer": "Quitar",
     "impostors": "Impostores",
-    "impostorCount": "Número de impostores",
+    "impostorsRange": "Número de impostores",
+    "impostorMin": "Mín. impostores",
+    "impostorMax": "Máx. impostores",
     "seesClue": "Los impostores ven una pista (la categoría)",
     "seeEachOther": "Los impostores se ven entre sí",
     "categories": "Categorías de palabras",
@@ -60,7 +62,10 @@
     "wasImpostor": "{{name}} era impostor",
     "wasCrew": "{{name}} no era impostor",
     "remaining": "Quedan {{crew}} tripulantes vs {{impostors}} impostores",
-    "nextRound": "Siguiente ronda"
+    "nextRound": "Siguiente ronda",
+    "guessPrompt": "Un impostor expulsado puede decir la palabra en voz alta.",
+    "guessedRight": "La dijo bien: ganan los impostores",
+    "seeResult": "Ver resultado"
   },
   "result": {
     "isImpostor": "{{name}} ERA el impostor",

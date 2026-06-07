@@ -13,7 +13,9 @@
     "playerName": "Jokalariaren izena",
     "removePlayer": "Kendu",
     "impostors": "Inpostoreak",
-    "impostorCount": "Inpostore kopurua",
+    "impostorsRange": "Inpostore kopurua",
+    "impostorMin": "Gutxieneko inpostoreak",
+    "impostorMax": "Gehienezko inpostoreak",
     "seesClue": "Inpostoreek pista bat ikusten dute (kategoria)",
     "seeEachOther": "Inpostoreek elkar ikusten dute",
     "categories": "Hitz kategoriak",
@@ -60,7 +62,10 @@
     "wasImpostor": "{{name}} inpostorea zen",
     "wasCrew": "{{name}} ez zen inpostorea",
     "remaining": "{{crew}} tripulatzaile vs {{impostors}} inpostore geratzen dira",
-    "nextRound": "Hurrengo txanda"
+    "nextRound": "Hurrengo txanda",
+    "guessPrompt": "Kanporatutako inpostore batek hitza ozen esan dezake orain.",
+    "guessedRight": "Ondo esan du: inpostoreek irabazi dute",
+    "seeResult": "Ikusi emaitza"
   },
   "result": {
     "isImpostor": "{{name}} inpostorea ZEN",

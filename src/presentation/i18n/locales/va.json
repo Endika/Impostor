@@ -13,7 +13,9 @@
     "playerName": "Nom del jugador",
     "removePlayer": "Llevar",
     "impostors": "Impostors",
-    "impostorCount": "Nombre d'impostors",
+    "impostorsRange": "Nombre d'impostors",
+    "impostorMin": "Mín. impostors",
+    "impostorMax": "Màx. impostors",
     "seesClue": "Els impostors veuen una pista (la categoria)",
     "seeEachOther": "Els impostors es veuen entre ells",
     "categories": "Categories de paraules",
@@ -60,7 +62,10 @@
     "wasImpostor": "{{name}} era impostor",
     "wasCrew": "{{name}} no era impostor",
     "remaining": "Queden {{crew}} tripulants vs {{impostors}} impostors",
-    "nextRound": "Següent ronda"
+    "nextRound": "Següent ronda",
+    "guessPrompt": "Un impostor expulsat pot dir la paraula en veu alta.",
+    "guessedRight": "L'ha dit bé: guanyen els impostors",
+    "seeResult": "Vore resultat"
   },
   "result": {
     "isImpostor": "{{name}} ERA l'impostor",
