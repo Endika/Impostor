@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/Endika/Impostor/compare/v1.0.0...v1.0.1) (2026-06-07)
+
+
+### Documentation
+
+* add live app link and word counts to README ([aea1911](https://github.com/Endika/Impostor/commit/aea19114c5a5358f5bfb0bcfae4e86f50f106216))
+
 ## 1.0.0 (2026-06-07)
 
 
