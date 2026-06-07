@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import App from '@/presentation/App'
+import { renderWithProviders } from './helpers/renderWithProviders'
 
-describe('App', () => {
-  it('renders the title', () => {
-    render(<App />)
-    expect(screen.getByRole('heading', { name: 'Impostor' })).toBeInTheDocument()
+describe('App smoke', () => {
+  it('renders the app name', () => {
+    renderWithProviders(<App />)
+    expect(screen.getByText('Impostor')).toBeInTheDocument()
   })
 })

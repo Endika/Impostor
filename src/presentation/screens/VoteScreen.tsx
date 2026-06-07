@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
+import { Button } from '../components/Button'
 
 export function VoteScreen() {
   const { t } = useTranslation()
@@ -23,8 +24,8 @@ export function VoteScreen() {
   }
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col gap-6 p-4">
-      <h1 className="text-center text-2xl font-bold text-slate-100">
+    <div className="flex min-h-full flex-1 flex-col gap-6">
+      <h1 className="text-center text-2xl font-bold text-slate-900 dark:text-slate-50">
         {t('vote.title')}
       </h1>
 
@@ -36,10 +37,10 @@ export function VoteScreen() {
               key={player.id}
               type="button"
               aria-pressed={isSelected}
-              className={`rounded-xl border px-4 py-3 text-lg font-semibold ${
+              className={`min-h-12 rounded-xl border px-4 py-3 text-lg font-semibold transition active:scale-[0.99] ${
                 isSelected
-                  ? 'border-indigo-400 bg-indigo-500 text-white'
-                  : 'border-slate-700 bg-slate-800 text-slate-100'
+                  ? 'border-brand-500 bg-brand-600 text-white shadow-sm'
+                  : 'border-slate-300 bg-white text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700'
               }`}
               onClick={() => setSelectedId(player.id)}
             >
@@ -49,14 +50,14 @@ export function VoteScreen() {
         })}
       </div>
 
-      <button
-        type="button"
+      <Button
+        size="lg"
+        className="w-full"
         disabled={!selectedId}
-        className="rounded-xl bg-indigo-500 px-4 py-4 text-lg font-semibold text-white disabled:opacity-40"
         onClick={confirm}
       >
         {t('vote.confirm')}
-      </button>
+      </Button>
     </div>
   )
 }

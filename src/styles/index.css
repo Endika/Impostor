@@ -1,1 +1,43 @@
 @import 'tailwindcss';
+
+/*
+  Impostor design tokens.
+  - brand (indigo/violet): identity + primary actions ONLY.
+  - positive (emerald): crew win / success.
+  - danger (red): errors / destructive.
+  - surface/border/text: neutral slate, light + dark.
+  Semantics are kept distinct from brand: brand never means win/lose or error.
+  Dark mode follows prefers-color-scheme (Tailwind's default `dark:` variant).
+*/
+@theme {
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-200: #c7d2fe;
+  --color-brand-300: #a5b4fc;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+html,
+body,
+#root {
+  min-height: 100dvh;
+}
+
+body {
+  background-color: var(--color-slate-100);
+  color: var(--color-slate-900);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--color-slate-950);
+    color: var(--color-slate-100);
+  }
+}

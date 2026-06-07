@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
+import { Button } from '../components/Button'
 import type { Rng } from '../../domain/game/types'
 
 interface RoundScreenProps {
@@ -50,36 +51,39 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
   if (!assignment || !starter) return null
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col gap-8 p-4">
-      <h1 className="text-center text-2xl font-bold text-slate-100">
+    <div className="flex min-h-full flex-1 flex-col gap-8">
+      <h1 className="text-center text-2xl font-bold text-slate-900 dark:text-slate-50">
         {t('round.title')}
       </h1>
 
-      <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
-        <p className="text-3xl font-extrabold text-slate-100">
+      <div className="flex flex-1 flex-col items-center justify-center gap-3 text-center">
+        <span aria-hidden className="text-5xl">
+          💬
+        </span>
+        <p className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">
           {t('round.startsWith', { name: starter.name })}
         </p>
       </div>
 
-      <label className="flex items-center justify-between rounded-xl border border-slate-700 bg-slate-800 px-4 py-3">
-        <span className="text-base font-medium text-slate-200">
+      <label className="flex min-h-11 items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-800/60">
+        <span className="text-base font-medium text-slate-700 dark:text-slate-200">
           {t('round.music')}
         </span>
         <input
           type="checkbox"
-          className="h-5 w-5"
+          className="h-5 w-5 accent-brand-600"
           checked={musicOn}
           onChange={(e) => setMusicOn(e.target.checked)}
         />
       </label>
 
-      <button
-        type="button"
-        className="rounded-xl bg-indigo-500 px-4 py-4 text-lg font-semibold text-white"
+      <Button
+        size="lg"
+        className="w-full"
         onClick={() => dispatch({ type: 'END_ROUND' })}
       >
         {t('round.vote')}
-      </button>
+      </Button>
     </div>
   )
 }

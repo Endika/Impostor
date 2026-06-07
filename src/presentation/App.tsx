@@ -1,3 +1,27 @@
+import type { ComponentType } from 'react'
+import { Layout } from './components/Layout'
+import { useGame } from './state/useGame'
+import { SetupScreen } from './screens/SetupScreen'
+import { RevealScreen } from './screens/RevealScreen'
+import { RoundScreen } from './screens/RoundScreen'
+import { VoteScreen } from './screens/VoteScreen'
+import { ResultScreen } from './screens/ResultScreen'
+import type { GameState } from './state/gameReducer'
+
+const SCREENS: Record<GameState['screen'], ComponentType> = {
+  setup: SetupScreen,
+  reveal: RevealScreen,
+  round: RoundScreen,
+  vote: VoteScreen,
+  result: ResultScreen,
+}
+
 export default function App() {
-  return <h1>Impostor</h1>
+  const { state } = useGame()
+  const Screen = SCREENS[state.screen]
+  return (
+    <Layout>
+      <Screen />
+    </Layout>
+  )
 }

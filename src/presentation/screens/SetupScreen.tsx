@@ -6,6 +6,7 @@ import { validateConfig } from '../../domain/game/validateConfig'
 import type { GameConfig, LocaleCode } from '../../domain/game/types'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
+import { Button } from '../components/Button'
 import i18n from '../i18n'
 
 const LOCALES: LocaleCode[] = ['ca', 'en', 'es', 'eu', 'gl', 'va']
@@ -102,11 +103,26 @@ export function SetupScreen() {
     : null
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col gap-6 p-4">
-      <h1 className="text-2xl font-bold text-slate-100">{t('setup.title')}</h1>
+    <div className="flex min-h-full flex-1 flex-col gap-6">
+      <header className="flex items-center gap-3">
+        <span
+          aria-hidden
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-600 text-lg"
+        >
+          🕵️
+        </span>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-brand-600 dark:text-brand-300">
+            {t('common.appName')}
+          </p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+            {t('setup.title')}
+          </h1>
+        </div>
+      </header>
 
       <section className="flex flex-col gap-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {t('setup.players')}
         </h2>
         <ul className="flex flex-col gap-2">
@@ -114,92 +130,92 @@ export function SetupScreen() {
             <li key={index} className="flex items-center gap-2">
               <input
                 aria-label={t('setup.playerName')}
-                className="min-w-0 flex-1 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-slate-100"
+                className="min-h-11 min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                 value={name}
                 onChange={(e) => updatePlayer(index, e.target.value)}
                 placeholder={`${t('setup.playerName')} ${index + 1}`}
               />
               {players.length > 3 && (
-                <button
-                  type="button"
+                <Button
+                  variant="ghost"
                   aria-label={t('setup.removePlayer')}
-                  className="shrink-0 rounded-lg border border-slate-600 px-3 py-2 text-slate-300"
+                  className="shrink-0 px-3"
                   onClick={() => removePlayer(index)}
                 >
                   ✕
-                </button>
+                </Button>
               )}
             </li>
           ))}
         </ul>
-        <button
-          type="button"
-          className="rounded-lg border border-slate-600 px-3 py-2 text-slate-200"
-          onClick={addPlayer}
-        >
+        <Button variant="secondary" onClick={addPlayer}>
           {t('setup.addPlayer')}
-        </button>
+        </Button>
       </section>
 
       <section className="flex flex-col gap-2">
         <label
           htmlFor="impostor-count"
-          className="text-sm font-semibold uppercase tracking-wide text-slate-400"
+          className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"
         >
           {t('setup.impostorCount')}
         </label>
         <div className="flex items-center gap-3">
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             aria-label="-"
-            className="h-10 w-10 shrink-0 rounded-lg border border-slate-600 text-xl text-slate-200"
+            className="h-11 w-11 shrink-0 px-0 text-xl"
             onClick={() =>
               setImpostorCount((c) => clampCount(c - 1, maxImpostors))
             }
           >
             −
-          </button>
+          </Button>
           <input
             id="impostor-count"
             type="number"
             min={1}
             max={maxImpostors}
-            className="w-20 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-center text-slate-100"
+            className="min-h-11 w-20 rounded-lg border border-slate-300 bg-white px-3 py-2 text-center text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
             value={impostorCount}
             onChange={(e) => setImpostorCount(Number(e.target.value) || 1)}
           />
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             aria-label="+"
-            className="h-10 w-10 shrink-0 rounded-lg border border-slate-600 text-xl text-slate-200"
+            className="h-11 w-11 shrink-0 px-0 text-xl"
             onClick={() =>
               setImpostorCount((c) => clampCount(c + 1, maxImpostors))
             }
           >
             +
-          </button>
+          </Button>
         </div>
       </section>
 
-      <section className="flex flex-col gap-3">
-        <label className="flex items-center justify-between gap-3">
-          <span className="text-slate-200">{t('setup.seesClue')}</span>
+      <section className="flex flex-col gap-2">
+        <label className="flex min-h-11 items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-2.5 dark:border-slate-700 dark:bg-slate-800/60">
+          <span className="text-slate-700 dark:text-slate-200">
+            {t('setup.seesClue')}
+          </span>
           <input
             type="checkbox"
-            className="h-5 w-5"
+            className="h-5 w-5 accent-brand-600"
             checked={impostorSeesClue}
             onChange={(e) => setImpostorSeesClue(e.target.checked)}
           />
         </label>
         <label
-          className={`flex items-center justify-between gap-3 ${
+          className={`flex min-h-11 items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-2.5 dark:border-slate-700 dark:bg-slate-800/60 ${
             seeEachOtherDisabled ? 'opacity-40' : ''
           }`}
         >
-          <span className="text-slate-200">{t('setup.seeEachOther')}</span>
+          <span className="text-slate-700 dark:text-slate-200">
+            {t('setup.seeEachOther')}
+          </span>
           <input
             type="checkbox"
-            className="h-5 w-5"
+            className="h-5 w-5 accent-brand-600"
             checked={!seeEachOtherDisabled && impostorsSeeEachOther}
             disabled={seeEachOtherDisabled}
             onChange={(e) => setImpostorsSeeEachOther(e.target.checked)}
@@ -208,7 +224,7 @@ export function SetupScreen() {
       </section>
 
       <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {t('setup.categories')}
         </h2>
         <div className="flex flex-wrap gap-2">
@@ -219,10 +235,10 @@ export function SetupScreen() {
                 key={id}
                 type="button"
                 aria-pressed={active}
-                className={`rounded-full border px-4 py-2 text-sm ${
+                className={`min-h-11 rounded-full border px-4 py-2 text-sm font-medium transition active:scale-[0.97] ${
                   active
-                    ? 'border-indigo-400 bg-indigo-500/20 text-indigo-200'
-                    : 'border-slate-600 text-slate-300'
+                    ? 'border-brand-500 bg-brand-50 text-brand-700 dark:border-brand-400 dark:bg-brand-500/20 dark:text-brand-200'
+                    : 'border-slate-300 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'
                 }`}
                 onClick={() => toggleCategory(id)}
               >
@@ -236,13 +252,13 @@ export function SetupScreen() {
       <section className="flex flex-col gap-2">
         <label
           htmlFor="language-select"
-          className="text-sm font-semibold uppercase tracking-wide text-slate-400"
+          className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"
         >
           {t('setup.language')}
         </label>
         <select
           id="language-select"
-          className="rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-slate-100"
+          className="min-h-11 rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
           value={locale}
           onChange={(e) => changeLocale(e.target.value as LocaleCode)}
         >
@@ -255,32 +271,33 @@ export function SetupScreen() {
       </section>
 
       <section>
-        <label className="flex items-center justify-between gap-3">
-          <span className="text-slate-200">{t('setup.audio')}</span>
-          <button
-            type="button"
+        <label className="flex min-h-11 items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-2.5 dark:border-slate-700 dark:bg-slate-800/60">
+          <span className="text-slate-700 dark:text-slate-200">
+            {t('setup.audio')}
+          </span>
+          <Button
+            variant="ghost"
             aria-pressed={!muted}
-            className="rounded-lg border border-slate-600 px-4 py-2 text-slate-200"
+            className="px-4"
             onClick={toggleMuted}
           >
             {muted ? t('common.off') : t('common.on')}
-          </button>
+          </Button>
         </label>
       </section>
 
       {errorMessage && (
-        <p role="alert" className="rounded-lg bg-red-500/15 px-3 py-2 text-red-300">
+        <p
+          role="alert"
+          className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-red-700 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-300"
+        >
           {errorMessage}
         </p>
       )}
 
-      <button
-        type="button"
-        className="mt-auto rounded-xl bg-indigo-500 px-4 py-3 text-lg font-semibold text-white"
-        onClick={handleStart}
-      >
+      <Button size="lg" className="mt-auto w-full" onClick={handleStart}>
         {t('setup.start')}
-      </button>
+      </Button>
     </div>
   )
 }
