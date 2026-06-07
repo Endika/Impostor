@@ -9,6 +9,7 @@ export interface GameState {
   assignment: Assignment | null
   revealIndex: number
   outcome: GameOutcome | null
+  votedPlayerId: string | null
 }
 
 export const initialState: GameState = {
@@ -17,6 +18,7 @@ export const initialState: GameState = {
   assignment: null,
   revealIndex: 0,
   outcome: null,
+  votedPlayerId: null,
 }
 
 export type GameAction =
@@ -37,6 +39,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         assignment,
         revealIndex: 0,
         outcome: null,
+        votedPlayerId: null,
         screen: 'reveal',
       }
     }
@@ -57,13 +60,19 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       const outcome = resolveOutcome(state.assignment, {
         votedPlayerId: action.votedPlayerId,
       })
-      return { ...state, outcome, screen: 'result' }
+      return {
+        ...state,
+        outcome,
+        votedPlayerId: action.votedPlayerId,
+        screen: 'result',
+      }
     }
     case 'PLAY_AGAIN': {
       return {
         ...state,
         assignment: null,
         outcome: null,
+        votedPlayerId: null,
         revealIndex: 0,
         screen: 'setup',
       }
