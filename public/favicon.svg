@@ -1,8 +1,8 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#6366f1"/>
-      <stop offset="1" stop-color="#4338ca"/>
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#6d28d9"/>
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
@@ -11,7 +11,7 @@
   <!-- hat crown -->
   <path d="M150 196 C150 130 196 96 256 96 C316 96 362 130 362 196 Z" fill="#1e293b"/>
   <!-- hat band -->
-  <rect x="150" y="178" width="212" height="22" rx="6" fill="#6366f1"/>
+  <rect x="150" y="178" width="212" height="22" rx="6" fill="#8b5cf6"/>
   <!-- domino mask -->
   <path d="M120 268 C120 244 142 230 176 230 C208 230 230 244 256 244 C282 244 304 230 336 230 C370 230 392 244 392 268 C392 312 360 340 312 340 C282 340 268 320 256 320 C244 320 230 340 200 340 C152 340 120 312 120 268 Z" fill="#0f172a"/>
   <!-- eye holes -->

@@ -24,7 +24,7 @@ export default defineConfig({
         name: 'Impostor',
         short_name: 'Impostor',
         description: 'Offline party game — find the impostor. No login.',
-        theme_color: '#4f46e5',
+        theme_color: '#7c3aed',
         background_color: '#0f172a',
         display: 'standalone',
         start_url: '/Impostor/',
