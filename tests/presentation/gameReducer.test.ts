@@ -9,7 +9,8 @@ const bank = new InMemoryWordBank({
 })
 const config: GameConfig = {
   players: ['Ana', 'Ben', 'Cleo'],
-  impostorCount: 1,
+  impostorMin: 1,
+  impostorMax: 1,
   impostorSeesClue: true,
   impostorsSeeEachOther: false,
   categoryIds: ['home'],
@@ -52,44 +53,40 @@ describe('gameReducer', () => {
     expect(s.lastElimination).toBeNull()
   })
 
-  it('walks reveal -> round -> vote -> result with a crew win', () => {
+  it('walks reveal -> round -> vote -> elimination (crew win preset) -> result', () => {
     const s = startAndReachVote(config)
+    // Voting out the lone impostor leaves 0 impostors -> crew win.
     const out = gameReducer(s, {
       type: 'CAST_VOTE',
       votedPlayerId: s.assignment!.impostorIds[0]!,
     })
-    expect(out.screen).toBe('result')
+    // CAST_VOTE always lands on the elimination screen now, even when terminal,
+    // so the eliminated impostor still gets a last-chance guess.
+    expect(out.screen).toBe('elimination')
+    expect(out.lastElimination?.status).toBe('crew_win')
     expect(out.outcome?.winner).toBe('crew')
+
+    // Confirming moves on to the result screen.
+    const result = gameReducer(out, { type: 'SHOW_RESULT' })
+    expect(result.screen).toBe('result')
+    expect(result.outcome?.winner).toBe('crew')
   })
 
-  it('reaches an impostor win on parity (5 players, 2 impostors)', () => {
-    const cfg: GameConfig = {
-      ...config,
-      players: ['Ana', 'Ben', 'Cleo', 'Dan', 'Eve'],
-      impostorCount: 2,
-    }
-    const s = startAndReachVote(cfg)
-    // Voting out one crew leaves 2 imp vs 2 crew -> parity -> impostor win.
-    const crew = crewIds(s)
-    const out = gameReducer(s, { type: 'CAST_VOTE', votedPlayerId: crew[0]! })
-    expect(out.screen).toBe('result')
-    expect(out.outcome?.winner).toBe('impostors')
-    expect(out.lastElimination?.status).toBe('impostor_win')
-  })
-
-  it('continues across rounds when crew keep their majority (7 players, 2 impostors)', () => {
+  it('continues across rounds when crew remain (7 players, 2 impostors)', () => {
     const cfg: GameConfig = {
       ...config,
       players: ['Ana', 'Ben', 'Cleo', 'Dan', 'Eve', 'Fox', 'Gil'],
-      impostorCount: 2,
+      impostorMin: 2,
+      impostorMax: 2,
     }
     let s = startAndReachVote(cfg)
     const crew = crewIds(s)
 
-    // Round 1: vote out a crew -> 2 imp vs 4 crew -> continue.
+    // Round 1: vote out a crew -> 2 imp vs 4 crew -> continue, no outcome yet.
     s = gameReducer(s, { type: 'CAST_VOTE', votedPlayerId: crew[0]! })
     expect(s.screen).toBe('elimination')
     expect(s.lastElimination?.status).toBe('continue')
+    expect(s.outcome).toBeNull()
     expect(s.eliminatedIds).toHaveLength(1)
 
     // Move to the next round.
@@ -102,7 +99,25 @@ describe('gameReducer', () => {
     s = gameReducer(s, { type: 'CAST_VOTE', votedPlayerId: crew[1]! })
     expect(s.screen).toBe('elimination')
     expect(s.lastElimination?.status).toBe('continue')
+    expect(s.outcome).toBeNull()
     expect(s.eliminatedIds).toHaveLength(2)
+  })
+
+  it('lets an eliminated impostor steal the win via a correct guess', () => {
+    const s = startAndReachVote(config)
+    // Eliminate the impostor (would be a crew win) ...
+    let next = gameReducer(s, {
+      type: 'CAST_VOTE',
+      votedPlayerId: s.assignment!.impostorIds[0]!,
+    })
+    expect(next.screen).toBe('elimination')
+    expect(next.outcome?.winner).toBe('crew')
+
+    // ... but the impostor guesses the word and the impostors steal the win.
+    next = gameReducer(next, { type: 'IMPOSTOR_GUESSED_RIGHT' })
+    expect(next.screen).toBe('result')
+    expect(next.outcome?.winner).toBe('impostors')
+    expect(next.outcome?.votedWasImpostor).toBe(true)
   })
 
   it('PLAY_AGAIN keeps config but clears assignment/outcome/elimination state', () => {

@@ -8,6 +8,8 @@ export function assignRoles(
   rng: Rng,
   excludeWords: string[] = [],
 ): Assignment {
+  const span = config.impostorMax - config.impostorMin + 1
+  const impostorCount = config.impostorMin + Math.floor(rng() * span)
   const picked = bank.pick(config.categoryIds, config.locale, rng, excludeWords)
   const { word, categoryId, hint } = picked
   const indices = config.players.map((_, i) => i)
@@ -15,7 +17,7 @@ export function assignRoles(
     const j = Math.floor(rng() * (i + 1))
     ;[indices[i], indices[j]] = [indices[j]!, indices[i]!]
   }
-  const impostorSet = new Set(indices.slice(0, config.impostorCount))
+  const impostorSet = new Set(indices.slice(0, impostorCount))
   const players: Player[] = config.players.map((name, i) => ({
     id: uuidv7(),
     name,

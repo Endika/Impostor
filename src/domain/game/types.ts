@@ -2,7 +2,8 @@ export type LocaleCode = 'ca' | 'en' | 'es' | 'eu' | 'gl' | 'va'
 
 export interface GameConfig {
   players: string[]
-  impostorCount: number // 1..players-1
+  impostorMin: number // 1..impostorMax
+  impostorMax: number // impostorMin..players-1
   impostorSeesClue: boolean
   impostorsSeeEachOther: boolean
   categoryIds: string[]

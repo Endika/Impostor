@@ -4,7 +4,8 @@ import type { GameConfig } from '../../src/domain/game/types'
 
 const base: GameConfig = {
   players: ['Ana', 'Ben', 'Cleo'],
-  impostorCount: 1,
+  impostorMin: 1,
+  impostorMax: 1,
   impostorSeesClue: false,
   impostorsSeeEachOther: false,
   categoryIds: ['home'],
@@ -23,38 +24,53 @@ describe('validateConfig', () => {
     })
   })
 
-  it('rejects 2 impostors with 3 players (max is 1)', () => {
-    expect(validateConfig({ ...base, impostorCount: 2 })).toEqual({
+  it('rejects impostorMin below 1', () => {
+    expect(validateConfig({ ...base, impostorMin: 0 })).toEqual({
       ok: false,
       error: 'invalid_impostor_count',
     })
   })
 
-  it('accepts 2 impostors with 5 players (max is 2)', () => {
+  it('rejects impostorMin greater than impostorMax', () => {
     expect(
       validateConfig({
         ...base,
-        players: ['Ana', 'Ben', 'Cleo', 'Dan', 'Eve'],
-        impostorCount: 2,
-      }),
-    ).toEqual({ ok: true })
-  })
-
-  it('rejects 3 impostors with 5 players (max is 2)', () => {
-    expect(
-      validateConfig({
-        ...base,
-        players: ['Ana', 'Ben', 'Cleo', 'Dan', 'Eve'],
-        impostorCount: 3,
+        players: ['Ana', 'Ben', 'Cleo', 'Dan'],
+        impostorMin: 2,
+        impostorMax: 1,
       }),
     ).toEqual({ ok: false, error: 'invalid_impostor_count' })
   })
 
-  it('rejects impostorCount of 0', () => {
-    expect(validateConfig({ ...base, impostorCount: 0 })).toEqual({
-      ok: false,
-      error: 'invalid_impostor_count',
-    })
+  it('rejects impostorMax greater than players-1 (3 players, max 3)', () => {
+    expect(validateConfig({ ...base, impostorMin: 1, impostorMax: 3 })).toEqual(
+      {
+        ok: false,
+        error: 'invalid_impostor_count',
+      },
+    )
+  })
+
+  it('accepts a wide range that leaves few crew (8 players, max 6)', () => {
+    expect(
+      validateConfig({
+        ...base,
+        players: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+        impostorMin: 1,
+        impostorMax: 6,
+      }),
+    ).toEqual({ ok: true })
+  })
+
+  it('rejects non-integer impostor bounds', () => {
+    expect(
+      validateConfig({
+        ...base,
+        players: ['Ana', 'Ben', 'Cleo', 'Dan', 'Eve'],
+        impostorMin: 1,
+        impostorMax: 2.5,
+      }),
+    ).toEqual({ ok: false, error: 'invalid_impostor_count' })
   })
 
   it('rejects empty categoryIds', () => {

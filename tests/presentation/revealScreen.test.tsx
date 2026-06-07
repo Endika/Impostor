@@ -18,7 +18,8 @@ function ScreenProbe() {
 
 const config: GameConfig = {
   players: ['Ana', 'Ben', 'Cleo', 'Dan'],
-  impostorCount: 2,
+  impostorMin: 2,
+  impostorMax: 2,
   impostorSeesClue: true,
   impostorsSeeEachOther: true,
   categoryIds: ['home'],

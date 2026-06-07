@@ -22,7 +22,8 @@ function ScreenProbe() {
 
 const config: GameConfig = {
   players: ['Ana', 'Ben', 'Cleo'],
-  impostorCount: 1,
+  impostorMin: 1,
+  impostorMax: 1,
   impostorSeesClue: true,
   impostorsSeeEachOther: false,
   categoryIds: ['home'],
@@ -42,7 +43,7 @@ const assignment: Assignment = {
 }
 
 describe('VoteScreen', () => {
-  it('casts a vote for the selected player and resolves the outcome', () => {
+  it('casts a vote and lands on the elimination screen with the preset outcome', () => {
     const state: GameState = {
       screen: 'vote',
       config,
@@ -64,7 +65,10 @@ describe('VoteScreen', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Ben' }))
     fireEvent.click(screen.getByRole('button', { name: /confirm vote/i }))
 
-    expect(screen.getByTestId('screen')).toHaveTextContent('result')
+    // CAST_VOTE always lands on the elimination screen now, even on a
+    // terminal status, so the eliminated impostor can still guess the word.
+    // The terminal outcome is preset for the eventual result screen.
+    expect(screen.getByTestId('screen')).toHaveTextContent('elimination')
     expect(screen.getByTestId('winner')).toHaveTextContent('crew')
   })
 

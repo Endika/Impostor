@@ -4,7 +4,8 @@ import type { GameConfig } from '../../src/domain/game/types'
 
 const config: GameConfig = {
   players: ['Ana', 'Ben', 'Cleo'],
-  impostorCount: 1,
+  impostorMin: 1,
+  impostorMax: 1,
   impostorSeesClue: true,
   impostorsSeeEachOther: false,
   categoryIds: ['home'],

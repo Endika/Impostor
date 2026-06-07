@@ -38,7 +38,7 @@ export function SetupScreen() {
       : ['', '', ''],
   )
   const [impostorCount, setImpostorCount] = useState(
-    () => saved?.impostorCount ?? 1,
+    () => saved?.impostorMin ?? 1,
   )
   const [impostorSeesClue, setImpostorSeesClue] = useState(
     () => saved?.impostorSeesClue ?? false,
@@ -105,7 +105,8 @@ export function SetupScreen() {
   function handleStart() {
     const config: GameConfig = {
       players: players.map((p) => p.trim()),
-      impostorCount,
+      impostorMin: impostorCount,
+      impostorMax: impostorCount,
       impostorSeesClue,
       impostorsSeeEachOther: seeEachOtherDisabled ? false : impostorsSeeEachOther,
       categoryIds: selectedCategories,

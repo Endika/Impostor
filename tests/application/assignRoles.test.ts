@@ -10,7 +10,8 @@ const bank = new InMemoryWordBank({
 function makeConfig(overrides: Partial<GameConfig> = {}): GameConfig {
   return {
     players: ['Ana', 'Ben', 'Cleo', 'Dan', 'Eva'],
-    impostorCount: 2,
+    impostorMin: 2,
+    impostorMax: 2,
     impostorSeesClue: false,
     impostorsSeeEachOther: false,
     categoryIds: ['home'],
@@ -20,11 +21,33 @@ function makeConfig(overrides: Partial<GameConfig> = {}): GameConfig {
 }
 
 describe('assignRoles', () => {
-  it('marks exactly impostorCount players as impostors', () => {
+  it('uses impostorMin as the count when rng() returns 0', () => {
+    const assignment = assignRoles(
+      makeConfig({ impostorMin: 1, impostorMax: 3 }),
+      bank,
+      () => 0,
+    )
+    const impostors = assignment.players.filter((p) => p.isImpostor)
+    expect(impostors).toHaveLength(1)
+    expect(assignment.impostorIds).toHaveLength(1)
+  })
+
+  it('marks exactly impostorMin players when min equals max', () => {
     const assignment = assignRoles(makeConfig(), bank, () => 0)
     const impostors = assignment.players.filter((p) => p.isImpostor)
     expect(impostors).toHaveLength(2)
     expect(assignment.impostorIds).toHaveLength(2)
+  })
+
+  it('draws a count within [min,max], reaching max when rng() is near 1', () => {
+    const assignment = assignRoles(
+      makeConfig({ impostorMin: 1, impostorMax: 3 }),
+      bank,
+      () => 0.99,
+    )
+    expect(assignment.impostorIds.length).toBeGreaterThanOrEqual(1)
+    expect(assignment.impostorIds.length).toBeLessThanOrEqual(3)
+    expect(assignment.impostorIds).toHaveLength(3)
   })
 
   it('assigns the picked word and category', () => {

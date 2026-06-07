@@ -40,6 +40,8 @@ export type GameAction =
   | { type: 'END_ROUND' }
   | { type: 'CAST_VOTE'; votedPlayerId: string }
   | { type: 'NEXT_ROUND' }
+  | { type: 'SHOW_RESULT' }
+  | { type: 'IMPOSTOR_GUESSED_RIGHT' }
   | { type: 'PLAY_AGAIN' }
   | { type: 'RESET' }
 
@@ -83,29 +85,47 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         state.eliminatedIds,
         action.votedPlayerId,
       )
-      const base = {
+      const outcome: GameOutcome | null =
+        elim.status === 'continue'
+          ? null
+          : {
+              winner: elim.status === 'crew_win' ? 'crew' : 'impostors',
+              votedWasImpostor: elim.votedWasImpostor,
+              word: state.assignment.word,
+              impostorIds: state.assignment.impostorIds,
+            }
+      // Always land on the elimination screen, even on a terminal status, so
+      // an eliminated impostor can still attempt a last-chance word guess.
+      return {
         ...state,
         eliminatedIds: [...state.eliminatedIds, action.votedPlayerId],
         lastElimination: elim,
         votedPlayerId: action.votedPlayerId,
-      }
-      if (elim.status === 'continue') {
-        return { ...base, screen: 'elimination' }
-      }
-      return {
-        ...base,
-        screen: 'result',
-        outcome: {
-          winner: elim.status === 'crew_win' ? 'crew' : 'impostors',
-          votedWasImpostor: elim.votedWasImpostor,
-          word: state.assignment.word,
-          impostorIds: state.assignment.impostorIds,
-        },
+        outcome,
+        screen: 'elimination',
       }
     }
     case 'NEXT_ROUND': {
       if (state.screen !== 'elimination') return state
       return { ...state, screen: 'round' }
+    }
+    case 'SHOW_RESULT': {
+      return { ...state, screen: 'result' }
+    }
+    case 'IMPOSTOR_GUESSED_RIGHT': {
+      if (!state.assignment) return state
+      // An eliminated impostor said the word out loud and the group confirmed:
+      // the impostors steal the win regardless of the elimination status.
+      return {
+        ...state,
+        outcome: {
+          winner: 'impostors',
+          votedWasImpostor: true,
+          word: state.assignment.word,
+          impostorIds: state.assignment.impostorIds,
+        },
+        screen: 'result',
+      }
     }
     case 'PLAY_AGAIN': {
       return {

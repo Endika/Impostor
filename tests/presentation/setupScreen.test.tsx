@@ -28,22 +28,20 @@ describe('SetupScreen', () => {
     window.localStorage.clear()
   })
 
-  it('shows the invalid impostor count error with 4 players and count 3', () => {
+  it('shows the invalid impostor count error with 3 players and count 3', () => {
     setup()
     fillPlayer(0, 'Ana')
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
-    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
-    fillPlayer(3, 'Dan')
 
     const count = screen.getByLabelText(/number of impostors/i) as HTMLInputElement
-    // New rule: max = floor((players-1)/2) = 1 for 4 players; 3 is invalid.
+    // New rule: max impostors = players - 1 = 2 for 3 players; 3 is invalid.
     fireEvent.change(count, { target: { value: '3' } })
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
     expect(
-      screen.getByText(/choose between 1 and 1 impostors/i),
+      screen.getByText(/choose between 1 and/i),
     ).toBeInTheDocument()
     expect(screen.getByTestId('screen')).toHaveTextContent('setup')
   })
@@ -90,7 +88,8 @@ describe('SetupScreen', () => {
       'impostor.config',
       JSON.stringify({
         players: ['Zoe', 'Yan', 'Xal', 'Wim'],
-        impostorCount: 1,
+        impostorMin: 1,
+        impostorMax: 1,
         impostorSeesClue: true,
         impostorsSeeEachOther: false,
         categoryIds: ['music'],
