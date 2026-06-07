@@ -1,5 +1,11 @@
 {
-  "common": { "appName": "Impostor", "next": "Següent", "back": "Arrere", "on": "Sí", "off": "No" },
+  "common": {
+    "appName": "Impostor",
+    "next": "Següent",
+    "back": "Arrere",
+    "on": "Sí",
+    "off": "No"
+  },
   "setup": {
     "title": "Nova partida",
     "players": "Jugadors",
@@ -19,7 +25,14 @@
     "errorNoCategory": "Tria com a mínim una categoria",
     "errorDuplicateNames": "Els noms dels jugadors han de ser diferents"
   },
-  "categories": { "general": "General", "music": "Música", "places": "Llocs" },
+  "categories": {
+    "general": "General",
+    "music": "Música",
+    "places": "Llocs",
+    "food": "Menjar",
+    "animals": "Animals",
+    "cinema": "Cinema"
+  },
   "reveal": {
     "passTo": "Passa el mòbil a {{name}}",
     "holdToReveal": "Mantín premut per a vore el teu rol",
@@ -39,6 +52,13 @@
   "vote": {
     "title": "Qui és l'impostor?",
     "confirm": "Confirmar vot"
+  },
+  "elimination": {
+    "title": "Expulsat",
+    "wasImpostor": "{{name}} era impostor",
+    "wasCrew": "{{name}} no era impostor",
+    "remaining": "Queden {{crew}} tripulants vs {{impostors}} impostors",
+    "nextRound": "Següent ronda"
   },
   "result": {
     "isImpostor": "{{name}} ERA l'impostor",

@@ -1,5 +1,11 @@
 {
-  "common": { "appName": "Impostor", "next": "Siguiente", "back": "Atrás", "on": "Sí", "off": "No" },
+  "common": {
+    "appName": "Impostor",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "on": "Sí",
+    "off": "No"
+  },
   "setup": {
     "title": "Nueva partida",
     "players": "Jugadores",
@@ -19,7 +25,14 @@
     "errorNoCategory": "Elige al menos una categoría",
     "errorDuplicateNames": "Los nombres de los jugadores deben ser distintos"
   },
-  "categories": { "general": "General", "music": "Música", "places": "Lugares" },
+  "categories": {
+    "general": "General",
+    "music": "Música",
+    "places": "Lugares",
+    "food": "Comida",
+    "animals": "Animales",
+    "cinema": "Cine"
+  },
   "reveal": {
     "passTo": "Pasa el móvil a {{name}}",
     "holdToReveal": "Mantén pulsado para ver tu rol",
@@ -39,6 +52,13 @@
   "vote": {
     "title": "¿Quién es el impostor?",
     "confirm": "Confirmar voto"
+  },
+  "elimination": {
+    "title": "Expulsado",
+    "wasImpostor": "{{name}} era impostor",
+    "wasCrew": "{{name}} no era impostor",
+    "remaining": "Quedan {{crew}} tripulantes vs {{impostors}} impostores",
+    "nextRound": "Siguiente ronda"
   },
   "result": {
     "isImpostor": "{{name}} ERA el impostor",

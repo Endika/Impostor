@@ -1,5 +1,11 @@
 {
-  "common": { "appName": "Impostor", "next": "Hurrengoa", "back": "Atzera", "on": "Bai", "off": "Ez" },
+  "common": {
+    "appName": "Impostor",
+    "next": "Hurrengoa",
+    "back": "Atzera",
+    "on": "Bai",
+    "off": "Ez"
+  },
   "setup": {
     "title": "Partida berria",
     "players": "Jokalariak",
@@ -19,7 +25,14 @@
     "errorNoCategory": "Aukeratu gutxienez kategoria bat",
     "errorDuplicateNames": "Jokalarien izenek desberdinak izan behar dute"
   },
-  "categories": { "general": "Orokorra", "music": "Musika", "places": "Lekuak" },
+  "categories": {
+    "general": "Orokorra",
+    "music": "Musika",
+    "places": "Lekuak",
+    "food": "Janaria",
+    "animals": "Animaliak",
+    "cinema": "Zinema"
+  },
   "reveal": {
     "passTo": "Pasatu mugikorra {{name}}(r)i",
     "holdToReveal": "Eutsi sakatuta zure rola ikusteko",
@@ -39,6 +52,13 @@
   "vote": {
     "title": "Nor da inpostorea?",
     "confirm": "Berretsi botoa"
+  },
+  "elimination": {
+    "title": "Kanporatua",
+    "wasImpostor": "{{name}} inpostorea zen",
+    "wasCrew": "{{name}} ez zen inpostorea",
+    "remaining": "{{crew}} tripulatzaile vs {{impostors}} inpostore geratzen dira",
+    "nextRound": "Hurrengo txanda"
   },
   "result": {
     "isImpostor": "{{name}} inpostorea ZEN",

@@ -1,5 +1,11 @@
 {
-  "common": { "appName": "Impostor", "next": "Next", "back": "Back", "on": "On", "off": "Off" },
+  "common": {
+    "appName": "Impostor",
+    "next": "Next",
+    "back": "Back",
+    "on": "On",
+    "off": "Off"
+  },
   "setup": {
     "title": "New game",
     "players": "Players",
@@ -19,7 +25,14 @@
     "errorNoCategory": "Pick at least one category",
     "errorDuplicateNames": "Player names must be different"
   },
-  "categories": { "general": "General", "music": "Music", "places": "Places" },
+  "categories": {
+    "general": "General",
+    "music": "Music",
+    "places": "Places",
+    "food": "Food",
+    "animals": "Animals",
+    "cinema": "Cinema"
+  },
   "reveal": {
     "passTo": "Pass the phone to {{name}}",
     "holdToReveal": "Hold to see your role",
@@ -39,6 +52,13 @@
   "vote": {
     "title": "Who is the impostor?",
     "confirm": "Confirm vote"
+  },
+  "elimination": {
+    "title": "Voted out",
+    "wasImpostor": "{{name}} was an impostor",
+    "wasCrew": "{{name}} was not an impostor",
+    "remaining": "{{crew}} crew vs {{impostors}} impostors left",
+    "nextRound": "Next round"
   },
   "result": {
     "isImpostor": "{{name}} WAS the impostor",
