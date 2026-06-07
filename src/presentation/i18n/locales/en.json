@@ -1,0 +1,52 @@
+{
+  "common": { "appName": "Impostor", "next": "Next", "back": "Back", "on": "On", "off": "Off" },
+  "setup": {
+    "title": "New game",
+    "players": "Players",
+    "addPlayer": "Add player",
+    "playerName": "Player name",
+    "removePlayer": "Remove",
+    "impostors": "Impostors",
+    "impostorCount": "Number of impostors",
+    "seesClue": "Impostors see a clue (the category)",
+    "seeEachOther": "Impostors see each other",
+    "categories": "Word categories",
+    "language": "Language",
+    "audio": "Sound",
+    "start": "Start game",
+    "errorTooFewPlayers": "Add at least 3 players",
+    "errorInvalidImpostorCount": "Choose between 1 and {{max}} impostors (at least 1 crew must remain)",
+    "errorNoCategory": "Pick at least one category",
+    "errorDuplicateNames": "Player names must be different"
+  },
+  "categories": { "general": "General", "music": "Music", "places": "Places" },
+  "reveal": {
+    "passTo": "Pass the phone to {{name}}",
+    "holdToReveal": "Hold to see your role",
+    "crew": "You are CREW",
+    "theWordIs": "The word is",
+    "impostor": "You are the IMPOSTOR",
+    "yourClue": "Clue (category)",
+    "otherImpostors": "Other impostors",
+    "next": "Next player"
+  },
+  "round": {
+    "title": "Discuss",
+    "startsWith": "{{name}} starts",
+    "music": "Background music",
+    "vote": "Vote"
+  },
+  "vote": {
+    "title": "Who is the impostor?",
+    "confirm": "Confirm vote"
+  },
+  "result": {
+    "isImpostor": "{{name}} WAS the impostor",
+    "notImpostor": "{{name}} was NOT the impostor",
+    "crewWins": "The crew wins!",
+    "impostorWins": "The impostors win!",
+    "theWordWas": "The word was",
+    "theImpostorsWere": "The impostors were",
+    "playAgain": "Play again"
+  }
+}

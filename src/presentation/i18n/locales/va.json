@@ -1,0 +1,52 @@
+{
+  "common": { "appName": "Impostor", "next": "Següent", "back": "Arrere", "on": "Sí", "off": "No" },
+  "setup": {
+    "title": "Nova partida",
+    "players": "Jugadors",
+    "addPlayer": "Afegir jugador",
+    "playerName": "Nom del jugador",
+    "removePlayer": "Llevar",
+    "impostors": "Impostors",
+    "impostorCount": "Nombre d'impostors",
+    "seesClue": "Els impostors veuen una pista (la categoria)",
+    "seeEachOther": "Els impostors es veuen entre ells",
+    "categories": "Categories de paraules",
+    "language": "Idioma",
+    "audio": "So",
+    "start": "Començar partida",
+    "errorTooFewPlayers": "Afig com a mínim 3 jugadors",
+    "errorInvalidImpostorCount": "Tria entre 1 i {{max}} impostors (ha de quedar com a mínim 1 tripulant)",
+    "errorNoCategory": "Tria com a mínim una categoria",
+    "errorDuplicateNames": "Els noms dels jugadors han de ser diferents"
+  },
+  "categories": { "general": "General", "music": "Música", "places": "Llocs" },
+  "reveal": {
+    "passTo": "Passa el mòbil a {{name}}",
+    "holdToReveal": "Mantín premut per a vore el teu rol",
+    "crew": "Eres TRIPULANT",
+    "theWordIs": "La paraula és",
+    "impostor": "Eres l'IMPOSTOR",
+    "yourClue": "Pista (categoria)",
+    "otherImpostors": "Altres impostors",
+    "next": "Jugador següent"
+  },
+  "round": {
+    "title": "Debat",
+    "startsWith": "Comença {{name}}",
+    "music": "Música de fons",
+    "vote": "Votar"
+  },
+  "vote": {
+    "title": "Qui és l'impostor?",
+    "confirm": "Confirmar vot"
+  },
+  "result": {
+    "isImpostor": "{{name}} ERA l'impostor",
+    "notImpostor": "{{name}} NO era l'impostor",
+    "crewWins": "Guanya la tripulació!",
+    "impostorWins": "Guanyen els impostors!",
+    "theWordWas": "La paraula era",
+    "theImpostorsWere": "Els impostors eren",
+    "playAgain": "Tornar a jugar"
+  }
+}

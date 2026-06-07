@@ -1,0 +1,52 @@
+{
+  "common": { "appName": "Impostor", "next": "Siguiente", "back": "Atrás", "on": "Sí", "off": "No" },
+  "setup": {
+    "title": "Nueva partida",
+    "players": "Jugadores",
+    "addPlayer": "Añadir jugador",
+    "playerName": "Nombre del jugador",
+    "removePlayer": "Quitar",
+    "impostors": "Impostores",
+    "impostorCount": "Número de impostores",
+    "seesClue": "Los impostores ven una pista (la categoría)",
+    "seeEachOther": "Los impostores se ven entre sí",
+    "categories": "Categorías de palabras",
+    "language": "Idioma",
+    "audio": "Sonido",
+    "start": "Empezar partida",
+    "errorTooFewPlayers": "Añade al menos 3 jugadores",
+    "errorInvalidImpostorCount": "Elige entre 1 y {{max}} impostores (debe quedar al menos 1 tripulante)",
+    "errorNoCategory": "Elige al menos una categoría",
+    "errorDuplicateNames": "Los nombres de los jugadores deben ser distintos"
+  },
+  "categories": { "general": "General", "music": "Música", "places": "Lugares" },
+  "reveal": {
+    "passTo": "Pasa el móvil a {{name}}",
+    "holdToReveal": "Mantén pulsado para ver tu rol",
+    "crew": "Eres TRIPULANTE",
+    "theWordIs": "La palabra es",
+    "impostor": "Eres el IMPOSTOR",
+    "yourClue": "Pista (categoría)",
+    "otherImpostors": "Otros impostores",
+    "next": "Siguiente jugador"
+  },
+  "round": {
+    "title": "Debate",
+    "startsWith": "Empieza {{name}}",
+    "music": "Música de fondo",
+    "vote": "Votar"
+  },
+  "vote": {
+    "title": "¿Quién es el impostor?",
+    "confirm": "Confirmar voto"
+  },
+  "result": {
+    "isImpostor": "{{name}} ERA el impostor",
+    "notImpostor": "{{name}} NO era el impostor",
+    "crewWins": "¡Gana la tripulación!",
+    "impostorWins": "¡Ganan los impostores!",
+    "theWordWas": "La palabra era",
+    "theImpostorsWere": "Los impostores eran",
+    "playAgain": "Jugar otra vez"
+  }
+}

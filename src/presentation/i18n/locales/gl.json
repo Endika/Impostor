@@ -1,0 +1,52 @@
+{
+  "common": { "appName": "Impostor", "next": "Seguinte", "back": "Atrás", "on": "Si", "off": "Non" },
+  "setup": {
+    "title": "Nova partida",
+    "players": "Xogadores",
+    "addPlayer": "Engadir xogador",
+    "playerName": "Nome do xogador",
+    "removePlayer": "Quitar",
+    "impostors": "Impostores",
+    "impostorCount": "Número de impostores",
+    "seesClue": "Os impostores ven unha pista (a categoría)",
+    "seeEachOther": "Os impostores vense entre si",
+    "categories": "Categorías de palabras",
+    "language": "Idioma",
+    "audio": "Son",
+    "start": "Comezar partida",
+    "errorTooFewPlayers": "Engade polo menos 3 xogadores",
+    "errorInvalidImpostorCount": "Escolle entre 1 e {{max}} impostores (debe quedar polo menos 1 tripulante)",
+    "errorNoCategory": "Escolle polo menos unha categoría",
+    "errorDuplicateNames": "Os nomes dos xogadores deben ser distintos"
+  },
+  "categories": { "general": "Xeral", "music": "Música", "places": "Lugares" },
+  "reveal": {
+    "passTo": "Pásalle o móbil a {{name}}",
+    "holdToReveal": "Mantén premido para ver o teu rol",
+    "crew": "Es TRIPULANTE",
+    "theWordIs": "A palabra é",
+    "impostor": "Es o IMPOSTOR",
+    "yourClue": "Pista (categoría)",
+    "otherImpostors": "Outros impostores",
+    "next": "Seguinte xogador"
+  },
+  "round": {
+    "title": "Debate",
+    "startsWith": "Comeza {{name}}",
+    "music": "Música de fondo",
+    "vote": "Votar"
+  },
+  "vote": {
+    "title": "Quen é o impostor?",
+    "confirm": "Confirmar voto"
+  },
+  "result": {
+    "isImpostor": "{{name}} ERA o impostor",
+    "notImpostor": "{{name}} NON era o impostor",
+    "crewWins": "Gaña a tripulación!",
+    "impostorWins": "Gañan os impostores!",
+    "theWordWas": "A palabra era",
+    "theImpostorsWere": "Os impostores eran",
+    "playAgain": "Xogar de novo"
+  }
+}

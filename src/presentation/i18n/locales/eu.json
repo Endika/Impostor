@@ -1,0 +1,52 @@
+{
+  "common": { "appName": "Impostor", "next": "Hurrengoa", "back": "Atzera", "on": "Bai", "off": "Ez" },
+  "setup": {
+    "title": "Partida berria",
+    "players": "Jokalariak",
+    "addPlayer": "Gehitu jokalaria",
+    "playerName": "Jokalariaren izena",
+    "removePlayer": "Kendu",
+    "impostors": "Inpostoreak",
+    "impostorCount": "Inpostore kopurua",
+    "seesClue": "Inpostoreek pista bat ikusten dute (kategoria)",
+    "seeEachOther": "Inpostoreek elkar ikusten dute",
+    "categories": "Hitz kategoriak",
+    "language": "Hizkuntza",
+    "audio": "Soinua",
+    "start": "Hasi partida",
+    "errorTooFewPlayers": "Gehitu gutxienez 3 jokalari",
+    "errorInvalidImpostorCount": "Aukeratu 1 eta {{max}} inpostore artean (gutxienez tripulatzaile 1 geratu behar da)",
+    "errorNoCategory": "Aukeratu gutxienez kategoria bat",
+    "errorDuplicateNames": "Jokalarien izenek desberdinak izan behar dute"
+  },
+  "categories": { "general": "Orokorra", "music": "Musika", "places": "Lekuak" },
+  "reveal": {
+    "passTo": "Pasatu mugikorra {{name}}(r)i",
+    "holdToReveal": "Eutsi sakatuta zure rola ikusteko",
+    "crew": "TRIPULATZAILEA zara",
+    "theWordIs": "Hitza hau da",
+    "impostor": "INPOSTOREA zara",
+    "yourClue": "Pista (kategoria)",
+    "otherImpostors": "Beste inpostoreak",
+    "next": "Hurrengo jokalaria"
+  },
+  "round": {
+    "title": "Eztabaida",
+    "startsWith": "{{name}} hasten da",
+    "music": "Atzeko planoko musika",
+    "vote": "Bozkatu"
+  },
+  "vote": {
+    "title": "Nor da inpostorea?",
+    "confirm": "Berretsi botoa"
+  },
+  "result": {
+    "isImpostor": "{{name}} inpostorea ZEN",
+    "notImpostor": "{{name}} EZ zen inpostorea",
+    "crewWins": "Tripulazioak irabazi du!",
+    "impostorWins": "Inpostoreek irabazi dute!",
+    "theWordWas": "Hitza hau zen",
+    "theImpostorsWere": "Inpostoreak hauek ziren",
+    "playAgain": "Jolastu berriro"
+  }
+}
