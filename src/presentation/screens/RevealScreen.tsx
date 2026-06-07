@@ -108,13 +108,13 @@ export function RevealScreen() {
                 <span className="text-2xl font-extrabold text-amber-600 dark:text-amber-300">
                   {t('reveal.impostor')}
                 </span>
-                {assignment.clue && (
+                {current.clue && (
                   <div className="flex flex-col gap-1">
                     <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
                       {t('reveal.yourClue')}
                     </span>
                     <span className="text-xl font-bold text-slate-900 dark:text-slate-100">
-                      {assignment.clue}
+                      {current.clue}
                     </span>
                   </div>
                 )}

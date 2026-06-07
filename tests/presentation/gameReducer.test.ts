@@ -5,7 +5,7 @@ import type { GameState } from '../../src/presentation/state/gameReducer'
 import type { GameConfig } from '../../src/domain/game/types'
 
 const bank = new InMemoryWordBank({
-  home: { es: [{ word: 'Playa', hint: 'Costa' }] },
+  home: { es: [{ word: 'Playa', hints: ['Costa', 'Arena', 'Sol'] }] },
 })
 const config: GameConfig = {
   players: ['Ana', 'Ben', 'Cleo'],
@@ -13,6 +13,7 @@ const config: GameConfig = {
   impostorMax: 1,
   impostorSeesClue: true,
   impostorsSeeEachOther: false,
+  differentCluePerImpostor: false,
   categoryIds: ['home'],
   locale: 'es',
 }

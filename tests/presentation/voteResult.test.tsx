@@ -26,19 +26,19 @@ const config: GameConfig = {
   impostorMax: 1,
   impostorSeesClue: true,
   impostorsSeeEachOther: false,
+  differentCluePerImpostor: false,
   categoryIds: ['home'],
   locale: 'en',
 }
 
 const assignment: Assignment = {
   players: [
-    { id: 'p1', name: 'Ana', isImpostor: false },
-    { id: 'p2', name: 'Ben', isImpostor: true },
-    { id: 'p3', name: 'Cleo', isImpostor: false },
+    { id: 'p1', name: 'Ana', isImpostor: false, clue: null },
+    { id: 'p2', name: 'Ben', isImpostor: true, clue: null },
+    { id: 'p3', name: 'Cleo', isImpostor: false, clue: null },
   ],
   word: 'Playa',
   categoryId: 'places',
-  clue: null,
   impostorIds: ['p2'],
 }
 

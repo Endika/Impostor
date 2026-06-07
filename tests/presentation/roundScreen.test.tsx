@@ -13,13 +13,12 @@ function ScreenProbe() {
 
 const assignment: Assignment = {
   players: [
-    { id: 'p0', name: 'Ana', isImpostor: false },
-    { id: 'p1', name: 'Ben', isImpostor: true },
-    { id: 'p2', name: 'Cleo', isImpostor: false },
+    { id: 'p0', name: 'Ana', isImpostor: false, clue: null },
+    { id: 'p1', name: 'Ben', isImpostor: true, clue: null },
+    { id: 'p2', name: 'Cleo', isImpostor: false, clue: null },
   ],
   word: 'Playa',
   categoryId: 'places',
-  clue: null,
   impostorIds: ['p1'],
 }
 

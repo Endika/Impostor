@@ -125,6 +125,8 @@ export function SetupScreen() {
       impostorMax,
       impostorSeesClue,
       impostorsSeeEachOther: seeEachOtherDisabled ? false : impostorsSeeEachOther,
+      // Minimal stopgap: the dedicated UI task adds the real toggle.
+      differentCluePerImpostor: false,
       categoryIds: selectedCategories,
       locale,
     }

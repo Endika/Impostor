@@ -5,33 +5,33 @@ import type { CategoryData } from '../../src/domain/content/types'
 const fixture: CategoryData = {
   home: {
     es: [
-      { word: 'Reloj', hint: 'Tiempo' },
-      { word: 'Silla', hint: 'Sentarse' },
+      { word: 'Reloj', hints: ['Tiempo', 'Muñeca'] },
+      { word: 'Silla', hints: ['Sentarse', 'Mesa'] },
     ],
     en: [
-      { word: 'Clock', hint: 'Time' },
-      { word: 'Chair', hint: 'Sit' },
+      { word: 'Clock', hints: ['Time', 'Wall'] },
+      { word: 'Chair', hints: ['Sit', 'Table'] },
     ],
   },
   music: {
     es: [
-      { word: 'Rosalía', hint: 'Cantante' },
-      { word: 'Reggaetón', hint: 'Género' },
+      { word: 'Rosalía', hints: ['Cantante', 'Flamenco'] },
+      { word: 'Reggaetón', hints: ['Género', 'Baile'] },
     ],
     en: [
-      { word: 'Drums', hint: 'Percussion' },
-      { word: 'Jazz', hint: 'Genre' },
+      { word: 'Drums', hints: ['Percussion', 'Sticks'] },
+      { word: 'Jazz', hints: ['Genre', 'Improv'] },
     ],
   },
 }
 
 describe('InMemoryWordBank', () => {
-  it('returns the first word of a single category with rng=0', () => {
+  it('returns the first word and its hints with rng=0', () => {
     const bank = new InMemoryWordBank(fixture)
     expect(bank.pick(['home'], 'es', () => 0)).toEqual({
       word: 'Reloj',
       categoryId: 'home',
-      hint: 'Tiempo',
+      hints: ['Tiempo', 'Muñeca'],
     })
   })
 
@@ -42,7 +42,7 @@ describe('InMemoryWordBank', () => {
     expect(result).toEqual({
       word: 'Jazz',
       categoryId: 'music',
-      hint: 'Genre',
+      hints: ['Genre', 'Improv'],
     })
   })
 
@@ -55,7 +55,7 @@ describe('InMemoryWordBank', () => {
 
   it('falls back to the full pool when every word is excluded', () => {
     const single: CategoryData = {
-      home: { es: [{ word: 'Playa', hint: 'Costa' }] },
+      home: { es: [{ word: 'Playa', hints: ['Costa', 'Arena'] }] },
     }
     const bank = new InMemoryWordBank(single)
     // 'Playa' is the only candidate and it is excluded: rather than throwing,
@@ -63,7 +63,7 @@ describe('InMemoryWordBank', () => {
     expect(bank.pick(['home'], 'es', () => 0, ['Playa'])).toEqual({
       word: 'Playa',
       categoryId: 'home',
-      hint: 'Costa',
+      hints: ['Costa', 'Arena'],
     })
   })
 
@@ -71,8 +71,8 @@ describe('InMemoryWordBank', () => {
     const two: CategoryData = {
       home: {
         es: [
-          { word: 'A', hint: 'a-hint' },
-          { word: 'B', hint: 'b-hint' },
+          { word: 'A', hints: ['a-hint', 'a-hint-2'] },
+          { word: 'B', hints: ['b-hint', 'b-hint-2'] },
         ],
       },
     }

@@ -6,6 +6,7 @@ export interface GameConfig {
   impostorMax: number // impostorMin..players-1
   impostorSeesClue: boolean
   impostorsSeeEachOther: boolean
+  differentCluePerImpostor: boolean // each impostor gets a distinct hint of the word
   categoryIds: string[]
   locale: LocaleCode
 }
@@ -14,13 +15,13 @@ export interface Player {
   id: string
   name: string
   isImpostor: boolean
+  clue: string | null // this impostor's personal hint (null for crew / when clues off)
 }
 
 export interface Assignment {
   players: Player[]
   word: string
   categoryId: string
-  clue: string | null // the word's hint when impostorSeesClue, else null
   impostorIds: string[]
 }
 

@@ -8,6 +8,7 @@ const config: GameConfig = {
   impostorMax: 1,
   impostorSeesClue: true,
   impostorsSeeEachOther: false,
+  differentCluePerImpostor: false,
   categoryIds: ['home'],
   locale: 'es',
 }

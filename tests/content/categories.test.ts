@@ -34,17 +34,23 @@ describe('bundled categories', () => {
           expect(entries.length).toBeGreaterThanOrEqual(28)
 
           const seen = new Set<string>()
-          for (const { word, hint } of entries) {
+          for (const { word, hints } of entries) {
             expect(word.trim().length).toBeGreaterThan(0)
-            expect(hint.trim().length).toBeGreaterThan(0)
-            expect(hint).not.toBe(word)
 
-            // The hint must not give the word away (case-insensitive substring,
-            // both directions).
+            // At least three distinct, non-empty hints.
+            expect(Array.isArray(hints)).toBe(true)
+            expect(hints.length).toBeGreaterThanOrEqual(3)
+            expect(new Set(hints).size).toBe(hints.length)
+
             const lowerWord = word.toLowerCase()
-            const lowerHint = hint.toLowerCase()
-            expect(lowerHint.includes(lowerWord)).toBe(false)
-            expect(lowerWord.includes(lowerHint)).toBe(false)
+            for (const hint of hints) {
+              expect(hint.trim().length).toBeGreaterThan(0)
+              // A hint must not give the word away (case-insensitive substring,
+              // both directions).
+              const lowerHint = hint.toLowerCase()
+              expect(lowerHint.includes(lowerWord)).toBe(false)
+              expect(lowerWord.includes(lowerHint)).toBe(false)
+            }
 
             // No duplicate words within a (category, locale).
             expect(seen.has(word)).toBe(false)
@@ -55,7 +61,7 @@ describe('bundled categories', () => {
     })
   }
 
-  it('has a grand total of at least 1000 entries', () => {
+  it('has a grand total of at least 1000 words', () => {
     let total = 0
     let min = Infinity
     for (const id of expectedIds)
@@ -66,7 +72,7 @@ describe('bundled categories', () => {
       }
     // eslint-disable-next-line no-console
     console.log(
-      `[categories] grand total entries: ${total}; min per (category,locale): ${min}`,
+      `[categories] grand total words: ${total}; min per (category,locale): ${min}`,
     )
     expect(total).toBeGreaterThanOrEqual(1000)
   })
