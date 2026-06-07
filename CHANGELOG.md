@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/Endika/Impostor/compare/v1.3.0...v1.4.0) (2026-06-07)
+
+
+### Features
+
+* **game:** fixed impostor count with a random toggle ([bd4b0eb](https://github.com/Endika/Impostor/commit/bd4b0eb82a6412875ac02ea4c5f1d12d346a65be))
+
 ## [1.3.0](https://github.com/Endika/Impostor/compare/v1.2.0...v1.3.0) (2026-06-07)
 
 
