@@ -16,13 +16,17 @@
   <a href="./LICENSE"><img src="https://img.shields.io/github/license/Endika/Impostor?style=flat-square&color=10B981" alt="License: MIT" /></a>
 </p>
 
+<p align="center">
+  <a href="https://endika.github.io/Impostor/"><b>▶ Play it now</b></a>
+</p>
+
 ## What you can do
 
 - Play on a single phone — no signup, no accounts, fully offline.
 - Choose how many impostors join the round, from 1 up to the table size.
 - Toggle whether impostors get a clue (the word's category) or fly completely blind.
 - Toggle whether impostors know each other or play alone.
-- Pick word categories — General, Music, Places — fully translated in six languages.
+- Pick word categories — General, Music, Places — 18 words each (54 per language), fully translated in six languages.
 - Hold-to-reveal handoff: each player presses and holds to see their word, then passes the phone on.
 - A random player is chosen to start the conversation each round.
 - Vote in-app and get a win/lose reveal showing who the impostors were.
@@ -37,7 +41,7 @@
 
 ## Install on your device
 
-Open the URL in Chrome, Edge or Safari and use **"Add to Home Screen"** (mobile) or **"Install"** (desktop). Behaves like a native app and works fully offline by design.
+Open **[endika.github.io/Impostor](https://endika.github.io/Impostor/)** in Chrome, Edge or Safari and use **"Add to Home Screen"** (mobile) or **"Install"** (desktop). Behaves like a native app and works fully offline by design.
 
 ## Languages
 
