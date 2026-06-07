@@ -11,7 +11,7 @@ function buildAssignment(impostorIds: string[], playerIds: string[]): Assignment
   return {
     players,
     word: 'Playa',
-    categoryId: 'general',
+    categoryId: 'home',
     clue: null,
     impostorIds,
   }

@@ -8,12 +8,8 @@ export function assignRoles(
   rng: Rng,
   excludeWords: string[] = [],
 ): Assignment {
-  const { word, categoryId } = bank.pick(
-    config.categoryIds,
-    config.locale,
-    rng,
-    excludeWords,
-  )
+  const picked = bank.pick(config.categoryIds, config.locale, rng, excludeWords)
+  const { word, categoryId, hint } = picked
   const indices = config.players.map((_, i) => i)
   for (let i = indices.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1))
@@ -29,7 +25,7 @@ export function assignRoles(
     players,
     word,
     categoryId,
-    clue: config.impostorSeesClue ? categoryId : null,
+    clue: config.impostorSeesClue ? hint : null,
     impostorIds: players.filter((p) => p.isImpostor).map((p) => p.id),
   }
 }

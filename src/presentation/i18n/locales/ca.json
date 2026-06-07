@@ -26,12 +26,14 @@
     "errorDuplicateNames": "Els noms dels jugadors han de ser diferents"
   },
   "categories": {
-    "general": "General",
-    "music": "Música",
-    "places": "Llocs",
+    "home": "Casa",
     "food": "Menjar",
     "animals": "Animals",
-    "cinema": "Cinema"
+    "music": "Música",
+    "places": "Llocs",
+    "cinema": "Cinema",
+    "nature": "Natura",
+    "transport": "Transport"
   },
   "reveal": {
     "passTo": "Passa el mòbil a {{name}}",

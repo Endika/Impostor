@@ -114,7 +114,7 @@ export function RevealScreen() {
                       {t('reveal.yourClue')}
                     </span>
                     <span className="text-xl font-bold text-slate-900 dark:text-slate-100">
-                      {t(`categories.${assignment.clue}`)}
+                      {assignment.clue}
                     </span>
                   </div>
                 )}

@@ -10,10 +10,10 @@ export class InMemoryWordBank implements WordBank {
     rng: Rng,
     excludeWords: string[] = [],
   ) {
-    const pool: { word: string; categoryId: string }[] = []
+    const pool: { word: string; categoryId: string; hint: string }[] = []
     for (const id of categoryIds)
-      for (const w of this.data[id]?.[locale] ?? [])
-        pool.push({ word: w, categoryId: id })
+      for (const entry of this.data[id]?.[locale] ?? [])
+        pool.push({ word: entry.word, categoryId: id, hint: entry.hint })
     if (pool.length === 0) throw new Error('no_words_available')
     const excluded = new Set(excludeWords)
     const filtered = pool.filter((entry) => !excluded.has(entry.word))

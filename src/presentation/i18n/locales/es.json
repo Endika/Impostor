@@ -26,12 +26,14 @@
     "errorDuplicateNames": "Los nombres de los jugadores deben ser distintos"
   },
   "categories": {
-    "general": "General",
-    "music": "Música",
-    "places": "Lugares",
+    "home": "Casa",
     "food": "Comida",
     "animals": "Animales",
-    "cinema": "Cine"
+    "music": "Música",
+    "places": "Lugares",
+    "cinema": "Cine",
+    "nature": "Naturaleza",
+    "transport": "Transporte"
   },
   "reveal": {
     "passTo": "Pasa el móvil a {{name}}",

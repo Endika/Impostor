@@ -4,13 +4,15 @@ import { InMemoryWordBank } from '../../src/domain/content/InMemoryWordBank'
 import type { GameState } from '../../src/presentation/state/gameReducer'
 import type { GameConfig } from '../../src/domain/game/types'
 
-const bank = new InMemoryWordBank({ general: { es: ['Playa'] } })
+const bank = new InMemoryWordBank({
+  home: { es: [{ word: 'Playa', hint: 'Costa' }] },
+})
 const config: GameConfig = {
   players: ['Ana', 'Ben', 'Cleo'],
   impostorCount: 1,
   impostorSeesClue: true,
   impostorsSeeEachOther: false,
-  categoryIds: ['general'],
+  categoryIds: ['home'],
   locale: 'es',
 }
 

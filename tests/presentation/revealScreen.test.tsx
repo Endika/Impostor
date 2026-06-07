@@ -21,7 +21,7 @@ const config: GameConfig = {
   impostorCount: 2,
   impostorSeesClue: true,
   impostorsSeeEachOther: true,
-  categoryIds: ['general'],
+  categoryIds: ['home'],
   locale: 'en',
 }
 
@@ -34,7 +34,7 @@ const assignment: Assignment = {
   ],
   word: 'Playa',
   categoryId: 'places',
-  clue: 'music',
+  clue: 'Tiempo',
   impostorIds: ['p1', 'p2'],
 }
 
@@ -78,13 +78,13 @@ describe('RevealScreen', () => {
     expect(screen.queryByText('Playa')).not.toBeInTheDocument()
   })
 
-  it('reveals impostor role, clue category, and other impostors', () => {
+  it('reveals impostor role, the word hint, and other impostors', () => {
     render(1) // Ben is an impostor
     const card = screen.getByTestId('reveal-card')
 
     fireEvent.pointerDown(card)
     expect(screen.getByText(/you are the impostor/i)).toBeInTheDocument()
-    expect(screen.getByText('Music')).toBeInTheDocument()
+    expect(screen.getByText('Tiempo')).toBeInTheDocument()
     // other impostor (Cleo) is shown, current impostor (Ben) is not listed as "other"
     expect(screen.getByText(/cleo/i)).toBeInTheDocument()
   })

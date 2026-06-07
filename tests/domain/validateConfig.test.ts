@@ -7,7 +7,7 @@ const base: GameConfig = {
   impostorCount: 1,
   impostorSeesClue: false,
   impostorsSeeEachOther: false,
-  categoryIds: ['general'],
+  categoryIds: ['home'],
   locale: 'es',
 }
 

@@ -1,6 +1,12 @@
 import type { LocaleCode, Rng } from '../game/types'
 
-export type CategoryData = Record<string, Partial<Record<LocaleCode, string[]>>>
+/** A secret word plus a short hint shown to the impostor when clues are enabled. */
+export interface WordEntry {
+  word: string
+  hint: string
+}
+
+export type CategoryData = Record<string, Partial<Record<LocaleCode, WordEntry[]>>>
 
 export interface WordBank {
   pick(
@@ -8,5 +14,5 @@ export interface WordBank {
     locale: LocaleCode,
     rng: Rng,
     excludeWords?: string[],
-  ): { word: string; categoryId: string }
+  ): { word: string; categoryId: string; hint: string }
 }

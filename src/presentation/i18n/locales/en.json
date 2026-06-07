@@ -26,12 +26,14 @@
     "errorDuplicateNames": "Player names must be different"
   },
   "categories": {
-    "general": "General",
-    "music": "Music",
-    "places": "Places",
+    "home": "Home",
     "food": "Food",
     "animals": "Animals",
-    "cinema": "Cinema"
+    "music": "Music",
+    "places": "Places",
+    "cinema": "Cinema",
+    "nature": "Nature",
+    "transport": "Transport"
   },
   "reveal": {
     "passTo": "Pass the phone to {{name}}",

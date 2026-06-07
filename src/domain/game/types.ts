@@ -19,7 +19,7 @@ export interface Assignment {
   players: Player[]
   word: string
   categoryId: string
-  clue: string | null // category id when impostorSeesClue, else null
+  clue: string | null // the word's hint when impostorSeesClue, else null
   impostorIds: string[]
 }
 

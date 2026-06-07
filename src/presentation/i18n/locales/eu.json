@@ -26,12 +26,14 @@
     "errorDuplicateNames": "Jokalarien izenek desberdinak izan behar dute"
   },
   "categories": {
-    "general": "Orokorra",
-    "music": "Musika",
-    "places": "Lekuak",
+    "home": "Etxea",
     "food": "Janaria",
     "animals": "Animaliak",
-    "cinema": "Zinema"
+    "music": "Musika",
+    "places": "Lekuak",
+    "cinema": "Zinema",
+    "nature": "Natura",
+    "transport": "Garraioa"
   },
   "reveal": {
     "passTo": "Pasatu mugikorra {{name}}(r)i",
