@@ -122,6 +122,55 @@ describe('SetupScreen', () => {
     expect(inputs[3]!.value).toBe('Wim')
   })
 
+  it('renders the different-clue toggle, disabled while clues are off', () => {
+    setup()
+    const toggle = screen.getByRole('checkbox', {
+      name: /each impostor gets a different clue/i,
+    }) as HTMLInputElement
+    expect(toggle).toBeInTheDocument()
+    // Clues default off -> toggle disabled.
+    expect(toggle).toBeDisabled()
+  })
+
+  it('keeps the different-clue toggle disabled when max impostors < 2', () => {
+    setup()
+    // Turn clues on but leave max at 1.
+    fireEvent.click(
+      screen.getByRole('checkbox', { name: /see a clue/i }),
+    )
+    const toggle = screen.getByRole('checkbox', {
+      name: /each impostor gets a different clue/i,
+    }) as HTMLInputElement
+    expect(toggle).toBeDisabled()
+  })
+
+  it('enables the different-clue toggle when clues are on and max >= 2', () => {
+    setup()
+    fillPlayer(0, 'Ana')
+    fillPlayer(1, 'Ben')
+    fillPlayer(2, 'Cleo')
+    fireEvent.click(screen.getByRole('checkbox', { name: /see a clue/i }))
+    const max = screen.getByLabelText(/max impostors/i) as HTMLInputElement
+    fireEvent.change(max, { target: { value: '2' } })
+
+    const toggle = screen.getByRole('checkbox', {
+      name: /each impostor gets a different clue/i,
+    }) as HTMLInputElement
+    expect(toggle).not.toBeDisabled()
+
+    fireEvent.click(toggle)
+    expect(toggle).toBeChecked()
+
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+
+    // Valid config -> game starts; the persisted config carries the flag.
+    expect(screen.getByTestId('screen')).toHaveTextContent('reveal')
+    const saved = JSON.parse(
+      window.localStorage.getItem('impostor.config') ?? '{}',
+    )
+    expect(saved.differentCluePerImpostor).toBe(true)
+  })
+
   it('shows the duplicate names error', () => {
     setup()
     fillPlayer(0, 'Ana')

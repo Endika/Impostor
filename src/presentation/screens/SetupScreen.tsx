@@ -45,6 +45,9 @@ export function SetupScreen() {
   const [impostorsSeeEachOther, setImpostorsSeeEachOther] = useState(
     () => saved?.impostorsSeeEachOther ?? false,
   )
+  const [differentCluePerImpostor, setDifferentCluePerImpostor] = useState(
+    () => saved?.differentCluePerImpostor ?? false,
+  )
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
     saved?.categoryIds && saved.categoryIds.length > 0
       ? saved.categoryIds
@@ -118,6 +121,10 @@ export function SetupScreen() {
   // The game might have >= 2 impostors, so enable the toggle when max allows it.
   const seeEachOtherDisabled = impostorMax < 2
 
+  // A different clue per impostor only makes sense when clues are on AND there
+  // can be at least two impostors to differentiate.
+  const differentClueDisabled = !impostorSeesClue || impostorMax < 2
+
   function handleStart() {
     const config: GameConfig = {
       players: players.map((p) => p.trim()),
@@ -125,8 +132,9 @@ export function SetupScreen() {
       impostorMax,
       impostorSeesClue,
       impostorsSeeEachOther: seeEachOtherDisabled ? false : impostorsSeeEachOther,
-      // Minimal stopgap: the dedicated UI task adds the real toggle.
-      differentCluePerImpostor: false,
+      differentCluePerImpostor: differentClueDisabled
+        ? false
+        : differentCluePerImpostor,
       categoryIds: selectedCategories,
       locale,
     }
@@ -290,6 +298,22 @@ export function SetupScreen() {
             checked={!seeEachOtherDisabled && impostorsSeeEachOther}
             disabled={seeEachOtherDisabled}
             onChange={(e) => setImpostorsSeeEachOther(e.target.checked)}
+          />
+        </label>
+        <label
+          className={`flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/70 ${
+            differentClueDisabled ? 'opacity-40' : ''
+          }`}
+        >
+          <span className="text-slate-700 dark:text-slate-200">
+            {t('setup.differentClue')}
+          </span>
+          <input
+            type="checkbox"
+            className="h-5 w-5 accent-brand-600"
+            checked={!differentClueDisabled && differentCluePerImpostor}
+            disabled={differentClueDisabled}
+            onChange={(e) => setDifferentCluePerImpostor(e.target.checked)}
           />
         </label>
       </section>

@@ -18,6 +18,7 @@
     "impostorMax": "Max impostors",
     "seesClue": "Impostors see a clue (the category)",
     "seeEachOther": "Impostors see each other",
+    "differentClue": "Each impostor gets a different clue",
     "categories": "Word categories",
     "language": "Language",
     "audio": "Sound",

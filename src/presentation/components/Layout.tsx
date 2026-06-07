@@ -7,6 +7,11 @@ import { useTranslation } from 'react-i18next'
  * background sits behind everything (.app-bg / .app-grain), and a slim wordmark
  * header gives the app identity. Children own their own vertical rhythm.
  */
+// Vite replaces __APP_VERSION__ at build time; under vitest the define isn't
+// applied, so fall back to a placeholder to render gracefully.
+const appVersion =
+  typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev'
+
 export function Layout({ children }: { children: ReactNode }) {
   const { t } = useTranslation()
   return (
@@ -24,6 +29,9 @@ export function Layout({ children }: { children: ReactNode }) {
           </span>
         </header>
         <main className="flex flex-1 flex-col">{children}</main>
+        <footer className="mt-6 select-none text-center text-xs text-slate-400 dark:text-slate-600">
+          {t('common.appName')} v{appVersion}
+        </footer>
       </div>
     </div>
   )
