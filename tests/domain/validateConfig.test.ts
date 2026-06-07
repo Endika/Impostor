@@ -12,7 +12,7 @@ const base: GameConfig = {
 }
 
 describe('validateConfig', () => {
-  it('accepts a minimal valid config', () => {
+  it('accepts a minimal valid config (3 players, 1 impostor)', () => {
     expect(validateConfig(base)).toEqual({ ok: true })
   })
 
@@ -23,21 +23,31 @@ describe('validateConfig', () => {
     })
   })
 
-  it('accepts 3 impostors with 4 players', () => {
+  it('rejects 2 impostors with 3 players (max is 1)', () => {
+    expect(validateConfig({ ...base, impostorCount: 2 })).toEqual({
+      ok: false,
+      error: 'invalid_impostor_count',
+    })
+  })
+
+  it('accepts 2 impostors with 5 players (max is 2)', () => {
     expect(
       validateConfig({
         ...base,
-        players: ['Ana', 'Ben', 'Cleo', 'Dan'],
-        impostorCount: 3,
+        players: ['Ana', 'Ben', 'Cleo', 'Dan', 'Eve'],
+        impostorCount: 2,
       }),
     ).toEqual({ ok: true })
   })
 
-  it('rejects impostorCount equal to the number of players', () => {
-    expect(validateConfig({ ...base, impostorCount: 3 })).toEqual({
-      ok: false,
-      error: 'invalid_impostor_count',
-    })
+  it('rejects 3 impostors with 5 players (max is 2)', () => {
+    expect(
+      validateConfig({
+        ...base,
+        players: ['Ana', 'Ben', 'Cleo', 'Dan', 'Eve'],
+        impostorCount: 3,
+      }),
+    ).toEqual({ ok: false, error: 'invalid_impostor_count' })
   })
 
   it('rejects impostorCount of 0', () => {
