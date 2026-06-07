@@ -1,15 +1,20 @@
 import { assignRoles } from '../../application/assignRoles'
-import { resolveOutcome } from '../../application/resolveOutcome'
+import {
+  resolveElimination,
+  type EliminationResult,
+} from '../../application/resolveElimination'
 import type { WordBank } from '../../domain/content/types'
 import type { Assignment, GameConfig, GameOutcome, Rng } from '../../domain/game/types'
 
 export interface GameState {
-  screen: 'setup' | 'reveal' | 'round' | 'vote' | 'result'
+  screen: 'setup' | 'reveal' | 'round' | 'vote' | 'elimination' | 'result'
   config: GameConfig | null
   assignment: Assignment | null
   revealIndex: number
   outcome: GameOutcome | null
   votedPlayerId: string | null
+  eliminatedIds: string[]
+  lastElimination: EliminationResult | null
 }
 
 export const initialState: GameState = {
@@ -19,6 +24,8 @@ export const initialState: GameState = {
   revealIndex: 0,
   outcome: null,
   votedPlayerId: null,
+  eliminatedIds: [],
+  lastElimination: null,
 }
 
 export type GameAction =
@@ -26,6 +33,7 @@ export type GameAction =
   | { type: 'NEXT_REVEAL' }
   | { type: 'END_ROUND' }
   | { type: 'CAST_VOTE'; votedPlayerId: string }
+  | { type: 'NEXT_ROUND' }
   | { type: 'PLAY_AGAIN' }
   | { type: 'RESET' }
 
@@ -40,6 +48,8 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         revealIndex: 0,
         outcome: null,
         votedPlayerId: null,
+        eliminatedIds: [],
+        lastElimination: null,
         screen: 'reveal',
       }
     }
@@ -57,15 +67,34 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     }
     case 'CAST_VOTE': {
       if (!state.assignment) return state
-      const outcome = resolveOutcome(state.assignment, {
-        votedPlayerId: action.votedPlayerId,
-      })
-      return {
+      const elim = resolveElimination(
+        state.assignment,
+        state.eliminatedIds,
+        action.votedPlayerId,
+      )
+      const base = {
         ...state,
-        outcome,
+        eliminatedIds: [...state.eliminatedIds, action.votedPlayerId],
+        lastElimination: elim,
         votedPlayerId: action.votedPlayerId,
-        screen: 'result',
       }
+      if (elim.status === 'continue') {
+        return { ...base, screen: 'elimination' }
+      }
+      return {
+        ...base,
+        screen: 'result',
+        outcome: {
+          winner: elim.status === 'crew_win' ? 'crew' : 'impostors',
+          votedWasImpostor: elim.votedWasImpostor,
+          word: state.assignment.word,
+          impostorIds: state.assignment.impostorIds,
+        },
+      }
+    }
+    case 'NEXT_ROUND': {
+      if (state.screen !== 'elimination') return state
+      return { ...state, screen: 'round' }
     }
     case 'PLAY_AGAIN': {
       return {
@@ -74,6 +103,8 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         outcome: null,
         votedPlayerId: null,
         revealIndex: 0,
+        eliminatedIds: [],
+        lastElimination: null,
         screen: 'setup',
       }
     }
