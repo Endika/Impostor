@@ -9,8 +9,18 @@ function init(base: GameState): GameState {
   return { ...base, config: { ...base.config, ...persisted } as GameState['config'] }
 }
 
-export function GameProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(gameReducer, initialState, init)
+export function GameProvider({
+  children,
+  initialState: seededState,
+}: {
+  children: ReactNode
+  initialState?: GameState
+}) {
+  const [state, dispatch] = useReducer(
+    gameReducer,
+    seededState ?? initialState,
+    seededState ? (s) => s : init,
+  )
   const lastSaved = useRef<GameState['config']>(null)
 
   useEffect(() => {
