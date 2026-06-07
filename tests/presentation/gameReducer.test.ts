@@ -9,8 +9,8 @@ const bank = new InMemoryWordBank({
 })
 const config: GameConfig = {
   players: ['Ana', 'Ben', 'Cleo'],
-  impostorMin: 1,
-  impostorMax: 1,
+  impostorCount: 1,
+  randomImpostors: false,
   impostorSeesClue: true,
   impostorsSeeEachOther: false,
   differentCluePerImpostor: false,
@@ -77,8 +77,8 @@ describe('gameReducer', () => {
     const cfg: GameConfig = {
       ...config,
       players: ['Ana', 'Ben', 'Cleo', 'Dan', 'Eve', 'Fox', 'Gil'],
-      impostorMin: 2,
-      impostorMax: 2,
+      impostorCount: 2,
+      randomImpostors: false,
     }
     let s = startAndReachVote(cfg)
     const crew = crewIds(s)

@@ -8,8 +8,9 @@ export function assignRoles(
   rng: Rng,
   excludeWords: string[] = [],
 ): Assignment {
-  const span = config.impostorMax - config.impostorMin + 1
-  const impostorCount = config.impostorMin + Math.floor(rng() * span)
+  const impostorCount = config.randomImpostors
+    ? 1 + Math.floor(rng() * (config.players.length - 1)) // random in [1, players-1]
+    : config.impostorCount
   const { word, categoryId, hints } = bank.pick(
     config.categoryIds,
     config.locale,

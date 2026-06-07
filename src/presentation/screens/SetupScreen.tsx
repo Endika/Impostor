@@ -37,8 +37,12 @@ export function SetupScreen() {
       ? saved.players
       : ['', '', ''],
   )
-  const [impostorMin, setImpostorMin] = useState(() => saved?.impostorMin ?? 1)
-  const [impostorMax, setImpostorMax] = useState(() => saved?.impostorMax ?? 1)
+  const [impostorCount, setImpostorCount] = useState(
+    () => saved?.impostorCount ?? 1,
+  )
+  const [randomImpostors, setRandomImpostors] = useState(
+    () => saved?.randomImpostors ?? false,
+  )
   const [impostorSeesClue, setImpostorSeesClue] = useState(
     () => saved?.impostorSeesClue ?? false,
   )
@@ -74,19 +78,10 @@ export function SetupScreen() {
     return count
   }
 
-  // Raising min above max pushes max up; lowering max below min pulls min down.
   // The upper bound (players - 1) is enforced by validateConfig on Start so an
   // out-of-range value still surfaces the invalid-count error.
-  function changeMin(value: number) {
-    const next = Math.max(1, value)
-    setImpostorMin(next)
-    setImpostorMax((m) => Math.max(m, next))
-  }
-
-  function changeMax(value: number) {
-    const next = Math.max(1, value)
-    setImpostorMax(next)
-    setImpostorMin((m) => Math.min(m, next))
+  function changeCount(value: number) {
+    setImpostorCount(clampCount(value, maxImpostors))
   }
 
   function updatePlayer(index: number, value: string) {
@@ -101,8 +96,7 @@ export function SetupScreen() {
     setPlayers((prev) => {
       const next = prev.filter((_, i) => i !== index)
       const max = maxImpostorsFor(next.length)
-      setImpostorMin((c) => clampCount(c, max))
-      setImpostorMax((c) => clampCount(c, max))
+      setImpostorCount((c) => clampCount(c, max))
       return next
     })
   }
@@ -118,18 +112,24 @@ export function SetupScreen() {
     void i18n.changeLanguage(code)
   }
 
-  // The game might have >= 2 impostors, so enable the toggle when max allows it.
-  const seeEachOtherDisabled = impostorMax < 2
+  // At least two impostors are possible either when random mode could draw them
+  // (players - 1 >= 2) or when the fixed count is already >= 2.
+  const twoImpostorsPossible = randomImpostors
+    ? maxImpostors >= 2
+    : impostorCount >= 2
+
+  // The game might have >= 2 impostors, so enable the toggle when possible.
+  const seeEachOtherDisabled = !twoImpostorsPossible
 
   // A different clue per impostor only makes sense when clues are on AND there
   // can be at least two impostors to differentiate.
-  const differentClueDisabled = !impostorSeesClue || impostorMax < 2
+  const differentClueDisabled = !impostorSeesClue || !twoImpostorsPossible
 
   function handleStart() {
     const config: GameConfig = {
       players: players.map((p) => p.trim()),
-      impostorMin,
-      impostorMax,
+      impostorCount,
+      randomImpostors,
       impostorSeesClue,
       impostorsSeeEachOther: seeEachOtherDisabled ? false : impostorsSeeEachOther,
       differentCluePerImpostor: differentClueDisabled
@@ -197,79 +197,53 @@ export function SetupScreen() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <SectionLabel>{t('setup.impostorsRange')}</SectionLabel>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="impostor-min"
-              className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400"
-            >
-              {t('setup.impostorMin')}
-            </label>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="secondary"
-                aria-label="-"
-                className="h-11 w-11 shrink-0 px-0 text-xl"
-                onClick={() => changeMin(impostorMin - 1)}
-              >
-                −
-              </Button>
-              <input
-                id="impostor-min"
-                type="number"
-                min={1}
-                max={maxImpostors}
-                className="min-h-11 w-full min-w-0 rounded-xl border border-slate-300/80 bg-white/80 px-3 py-2 text-center text-lg font-bold text-slate-900 shadow-sm backdrop-blur focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
-                value={impostorMin}
-                onChange={(e) => changeMin(Number(e.target.value) || 1)}
-              />
-              <Button
-                variant="secondary"
-                aria-label="+"
-                className="h-11 w-11 shrink-0 px-0 text-xl"
-                onClick={() => changeMin(impostorMin + 1)}
-              >
-                +
-              </Button>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="impostor-max"
-              className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400"
-            >
-              {t('setup.impostorMax')}
-            </label>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="secondary"
-                aria-label="-"
-                className="h-11 w-11 shrink-0 px-0 text-xl"
-                onClick={() => changeMax(impostorMax - 1)}
-              >
-                −
-              </Button>
-              <input
-                id="impostor-max"
-                type="number"
-                min={1}
-                max={maxImpostors}
-                className="min-h-11 w-full min-w-0 rounded-xl border border-slate-300/80 bg-white/80 px-3 py-2 text-center text-lg font-bold text-slate-900 shadow-sm backdrop-blur focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
-                value={impostorMax}
-                onChange={(e) => changeMax(Number(e.target.value) || 1)}
-              />
-              <Button
-                variant="secondary"
-                aria-label="+"
-                className="h-11 w-11 shrink-0 px-0 text-xl"
-                onClick={() => changeMax(impostorMax + 1)}
-              >
-                +
-              </Button>
-            </div>
-          </div>
+        <SectionLabel>{t('setup.impostorCount')}</SectionLabel>
+        <div
+          className={`flex items-center gap-2 ${
+            randomImpostors ? 'opacity-40' : ''
+          }`}
+        >
+          <Button
+            variant="secondary"
+            aria-label="-"
+            className="h-11 w-11 shrink-0 px-0 text-xl"
+            disabled={randomImpostors}
+            onClick={() => changeCount(impostorCount - 1)}
+          >
+            −
+          </Button>
+          <input
+            id="impostor-count"
+            type="number"
+            aria-label={t('setup.impostorCount')}
+            min={1}
+            max={maxImpostors}
+            disabled={randomImpostors}
+            className="min-h-11 w-full min-w-0 rounded-xl border border-slate-300/80 bg-white/80 px-3 py-2 text-center text-lg font-bold text-slate-900 shadow-sm backdrop-blur focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 disabled:cursor-not-allowed dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
+            value={impostorCount}
+            onChange={(e) => changeCount(Number(e.target.value) || 1)}
+          />
+          <Button
+            variant="secondary"
+            aria-label="+"
+            className="h-11 w-11 shrink-0 px-0 text-xl"
+            disabled={randomImpostors}
+            onClick={() => changeCount(impostorCount + 1)}
+          >
+            +
+          </Button>
         </div>
+        <label className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/70">
+          <span className="text-slate-700 dark:text-slate-200">
+            {t('setup.randomImpostors')}
+          </span>
+          <input
+            type="checkbox"
+            className="h-5 w-5 accent-brand-600"
+            checked={randomImpostors}
+            onChange={(e) => setRandomImpostors(e.target.checked)}
+          />
+        </label>
       </section>
 
       <section className="flex flex-col gap-2">

@@ -4,8 +4,8 @@ import type { GameConfig } from '../../src/domain/game/types'
 
 const base: GameConfig = {
   players: ['Ana', 'Ben', 'Cleo'],
-  impostorMin: 1,
-  impostorMax: 1,
+  impostorCount: 1,
+  randomImpostors: false,
   impostorSeesClue: false,
   impostorsSeeEachOther: false,
   differentCluePerImpostor: false,
@@ -25,53 +25,45 @@ describe('validateConfig', () => {
     })
   })
 
-  it('rejects impostorMin below 1', () => {
-    expect(validateConfig({ ...base, impostorMin: 0 })).toEqual({
+  it('rejects a fixed impostor count of 0', () => {
+    expect(validateConfig({ ...base, impostorCount: 0 })).toEqual({
       ok: false,
       error: 'invalid_impostor_count',
     })
   })
 
-  it('rejects impostorMin greater than impostorMax', () => {
-    expect(
-      validateConfig({
-        ...base,
-        players: ['Ana', 'Ben', 'Cleo', 'Dan'],
-        impostorMin: 2,
-        impostorMax: 1,
-      }),
-    ).toEqual({ ok: false, error: 'invalid_impostor_count' })
+  it('rejects a fixed impostor count greater than players-1', () => {
+    // 3 players -> max 2; a fixed count of 3 is invalid.
+    expect(validateConfig({ ...base, impostorCount: 3 })).toEqual({
+      ok: false,
+      error: 'invalid_impostor_count',
+    })
   })
 
-  it('rejects impostorMax greater than players-1 (3 players, max 3)', () => {
-    expect(validateConfig({ ...base, impostorMin: 1, impostorMax: 3 })).toEqual(
-      {
-        ok: false,
-        error: 'invalid_impostor_count',
-      },
-    )
-  })
-
-  it('accepts a wide range that leaves few crew (8 players, max 6)', () => {
-    expect(
-      validateConfig({
-        ...base,
-        players: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-        impostorMin: 1,
-        impostorMax: 6,
-      }),
-    ).toEqual({ ok: true })
-  })
-
-  it('rejects non-integer impostor bounds', () => {
+  it('rejects a non-integer fixed impostor count', () => {
     expect(
       validateConfig({
         ...base,
         players: ['Ana', 'Ben', 'Cleo', 'Dan', 'Eve'],
-        impostorMin: 1,
-        impostorMax: 2.5,
+        impostorCount: 2.5,
       }),
     ).toEqual({ ok: false, error: 'invalid_impostor_count' })
+  })
+
+  it('accepts a valid fixed count near the upper bound (8 players, 6 impostors)', () => {
+    expect(
+      validateConfig({
+        ...base,
+        players: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+        impostorCount: 6,
+      }),
+    ).toEqual({ ok: true })
+  })
+
+  it('ignores the impostor count when randomImpostors is true (even out of range)', () => {
+    expect(
+      validateConfig({ ...base, randomImpostors: true, impostorCount: 99 }),
+    ).toEqual({ ok: true })
   })
 
   it('rejects empty categoryIds', () => {

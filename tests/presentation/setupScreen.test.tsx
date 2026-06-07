@@ -28,34 +28,45 @@ describe('SetupScreen', () => {
     window.localStorage.clear()
   })
 
-  it('shows the invalid impostor count error with 3 players, min 1 and max 3', () => {
+  it('shows the invalid impostor count error when a fixed count exceeds players-1', () => {
+    // A prefilled, out-of-range fixed count surfaces the validation error on
+    // start (3 players -> max 2; a stored count of 3 is invalid).
+    window.localStorage.setItem(
+      'impostor.config',
+      JSON.stringify({
+        players: ['Ana', 'Ben', 'Cleo'],
+        impostorCount: 3,
+        randomImpostors: false,
+        impostorSeesClue: false,
+        impostorsSeeEachOther: false,
+        differentCluePerImpostor: false,
+        categoryIds: ['home'],
+        locale: 'en',
+      }),
+    )
     setup()
-    fillPlayer(0, 'Ana')
-    fillPlayer(1, 'Ben')
-    fillPlayer(2, 'Cleo')
 
-    const max = screen.getByLabelText(/max impostors/i) as HTMLInputElement
-    // New rule: max impostors = players - 1 = 2 for 3 players; max 3 is invalid.
-    fireEvent.change(max, { target: { value: '3' } })
+    const count = screen.getByLabelText(
+      /^number of impostors$/i,
+    ) as HTMLInputElement
+    expect(count.value).toBe('3')
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
-    expect(
-      screen.getByText(/choose between 1 and/i),
-    ).toBeInTheDocument()
+    expect(screen.getByText(/choose between 1 and/i)).toBeInTheDocument()
     expect(screen.getByTestId('screen')).toHaveTextContent('setup')
   })
 
-  it('dispatches START_GAME and transitions to reveal with a valid 3-player min1/max2 config', () => {
+  it('dispatches START_GAME and transitions to reveal with a valid fixed count', () => {
     setup()
     fillPlayer(0, 'Ana')
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
 
-    const min = screen.getByLabelText(/min impostors/i) as HTMLInputElement
-    const max = screen.getByLabelText(/max impostors/i) as HTMLInputElement
-    fireEvent.change(min, { target: { value: '1' } })
-    fireEvent.change(max, { target: { value: '2' } })
+    const count = screen.getByLabelText(
+      /^number of impostors$/i,
+    ) as HTMLInputElement
+    fireEvent.change(count, { target: { value: '2' } })
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
@@ -74,23 +85,50 @@ describe('SetupScreen', () => {
     expect(screen.getByTestId('screen')).toHaveTextContent('reveal')
   })
 
-  it('bumps max up when min is raised above it', () => {
+  it('clamps the count down when the player count drops', () => {
     setup()
     fillPlayer(0, 'Ana')
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
     fireEvent.click(screen.getByRole('button', { name: /add player/i }))
     fillPlayer(3, 'Dan')
-    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
-    fillPlayer(4, 'Eve')
 
-    const min = screen.getByLabelText(/min impostors/i) as HTMLInputElement
-    const max = screen.getByLabelText(/max impostors/i) as HTMLInputElement
-    // Raise min above the current max (1) -> max should follow.
-    fireEvent.change(min, { target: { value: '3' } })
+    const count = screen.getByLabelText(
+      /^number of impostors$/i,
+    ) as HTMLInputElement
+    // 4 players -> max 3 impostors.
+    fireEvent.change(count, { target: { value: '3' } })
+    expect(count.value).toBe('3')
 
-    expect(min.value).toBe('3')
-    expect(max.value).toBe('3')
+    // Remove a player: max drops to 2, so the count is clamped.
+    fireEvent.click(screen.getAllByRole('button', { name: /remove/i })[0]!)
+    expect(count.value).toBe('2')
+  })
+
+  it('disables the count stepper and starts a random game when the random toggle is on', () => {
+    setup()
+    fillPlayer(0, 'Ana')
+    fillPlayer(1, 'Ben')
+    fillPlayer(2, 'Cleo')
+
+    const toggle = screen.getByRole('checkbox', {
+      name: /random number of impostors/i,
+    }) as HTMLInputElement
+    fireEvent.click(toggle)
+    expect(toggle).toBeChecked()
+
+    const count = screen.getByLabelText(
+      /^number of impostors$/i,
+    ) as HTMLInputElement
+    expect(count).toBeDisabled()
+
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+
+    expect(screen.getByTestId('screen')).toHaveTextContent('reveal')
+    const saved = JSON.parse(
+      window.localStorage.getItem('impostor.config') ?? '{}',
+    )
+    expect(saved.randomImpostors).toBe(true)
   })
 
   it('renders chips for the new categories', () => {
@@ -105,8 +143,8 @@ describe('SetupScreen', () => {
       'impostor.config',
       JSON.stringify({
         players: ['Zoe', 'Yan', 'Xal', 'Wim'],
-        impostorMin: 1,
-        impostorMax: 1,
+        impostorCount: 1,
+        randomImpostors: false,
         impostorSeesClue: true,
         impostorsSeeEachOther: false,
         categoryIds: ['music'],
@@ -132,26 +170,26 @@ describe('SetupScreen', () => {
     expect(toggle).toBeDisabled()
   })
 
-  it('keeps the different-clue toggle disabled when max impostors < 2', () => {
+  it('keeps the different-clue toggle disabled when fewer than 2 impostors', () => {
     setup()
-    // Turn clues on but leave max at 1.
-    fireEvent.click(
-      screen.getByRole('checkbox', { name: /see a clue/i }),
-    )
+    // Turn clues on but leave the fixed count at 1.
+    fireEvent.click(screen.getByRole('checkbox', { name: /see a clue/i }))
     const toggle = screen.getByRole('checkbox', {
       name: /each impostor gets a different clue/i,
     }) as HTMLInputElement
     expect(toggle).toBeDisabled()
   })
 
-  it('enables the different-clue toggle when clues are on and max >= 2', () => {
+  it('enables the different-clue toggle when clues are on and the count is >= 2', () => {
     setup()
     fillPlayer(0, 'Ana')
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
     fireEvent.click(screen.getByRole('checkbox', { name: /see a clue/i }))
-    const max = screen.getByLabelText(/max impostors/i) as HTMLInputElement
-    fireEvent.change(max, { target: { value: '2' } })
+    const count = screen.getByLabelText(
+      /^number of impostors$/i,
+    ) as HTMLInputElement
+    fireEvent.change(count, { target: { value: '2' } })
 
     const toggle = screen.getByRole('checkbox', {
       name: /each impostor gets a different clue/i,

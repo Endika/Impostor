@@ -2,8 +2,8 @@ export type LocaleCode = 'ca' | 'en' | 'es' | 'eu' | 'gl' | 'va'
 
 export interface GameConfig {
   players: string[]
-  impostorMin: number // 1..impostorMax
-  impostorMax: number // impostorMin..players-1
+  impostorCount: number // 1..players-1 (used when randomImpostors is false)
+  randomImpostors: boolean // pick a random count in [1, players-1] each game
   impostorSeesClue: boolean
   impostorsSeeEachOther: boolean
   differentCluePerImpostor: boolean // each impostor gets a distinct hint of the word
