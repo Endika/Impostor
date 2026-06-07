@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.0](https://github.com/Endika/Impostor/compare/v1.1.0...v1.2.0) (2026-06-07)
+
+
+### Features
+
+* **content:** per-word hints and themed categories ([eaf9d59](https://github.com/Endika/Impostor/commit/eaf9d599bbaf8c9a0667915565a6749f82fd6a1c))
+* **game:** impostor range, all-crew win rule, last-chance guess actions ([e65faf4](https://github.com/Endika/Impostor/commit/e65faf4a66ed77e70862ba6f69e795675a963eff))
+* **ui:** impostor range picker and last-chance guess ([c50a2e2](https://github.com/Endika/Impostor/commit/c50a2e24b375419059bc498863cfdc8027aaf1a5))
+
 ## [1.1.0](https://github.com/Endika/Impostor/compare/v1.0.1...v1.1.0) (2026-06-07)
 
 
