@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0](https://github.com/Endika/Impostor/compare/v1.2.0...v1.3.0) (2026-06-07)
+
+
+### Features
+
+* **game:** per-impostor distinct clues ([5692164](https://github.com/Endika/Impostor/commit/56921645f77cf279a38bb1256d7a06b5bdd9cdb2))
+* **game:** risky round guess that eliminates on a wrong answer ([298a3b3](https://github.com/Endika/Impostor/commit/298a3b334e42fe5cd9518a93f90b4d2618a0334c))
+* **ui:** different-clue toggle and version footer ([c861e47](https://github.com/Endika/Impostor/commit/c861e470a15420eb2158dddfe53947f185a2495e))
+
 ## [1.2.0](https://github.com/Endika/Impostor/compare/v1.1.0...v1.2.0) (2026-06-07)
 
 
