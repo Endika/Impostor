@@ -18,24 +18,26 @@ export function EliminationScreen() {
   const caughtImpostor = lastElimination.votedWasImpostor
 
   return (
-    <div className="flex min-h-full flex-1 flex-col gap-6">
-      <h1 className="text-center text-2xl font-bold text-slate-900 dark:text-slate-50">
+    <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
+      <h1 className="text-center text-xs font-bold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
         {t('elimination.title')}
       </h1>
 
       <div
-        className={`flex flex-col items-center gap-2 rounded-3xl px-4 py-8 text-center text-xl font-extrabold shadow-sm ${
+        className={`flex flex-col items-center gap-3 rounded-3xl px-5 py-10 text-center text-xl font-extrabold shadow-lg ${
           caughtImpostor
-            ? 'bg-emerald-600 text-white'
-            : 'bg-amber-500 text-amber-950'
+            ? 'bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-emerald-600/30'
+            : 'bg-gradient-to-br from-amber-400 to-amber-500 text-amber-950 shadow-amber-500/30'
         }`}
       >
-        <span aria-hidden className="text-4xl">
+        <span aria-hidden className="text-5xl drop-shadow-sm">
           {caughtImpostor ? '✅' : '😬'}
         </span>
-        {caughtImpostor
-          ? t('elimination.wasImpostor', { name: votedName })
-          : t('elimination.wasCrew', { name: votedName })}
+        <span className="text-balance">
+          {caughtImpostor
+            ? t('elimination.wasImpostor', { name: votedName })
+            : t('elimination.wasCrew', { name: votedName })}
+        </span>
       </div>
 
       <p className="text-center text-lg font-semibold text-slate-700 dark:text-slate-200">

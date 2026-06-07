@@ -7,6 +7,7 @@ import type { GameConfig, LocaleCode } from '../../domain/game/types'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
 import { Button } from '../components/Button'
+import { SectionLabel } from '../components/Card'
 import { loadConfig, saveConfig } from '../state/persistence'
 import { loadUsedWords } from '../state/usedWords'
 import i18n from '../i18n'
@@ -133,34 +134,19 @@ export function SetupScreen() {
     : null
 
   return (
-    <div className="flex min-h-full flex-1 flex-col gap-6">
-      <header className="flex items-center gap-3">
-        <span
-          aria-hidden
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-600 text-lg"
-        >
-          🕵️
-        </span>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-brand-600 dark:text-brand-300">
-            {t('common.appName')}
-          </p>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-            {t('setup.title')}
-          </h1>
-        </div>
-      </header>
+    <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
+      <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
+        {t('setup.title')}
+      </h1>
 
       <section className="flex flex-col gap-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          {t('setup.players')}
-        </h2>
+        <SectionLabel>{t('setup.players')}</SectionLabel>
         <ul className="flex flex-col gap-2">
           {players.map((name, index) => (
             <li key={index} className="flex items-center gap-2">
               <input
                 aria-label={t('setup.playerName')}
-                className="min-h-11 min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                className="min-h-11 min-w-0 flex-1 rounded-xl border border-slate-300/80 bg-white/80 px-3.5 py-2.5 text-slate-900 shadow-sm backdrop-blur placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
                 value={name}
                 onChange={(e) => updatePlayer(index, e.target.value)}
                 placeholder={`${t('setup.playerName')} ${index + 1}`}
@@ -186,7 +172,7 @@ export function SetupScreen() {
       <section className="flex flex-col gap-2">
         <label
           htmlFor="impostor-count"
-          className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"
+          className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400"
         >
           {t('setup.impostorCount')}
         </label>
@@ -206,7 +192,7 @@ export function SetupScreen() {
             type="number"
             min={1}
             max={maxImpostors}
-            className="min-h-11 w-20 rounded-lg border border-slate-300 bg-white px-3 py-2 text-center text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+            className="min-h-11 w-20 rounded-xl border border-slate-300/80 bg-white/80 px-3 py-2 text-center text-lg font-bold text-slate-900 shadow-sm backdrop-blur focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
             value={impostorCount}
             onChange={(e) => setImpostorCount(Number(e.target.value) || 1)}
           />
@@ -224,7 +210,7 @@ export function SetupScreen() {
       </section>
 
       <section className="flex flex-col gap-2">
-        <label className="flex min-h-11 items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-2.5 dark:border-slate-700 dark:bg-slate-800/60">
+        <label className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/70">
           <span className="text-slate-700 dark:text-slate-200">
             {t('setup.seesClue')}
           </span>
@@ -236,7 +222,7 @@ export function SetupScreen() {
           />
         </label>
         <label
-          className={`flex min-h-11 items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-2.5 dark:border-slate-700 dark:bg-slate-800/60 ${
+          className={`flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/70 ${
             seeEachOtherDisabled ? 'opacity-40' : ''
           }`}
         >
@@ -254,9 +240,7 @@ export function SetupScreen() {
       </section>
 
       <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          {t('setup.categories')}
-        </h2>
+        <SectionLabel>{t('setup.categories')}</SectionLabel>
         <div className="flex flex-wrap gap-2">
           {categoryIds.map((id) => {
             const active = selectedCategories.includes(id)
@@ -265,10 +249,10 @@ export function SetupScreen() {
                 key={id}
                 type="button"
                 aria-pressed={active}
-                className={`min-h-11 rounded-full border px-4 py-2 text-sm font-medium transition active:scale-[0.97] ${
+                className={`min-h-11 rounded-full border px-4 py-2 text-sm font-semibold transition active:scale-[0.95] ${
                   active
-                    ? 'border-brand-500 bg-brand-50 text-brand-700 dark:border-brand-400 dark:bg-brand-500/20 dark:text-brand-200'
-                    : 'border-slate-300 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'
+                    ? 'border-transparent bg-gradient-to-b from-brand-500 to-brand-600 text-white shadow-sm shadow-brand-600/25'
+                    : 'border-slate-300/80 bg-white/60 text-slate-600 backdrop-blur hover:bg-white dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:bg-slate-800'
                 }`}
                 onClick={() => toggleCategory(id)}
               >
@@ -282,13 +266,13 @@ export function SetupScreen() {
       <section className="flex flex-col gap-2">
         <label
           htmlFor="language-select"
-          className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"
+          className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400"
         >
           {t('setup.language')}
         </label>
         <select
           id="language-select"
-          className="min-h-11 rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+          className="min-h-11 rounded-xl border border-slate-300/80 bg-white/80 px-3 py-2 text-slate-900 shadow-sm backdrop-blur focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
           value={locale}
           onChange={(e) => changeLocale(e.target.value as LocaleCode)}
         >
@@ -301,7 +285,7 @@ export function SetupScreen() {
       </section>
 
       <section>
-        <label className="flex min-h-11 items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-2.5 dark:border-slate-700 dark:bg-slate-800/60">
+        <label className="flex min-h-11 items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
           <span className="text-slate-700 dark:text-slate-200">
             {t('setup.audio')}
           </span>
@@ -319,7 +303,7 @@ export function SetupScreen() {
       {errorMessage && (
         <p
           role="alert"
-          className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-red-700 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-300"
+          className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm font-medium text-red-700 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-300"
         >
           {errorMessage}
         </p>

@@ -54,21 +54,24 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
   if (!assignment || !starter) return null
 
   return (
-    <div className="flex min-h-full flex-1 flex-col gap-8">
-      <h1 className="text-center text-2xl font-bold text-slate-900 dark:text-slate-50">
+    <div className="rise-in flex min-h-full flex-1 flex-col gap-8">
+      <h1 className="text-center text-xs font-bold uppercase tracking-[0.18em] text-brand-500 dark:text-brand-300">
         {t('round.title')}
       </h1>
 
-      <div className="flex flex-1 flex-col items-center justify-center gap-3 text-center">
-        <span aria-hidden className="text-5xl">
+      <div className="flex flex-1 flex-col items-center justify-center gap-5 text-center">
+        <span
+          aria-hidden
+          className="flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-500/15 to-accent-500/15 text-5xl shadow-sm ring-1 ring-brand-500/20"
+        >
           💬
         </span>
-        <p className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">
+        <p className="text-balance text-4xl font-black leading-tight tracking-tight text-slate-900 dark:text-slate-50">
           {t('round.startsWith', { name: starter.name })}
         </p>
       </div>
 
-      <label className="flex min-h-11 items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-800/60">
+      <label className="flex min-h-11 items-center justify-between rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
         <span className="text-base font-medium text-slate-700 dark:text-slate-200">
           {t('round.music')}
         </span>

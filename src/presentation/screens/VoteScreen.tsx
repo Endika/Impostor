@@ -28,8 +28,8 @@ export function VoteScreen() {
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col gap-6">
-      <h1 className="text-center text-2xl font-bold text-slate-900 dark:text-slate-50">
+    <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
+      <h1 className="text-center text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
         {t('vote.title')}
       </h1>
 
@@ -41,14 +41,24 @@ export function VoteScreen() {
               key={player.id}
               type="button"
               aria-pressed={isSelected}
-              className={`min-h-12 rounded-xl border px-4 py-3 text-lg font-semibold transition active:scale-[0.99] ${
+              className={`flex min-h-13 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-lg font-bold transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-slate-950 ${
                 isSelected
-                  ? 'border-brand-500 bg-brand-600 text-white shadow-sm'
-                  : 'border-slate-300 bg-white text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700'
+                  ? 'border-transparent bg-gradient-to-b from-brand-500 to-brand-600 text-white shadow-lg shadow-brand-600/25'
+                  : 'border-slate-200/80 bg-white/80 text-slate-800 shadow-sm backdrop-blur-sm hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:bg-slate-800/70'
               }`}
               onClick={() => setSelectedId(player.id)}
             >
-              {player.name}
+              <span className="min-w-0 break-words">{player.name}</span>
+              <span
+                aria-hidden
+                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm transition ${
+                  isSelected
+                    ? 'bg-white/25 text-white'
+                    : 'border border-slate-300 text-transparent dark:border-slate-600'
+                }`}
+              >
+                ✓
+              </span>
             </button>
           )
         })}
