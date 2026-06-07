@@ -52,7 +52,16 @@
     "title": "Eztabaida",
     "startsWith": "{{name}} hasten da",
     "music": "Atzeko planoko musika",
-    "vote": "Bozkatu"
+    "vote": "Bozkatu",
+    "guess": "Inpostore batek asmatzen du"
+  },
+  "guess": {
+    "title": "Asmatu hitza",
+    "who": "Nork asmatzen du?",
+    "prompt": "Esan hitza ozen.",
+    "correct": "Asmatu du",
+    "wrong": "Huts egin du",
+    "cancel": "Atzera"
   },
   "vote": {
     "title": "Nor da inpostorea?",
@@ -62,6 +71,7 @@
     "title": "Kanporatua",
     "wasImpostor": "{{name}} inpostorea zen",
     "wasCrew": "{{name}} ez zen inpostorea",
+    "failedGuess": "{{name}}-k huts egin du asmatzean eta kanpoan da",
     "remaining": "{{crew}} tripulatzaile vs {{impostors}} inpostore geratzen dira",
     "nextRound": "Hurrengo txanda",
     "guessPrompt": "Kanporatutako inpostore batek hitza ozen esan dezake orain.",

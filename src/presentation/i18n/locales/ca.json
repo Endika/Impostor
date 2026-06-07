@@ -52,7 +52,16 @@
     "title": "Debat",
     "startsWith": "Comença {{name}}",
     "music": "Música de fons",
-    "vote": "Vota"
+    "vote": "Vota",
+    "guess": "Un impostor endevina"
+  },
+  "guess": {
+    "title": "Endevina la paraula",
+    "who": "Qui endevina?",
+    "prompt": "Digues la paraula en veu alta.",
+    "correct": "L'ha encertat",
+    "wrong": "Ha fallat",
+    "cancel": "Enrere"
   },
   "vote": {
     "title": "Qui és l'impostor?",
@@ -62,6 +71,7 @@
     "title": "Expulsat",
     "wasImpostor": "{{name}} era impostor",
     "wasCrew": "{{name}} no era impostor",
+    "failedGuess": "{{name}} ha fallat en endevinar i queda fora",
     "remaining": "Queden {{crew}} tripulants vs {{impostors}} impostors",
     "nextRound": "Ronda següent",
     "guessPrompt": "Un impostor expulsat pot dir la paraula en veu alta.",

@@ -97,6 +97,36 @@ describe('EliminationScreen', () => {
     expect(screen.getByTestId('winner')).toHaveTextContent('impostors')
   })
 
+  it('shows the failed-guess wording and no last-chance guess button', () => {
+    const failedGuess: GameState = {
+      ...state,
+      votedPlayerId: 'p1',
+      eliminatedIds: ['p1'],
+      lastElimination: {
+        votedPlayerId: 'p1',
+        votedWasImpostor: true,
+        status: 'continue',
+        aliveImpostorCount: 0,
+        aliveCrewCount: 3,
+        fromFailedGuess: true,
+      },
+    }
+    renderWithProviders(
+      <>
+        <EliminationScreen />
+        <ScreenProbe />
+      </>,
+      { initialState: failedGuess },
+    )
+    expect(
+      screen.getByText(/ana guessed wrong and is out/i),
+    ).toBeInTheDocument()
+    // They already attempted and failed -> no last-chance guess button.
+    expect(
+      screen.queryByRole('button', { name: /they said it right/i }),
+    ).not.toBeInTheDocument()
+  })
+
   it('shows See result on a terminal status and keeps the guess button', () => {
     const crewWin: GameState = {
       ...state,

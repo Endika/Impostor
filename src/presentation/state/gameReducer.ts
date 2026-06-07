@@ -7,7 +7,14 @@ import type { WordBank } from '../../domain/content/types'
 import type { Assignment, GameConfig, GameOutcome, Rng } from '../../domain/game/types'
 
 export interface GameState {
-  screen: 'setup' | 'reveal' | 'round' | 'vote' | 'elimination' | 'result'
+  screen:
+    | 'setup'
+    | 'reveal'
+    | 'round'
+    | 'vote'
+    | 'guess'
+    | 'elimination'
+    | 'result'
   config: GameConfig | null
   assignment: Assignment | null
   revealIndex: number
@@ -38,6 +45,9 @@ export type GameAction =
     }
   | { type: 'NEXT_REVEAL' }
   | { type: 'END_ROUND' }
+  | { type: 'START_GUESS' }
+  | { type: 'CANCEL_GUESS' }
+  | { type: 'GUESS_FAILED'; playerId: string }
   | { type: 'CAST_VOTE'; votedPlayerId: string }
   | { type: 'NEXT_ROUND' }
   | { type: 'SHOW_RESULT' }
@@ -77,6 +87,40 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     case 'END_ROUND': {
       if (!state.assignment) return state
       return { ...state, screen: 'vote' }
+    }
+    case 'START_GUESS': {
+      if (!state.assignment) return state
+      return { ...state, screen: 'guess' }
+    }
+    case 'CANCEL_GUESS': {
+      return { ...state, screen: 'round' }
+    }
+    case 'GUESS_FAILED': {
+      if (!state.assignment) return state
+      const elim = resolveElimination(
+        state.assignment,
+        state.eliminatedIds,
+        action.playerId,
+      )
+      const outcome: GameOutcome | null =
+        elim.status === 'continue'
+          ? null
+          : {
+              winner: elim.status === 'crew_win' ? 'crew' : 'impostors',
+              votedWasImpostor: elim.votedWasImpostor,
+              word: state.assignment.word,
+              impostorIds: state.assignment.impostorIds,
+            }
+      // The risky guesser was wrong, so they are eliminated and the usual win
+      // checks apply (e.g. if they were the last impostor, the crew wins).
+      return {
+        ...state,
+        eliminatedIds: [...state.eliminatedIds, action.playerId],
+        lastElimination: { ...elim, fromFailedGuess: true },
+        votedPlayerId: action.playerId,
+        outcome,
+        screen: 'elimination',
+      }
     }
     case 'CAST_VOTE': {
       if (!state.assignment) return state

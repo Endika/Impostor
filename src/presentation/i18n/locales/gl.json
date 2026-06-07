@@ -52,7 +52,16 @@
     "title": "Debate",
     "startsWith": "Comeza {{name}}",
     "music": "Música de fondo",
-    "vote": "Votar"
+    "vote": "Votar",
+    "guess": "Un impostor adiviña"
+  },
+  "guess": {
+    "title": "Adiviña a palabra",
+    "who": "Quen adiviña?",
+    "prompt": "Di a palabra en voz alta.",
+    "correct": "Acertouna",
+    "wrong": "Fallou",
+    "cancel": "Atrás"
   },
   "vote": {
     "title": "Quen é o impostor?",
@@ -62,6 +71,7 @@
     "title": "Expulsado",
     "wasImpostor": "{{name}} era impostor",
     "wasCrew": "{{name}} non era impostor",
+    "failedGuess": "{{name}} fallou ao adiviñar e queda fóra",
     "remaining": "Quedan {{crew}} tripulantes vs {{impostors}} impostores",
     "nextRound": "Seguinte rolda",
     "guessPrompt": "Un impostor expulsado pode dicir a palabra en voz alta.",

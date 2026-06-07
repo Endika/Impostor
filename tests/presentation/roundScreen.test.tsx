@@ -70,4 +70,20 @@ describe('RoundScreen', () => {
     fireEvent.click(screen.getByRole('button', { name: /vote/i }))
     expect(screen.getByTestId('screen')).toHaveTextContent('vote')
   })
+
+  it('renders a guess button that dispatches START_GUESS', () => {
+    renderWithProviders(
+      <>
+        <RoundScreen rng={() => 0} />
+        <ScreenProbe />
+      </>,
+      { initialState: state },
+    )
+    const guessButton = screen.getByRole('button', {
+      name: /an impostor guesses/i,
+    })
+    expect(guessButton).toBeInTheDocument()
+    fireEvent.click(guessButton)
+    expect(screen.getByTestId('screen')).toHaveTextContent('guess')
+  })
 })

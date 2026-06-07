@@ -83,13 +83,24 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
         />
       </label>
 
-      <Button
-        size="lg"
-        className="w-full"
-        onClick={() => dispatch({ type: 'END_ROUND' })}
-      >
-        {t('round.vote')}
-      </Button>
+      <div className="flex flex-col gap-3">
+        <Button
+          size="lg"
+          className="w-full"
+          onClick={() => dispatch({ type: 'END_ROUND' })}
+        >
+          {t('round.vote')}
+        </Button>
+
+        <Button
+          variant="secondary"
+          size="lg"
+          className="w-full border-amber-400 bg-amber-400/90 text-amber-950 shadow-amber-500/20 hover:bg-amber-300 dark:border-amber-500/50 dark:bg-amber-500/25 dark:text-amber-100 dark:hover:bg-amber-500/35"
+          onClick={() => dispatch({ type: 'START_GUESS' })}
+        >
+          {t('round.guess')}
+        </Button>
+      </div>
     </div>
   )
 }

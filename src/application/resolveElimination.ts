@@ -8,6 +8,7 @@ export interface EliminationResult {
   status: RoundStatus
   aliveImpostorCount: number
   aliveCrewCount: number
+  fromFailedGuess?: boolean
 }
 
 export function resolveElimination(

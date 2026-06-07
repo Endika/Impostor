@@ -52,7 +52,16 @@
     "title": "Discuss",
     "startsWith": "{{name}} starts",
     "music": "Background music",
-    "vote": "Vote"
+    "vote": "Vote",
+    "guess": "An impostor guesses"
+  },
+  "guess": {
+    "title": "Guess the word",
+    "who": "Who is guessing?",
+    "prompt": "Say the word out loud.",
+    "correct": "They got it right",
+    "wrong": "They got it wrong",
+    "cancel": "Back"
   },
   "vote": {
     "title": "Who is the impostor?",
@@ -62,6 +71,7 @@
     "title": "Voted out",
     "wasImpostor": "{{name}} was an impostor",
     "wasCrew": "{{name}} was not an impostor",
+    "failedGuess": "{{name}} guessed wrong and is out",
     "remaining": "{{crew}} crew vs {{impostors}} impostors left",
     "nextRound": "Next round",
     "guessPrompt": "An eliminated impostor may now say the word out loud.",

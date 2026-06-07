@@ -5,6 +5,7 @@ import { SetupScreen } from './screens/SetupScreen'
 import { RevealScreen } from './screens/RevealScreen'
 import { RoundScreen } from './screens/RoundScreen'
 import { VoteScreen } from './screens/VoteScreen'
+import { GuessScreen } from './screens/GuessScreen'
 import { EliminationScreen } from './screens/EliminationScreen'
 import { ResultScreen } from './screens/ResultScreen'
 import type { GameState } from './state/gameReducer'
@@ -14,6 +15,7 @@ const SCREENS: Record<GameState['screen'], ComponentType> = {
   reveal: RevealScreen,
   round: RoundScreen,
   vote: VoteScreen,
+  guess: GuessScreen,
   elimination: EliminationScreen,
   result: ResultScreen,
 }
