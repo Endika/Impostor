@@ -103,6 +103,8 @@ describe('ResultScreen (crew win)', () => {
     revealIndex: 3,
     outcome,
     votedPlayerId: 'p2',
+    eliminatedIds: ['p2'],
+    lastElimination: null,
   }
 
   it('reveals the voted player was the impostor and the crew won', () => {
@@ -149,6 +151,8 @@ describe('ResultScreen (impostor win)', () => {
       revealIndex: 3,
       outcome,
       votedPlayerId: 'p1',
+      eliminatedIds: ['p1'],
+      lastElimination: null,
     }
     renderWithProviders(<ResultScreen />, { initialState: state })
     expect(screen.getByText(/ana was not the impostor/i)).toBeInTheDocument()

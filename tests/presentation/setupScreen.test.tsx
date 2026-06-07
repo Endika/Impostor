@@ -28,25 +28,7 @@ describe('SetupScreen', () => {
     window.localStorage.clear()
   })
 
-  it('shows the invalid impostor count error with 3 players and count 3', () => {
-    setup()
-    fillPlayer(0, 'Ana')
-    fillPlayer(1, 'Ben')
-    fillPlayer(2, 'Cleo')
-
-    const count = screen.getByLabelText(/number of impostors/i) as HTMLSelectElement
-    // max is players-1 = 2; force an invalid value of 3 so validation rejects it.
-    fireEvent.change(count, { target: { value: '3' } })
-
-    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
-
-    expect(
-      screen.getByText(/choose between 1 and 2 impostors/i),
-    ).toBeInTheDocument()
-    expect(screen.getByTestId('screen')).toHaveTextContent('setup')
-  })
-
-  it('does not show the invalid-count error with 4 players and count 3', () => {
+  it('shows the invalid impostor count error with 4 players and count 3', () => {
     setup()
     fillPlayer(0, 'Ana')
     fillPlayer(1, 'Ben')
@@ -54,8 +36,31 @@ describe('SetupScreen', () => {
     fireEvent.click(screen.getByRole('button', { name: /add player/i }))
     fillPlayer(3, 'Dan')
 
-    const count = screen.getByLabelText(/number of impostors/i) as HTMLSelectElement
+    const count = screen.getByLabelText(/number of impostors/i) as HTMLInputElement
+    // New rule: max = floor((players-1)/2) = 1 for 4 players; 3 is invalid.
     fireEvent.change(count, { target: { value: '3' } })
+
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+
+    expect(
+      screen.getByText(/choose between 1 and 1 impostors/i),
+    ).toBeInTheDocument()
+    expect(screen.getByTestId('screen')).toHaveTextContent('setup')
+  })
+
+  it('does not show the invalid-count error with 5 players and count 2', () => {
+    setup()
+    fillPlayer(0, 'Ana')
+    fillPlayer(1, 'Ben')
+    fillPlayer(2, 'Cleo')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(3, 'Dan')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(4, 'Eve')
+
+    const count = screen.getByLabelText(/number of impostors/i) as HTMLInputElement
+    // 5 players → max = floor(4/2) = 2, so count 2 is valid.
+    fireEvent.change(count, { target: { value: '2' } })
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
@@ -71,6 +76,34 @@ describe('SetupScreen', () => {
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
     expect(screen.getByTestId('screen')).toHaveTextContent('reveal')
+  })
+
+  it('renders chips for the new categories', () => {
+    setup()
+    expect(screen.getByRole('button', { name: 'Food' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Animals' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Cinema' })).toBeInTheDocument()
+  })
+
+  it('prefills the form from a previously saved config', () => {
+    window.localStorage.setItem(
+      'impostor.config',
+      JSON.stringify({
+        players: ['Zoe', 'Yan', 'Xal', 'Wim'],
+        impostorCount: 1,
+        impostorSeesClue: true,
+        impostorsSeeEachOther: false,
+        categoryIds: ['music'],
+        locale: 'en',
+      }),
+    )
+    setup()
+    const inputs = screen.getAllByLabelText(
+      /player name/i,
+    ) as HTMLInputElement[]
+    expect(inputs).toHaveLength(4)
+    expect(inputs[0]!.value).toBe('Zoe')
+    expect(inputs[3]!.value).toBe('Wim')
   })
 
   it('shows the duplicate names error', () => {

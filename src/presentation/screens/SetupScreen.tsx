@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { categoryData, categoryIds } from '../../content/categories'
 import { InMemoryWordBank } from '../../domain/content/InMemoryWordBank'
@@ -7,9 +7,14 @@ import type { GameConfig, LocaleCode } from '../../domain/game/types'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
 import { Button } from '../components/Button'
+import { loadConfig, saveConfig } from '../state/persistence'
+import { loadUsedWords } from '../state/usedWords'
 import i18n from '../i18n'
 
 const LOCALES: LocaleCode[] = ['ca', 'en', 'es', 'eu', 'gl', 'va']
+
+const maxImpostorsFor = (playerCount: number): number =>
+  Math.max(1, Math.floor((playerCount - 1) / 2))
 
 const ERROR_KEY = {
   too_few_players: 'setup.errorTooFewPlayers',
@@ -23,19 +28,42 @@ export function SetupScreen() {
   const { dispatch } = useGame()
   const { muted, toggleMuted } = useAudio()
 
-  const [players, setPlayers] = useState<string[]>(['', '', ''])
-  const [impostorCount, setImpostorCount] = useState(1)
-  const [impostorSeesClue, setImpostorSeesClue] = useState(false)
-  const [impostorsSeeEachOther, setImpostorsSeeEachOther] = useState(false)
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([
-    ...categoryIds,
-  ])
+  // Prefill from the last saved config so participants are remembered.
+  const [saved] = useState(() => loadConfig())
+
+  const [players, setPlayers] = useState<string[]>(() =>
+    saved?.players && saved.players.length >= 3
+      ? saved.players
+      : ['', '', ''],
+  )
+  const [impostorCount, setImpostorCount] = useState(
+    () => saved?.impostorCount ?? 1,
+  )
+  const [impostorSeesClue, setImpostorSeesClue] = useState(
+    () => saved?.impostorSeesClue ?? false,
+  )
+  const [impostorsSeeEachOther, setImpostorsSeeEachOther] = useState(
+    () => saved?.impostorsSeeEachOther ?? false,
+  )
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
+    saved?.categoryIds && saved.categoryIds.length > 0
+      ? saved.categoryIds
+      : [...categoryIds],
+  )
   const [locale, setLocale] = useState<LocaleCode>(
-    (i18n.language as LocaleCode) ?? 'en',
+    () => saved?.locale ?? (i18n.language as LocaleCode) ?? 'en',
   )
   const [error, setError] = useState<string | null>(null)
 
-  const maxImpostors = Math.max(1, players.length - 1)
+  // Apply the remembered language once on mount.
+  useEffect(() => {
+    if (saved?.locale && i18n.language !== saved.locale) {
+      void i18n.changeLanguage(saved.locale)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const maxImpostors = maxImpostorsFor(players.length)
 
   function clampCount(count: number, max: number): number {
     if (count < 1) return 1
@@ -54,7 +82,7 @@ export function SetupScreen() {
   function removePlayer(index: number) {
     setPlayers((prev) => {
       const next = prev.filter((_, i) => i !== index)
-      const max = Math.max(1, next.length - 1)
+      const max = maxImpostorsFor(next.length)
       setImpostorCount((c) => clampCount(c, max))
       return next
     })
@@ -88,17 +116,19 @@ export function SetupScreen() {
       return
     }
     setError(null)
+    saveConfig(config)
     dispatch({
       type: 'START_GAME',
       config,
       bank: new InMemoryWordBank(categoryData),
       rng: Math.random,
+      excludeWords: loadUsedWords(config.locale),
     })
   }
 
   const errorMessage = error
     ? t(ERROR_KEY[error as keyof typeof ERROR_KEY], {
-        max: players.length - 1,
+        max: maxImpostors,
       })
     : null
 
