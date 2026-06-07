@@ -9,11 +9,11 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Endika/impostor/releases/latest"><img src="https://img.shields.io/github/v/release/Endika/impostor?style=flat-square&color=4f46e5&label=release" alt="Latest release" /></a>
-  <a href="https://github.com/Endika/impostor/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Endika/impostor/ci.yml?style=flat-square&label=ci&branch=main" alt="CI" /></a>
-  <a href="https://github.com/Endika/impostor/commits/main"><img src="https://img.shields.io/github/last-commit/Endika/impostor?style=flat-square" alt="Last commit" /></a>
+  <a href="https://github.com/Endika/Impostor/releases/latest"><img src="https://img.shields.io/github/v/release/Endika/Impostor?style=flat-square&color=4f46e5&label=release" alt="Latest release" /></a>
+  <a href="https://github.com/Endika/Impostor/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Endika/Impostor/ci.yml?style=flat-square&label=ci&branch=main" alt="CI" /></a>
+  <a href="https://github.com/Endika/Impostor/commits/main"><img src="https://img.shields.io/github/last-commit/Endika/Impostor?style=flat-square" alt="Last commit" /></a>
   <a href="https://www.conventionalcommits.org"><img src="https://img.shields.io/badge/conventional_commits-1.0.0-FE5196?style=flat-square" alt="Conventional Commits" /></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/github/license/Endika/impostor?style=flat-square&color=10B981" alt="License: MIT" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/github/license/Endika/Impostor?style=flat-square&color=10B981" alt="License: MIT" /></a>
 </p>
 
 ## What you can do
@@ -60,7 +60,7 @@ Open-source, MIT licensed. PRs welcome.
 ### Local dev
 
 ```sh
-git clone git@github.com:Endika/impostor.git
+git clone git@github.com:Endika/Impostor.git
 cd impostor
 npm install
 npm run dev
