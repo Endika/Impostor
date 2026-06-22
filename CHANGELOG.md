@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/Endika/Impostor/compare/v1.4.1...v1.4.2) (2026-06-22)
+
+
+### Chores
+
+* **deps-dev:** bump @types/node from 25.9.3 to 26.0.0 ([43636c7](https://github.com/Endika/Impostor/commit/43636c72b1f17e4dfafbdb83344a49fc7bf8e0a6))
+
 ## [1.4.1](https://github.com/Endika/Impostor/compare/v1.4.0...v1.4.1) (2026-06-22)
 
 
