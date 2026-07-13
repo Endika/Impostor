@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.3](https://github.com/Endika/Impostor/compare/v1.4.2...v1.4.3) (2026-07-13)
+
+
+### Bug Fixes
+
+* prevent accidental pinch and double-tap zoom on mobile ([3b067c9](https://github.com/Endika/Impostor/commit/3b067c9a13f1240a9477e7dcba4264d28d4de057))
+
+
+### Chores
+
+* **deps:** bump the npm-minor-patch group with 10 updates ([1887e04](https://github.com/Endika/Impostor/commit/1887e04e129bf3200fb2d7d7c2583bead56216f9))
+* **deps:** bump the npm-minor-patch group with 8 updates ([a23ba99](https://github.com/Endika/Impostor/commit/a23ba994d2a86abc8a87e4d0553c7833b9e1daa1))
+* **deps:** bump the npm-minor-patch group with 9 updates ([1e0bd1d](https://github.com/Endika/Impostor/commit/1e0bd1ddaef8cc2668abb876f55a62d345f17920))
+
 ## [1.4.2](https://github.com/Endika/Impostor/compare/v1.4.1...v1.4.2) (2026-06-22)
 
 
