@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.4](https://github.com/Endika/Impostor/compare/v1.4.3...v1.4.4) (2026-07-20)
+
+
+### Chores
+
+* **deps:** bump the npm-minor-patch group with 7 updates ([62d2b38](https://github.com/Endika/Impostor/commit/62d2b388edeab7b3fe7b684271971f48cb7a5c87))
+
 ## [1.4.3](https://github.com/Endika/Impostor/compare/v1.4.2...v1.4.3) (2026-07-13)
 
 
