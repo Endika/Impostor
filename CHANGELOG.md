@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.5](https://github.com/Endika/Impostor/compare/v1.4.4...v1.4.5) (2026-07-27)
+
+
+### Chores
+
+* **deps-dev:** bump @testing-library/jest-dom from 6.9.1 to 7.0.0 ([f4f6838](https://github.com/Endika/Impostor/commit/f4f6838cd64b784a6a00ca9cc906021be286fd26))
+* **deps:** bump the npm-minor-patch group with 8 updates ([506ca7b](https://github.com/Endika/Impostor/commit/506ca7ba2bf3dd18143985d8ded37aa82d7e4d84))
+
 ## [1.4.4](https://github.com/Endika/Impostor/compare/v1.4.3...v1.4.4) (2026-07-20)
 
 
