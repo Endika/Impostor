@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.6](https://github.com/Endika/Impostor/compare/v1.4.5...v1.4.6) (2026-08-03)
+
+
+### Chores
+
+* **deps-dev:** bump jsdom from 29.1.1 to 30.0.1 ([2237511](https://github.com/Endika/Impostor/commit/2237511c303e1312020862567c969721cc6d5843))
+* **deps-dev:** bump the npm-minor-patch group with 4 updates ([a29acfe](https://github.com/Endika/Impostor/commit/a29acfe55abc4b24bee9aa5300c81ee3311e02fa))
+
 ## [1.4.5](https://github.com/Endika/Impostor/compare/v1.4.4...v1.4.5) (2026-07-27)
 
 
