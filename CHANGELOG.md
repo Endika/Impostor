@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.7](https://github.com/Endika/Impostor/compare/v1.4.6...v1.4.7) (2026-08-04)
+
+
+### Chores
+
+* **deps:** bump brace-expansion ([22aa38e](https://github.com/Endika/Impostor/commit/22aa38e359f0e14dd8b14050af997e25073b0136))
+
 ## [1.4.6](https://github.com/Endika/Impostor/compare/v1.4.5...v1.4.6) (2026-08-03)
 
 
