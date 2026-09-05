@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.9](https://github.com/Endika/Impostor/compare/v1.4.8...v1.4.9) (2026-09-05)
+
+
+### Chores
+
+* add prettier and a format:check gate ([352defd](https://github.com/Endika/Impostor/commit/352defd84f4320a3567475f14c2af105282824f0))
+
 ## [1.4.8](https://github.com/Endika/Impostor/compare/v1.4.7...v1.4.8) (2026-09-05)
 
 
