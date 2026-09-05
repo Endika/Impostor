@@ -1,0 +1,4 @@
+# Run: git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# style: format the codebase with prettier
+b173715e9259b77002fe5297696e1a80f978f3c5
