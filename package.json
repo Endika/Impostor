@@ -15,7 +15,8 @@
     "type:check": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.test.json",
     "test": "vitest",
     "test:run": "vitest run --passWithNoTests",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "prepare": "husky"
   },
   "dependencies": {
     "i18next": "^26.4.0",
@@ -42,6 +43,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.5",
     "globals": "^17.11.0",
+    "husky": "^9.1.7",
     "jsdom": "^30.0.1",
     "prettier": "^3.9.6",
     "tailwindcss": "^4.3.0",
