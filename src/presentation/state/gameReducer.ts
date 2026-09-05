@@ -1,20 +1,10 @@
 import { assignRoles } from '../../application/assignRoles'
-import {
-  resolveElimination,
-  type EliminationResult,
-} from '../../application/resolveElimination'
+import { resolveElimination, type EliminationResult } from '../../application/resolveElimination'
 import type { WordBank } from '../../domain/content/types'
 import type { Assignment, GameConfig, GameOutcome, Rng } from '../../domain/game/types'
 
 export interface GameState {
-  screen:
-    | 'setup'
-    | 'reveal'
-    | 'round'
-    | 'vote'
-    | 'guess'
-    | 'elimination'
-    | 'result'
+  screen: 'setup' | 'reveal' | 'round' | 'vote' | 'guess' | 'elimination' | 'result'
   config: GameConfig | null
   assignment: Assignment | null
   revealIndex: number
@@ -97,11 +87,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     }
     case 'GUESS_FAILED': {
       if (!state.assignment) return state
-      const elim = resolveElimination(
-        state.assignment,
-        state.eliminatedIds,
-        action.playerId,
-      )
+      const elim = resolveElimination(state.assignment, state.eliminatedIds, action.playerId)
       const outcome: GameOutcome | null =
         elim.status === 'continue'
           ? null
@@ -124,11 +110,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     }
     case 'CAST_VOTE': {
       if (!state.assignment) return state
-      const elim = resolveElimination(
-        state.assignment,
-        state.eliminatedIds,
-        action.votedPlayerId,
-      )
+      const elim = resolveElimination(state.assignment, state.eliminatedIds, action.votedPlayerId)
       const outcome: GameOutcome | null =
         elim.status === 'continue'
           ? null

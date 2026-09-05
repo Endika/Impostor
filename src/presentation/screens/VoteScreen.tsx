@@ -13,9 +13,7 @@ export function VoteScreen() {
   const assignment = state.assignment
   if (!assignment) return null
 
-  const alivePlayers = assignment.players.filter(
-    (p) => !state.eliminatedIds.includes(p.id),
-  )
+  const alivePlayers = assignment.players.filter((p) => !state.eliminatedIds.includes(p.id))
 
   function confirm() {
     if (!selectedId) return
@@ -64,12 +62,7 @@ export function VoteScreen() {
         })}
       </div>
 
-      <Button
-        size="lg"
-        className="w-full"
-        disabled={!selectedId}
-        onClick={confirm}
-      >
+      <Button size="lg" className="w-full" disabled={!selectedId} onClick={confirm}>
         {t('vote.confirm')}
       </Button>
     </div>

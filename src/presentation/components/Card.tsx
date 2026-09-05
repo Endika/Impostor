@@ -5,10 +5,7 @@ import type { HTMLAttributes } from 'react'
  * option groups. Frosted, soft-shadowed, dark-mode aware. Pass `className`
  * to tweak padding/tone per use.
  */
-export function Card({
-  className = '',
-  ...rest
-}: HTMLAttributes<HTMLDivElement>) {
+export function Card({ className = '', ...rest }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={
@@ -22,10 +19,7 @@ export function Card({
 }
 
 /** A small uppercase section heading, kept consistent everywhere. */
-export function SectionLabel({
-  className = '',
-  ...rest
-}: HTMLAttributes<HTMLHeadingElement>) {
+export function SectionLabel({ className = '', ...rest }: HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h2
       className={

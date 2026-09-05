@@ -34,11 +34,7 @@ describe('assignRoles', () => {
   })
 
   it('picks the minimum count (1) in random mode when rng() returns 0', () => {
-    const assignment = assignRoles(
-      makeConfig({ randomImpostors: true }),
-      bank,
-      () => 0,
-    )
+    const assignment = assignRoles(makeConfig({ randomImpostors: true }), bank, () => 0)
     const impostors = assignment.players.filter((p) => p.isImpostor)
     expect(impostors).toHaveLength(1)
     expect(assignment.impostorIds).toHaveLength(1)
@@ -46,11 +42,7 @@ describe('assignRoles', () => {
 
   it('reaches players-1 in random mode when rng() is near 1', () => {
     // 5 players -> max 4 impostors.
-    const assignment = assignRoles(
-      makeConfig({ randomImpostors: true }),
-      bank,
-      () => 0.99,
-    )
+    const assignment = assignRoles(makeConfig({ randomImpostors: true }), bank, () => 0.99)
     expect(assignment.impostorIds).toHaveLength(4)
   })
 
@@ -61,23 +53,13 @@ describe('assignRoles', () => {
   })
 
   it('gives crew players a null clue', () => {
-    const assignment = assignRoles(
-      makeConfig({ impostorSeesClue: true }),
-      bank,
-      () => 0,
-    )
-    for (const p of assignment.players)
-      if (!p.isImpostor) expect(p.clue).toBeNull()
+    const assignment = assignRoles(makeConfig({ impostorSeesClue: true }), bank, () => 0)
+    for (const p of assignment.players) if (!p.isImpostor) expect(p.clue).toBeNull()
   })
 
   it('gives every impostor a null clue when impostorSeesClue is false', () => {
-    const assignment = assignRoles(
-      makeConfig({ impostorSeesClue: false }),
-      bank,
-      () => 0,
-    )
-    for (const p of assignment.players)
-      if (p.isImpostor) expect(p.clue).toBeNull()
+    const assignment = assignRoles(makeConfig({ impostorSeesClue: false }), bank, () => 0)
+    for (const p of assignment.players) if (p.isImpostor) expect(p.clue).toBeNull()
   })
 
   it('gives all impostors the same clue when differentCluePerImpostor is false', () => {

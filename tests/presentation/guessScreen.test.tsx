@@ -17,13 +17,9 @@ function StateProbe() {
   return (
     <div>
       <span data-testid="screen">{state.screen}</span>
-      <span data-testid="winner">
-        {state.outcome ? state.outcome.winner : ''}
-      </span>
+      <span data-testid="winner">{state.outcome ? state.outcome.winner : ''}</span>
       <span data-testid="eliminated">{state.eliminatedIds.join(',')}</span>
-      <span data-testid="failedGuess">
-        {String(state.lastElimination?.fromFailedGuess ?? '')}
-      </span>
+      <span data-testid="failedGuess">{String(state.lastElimination?.fromFailedGuess ?? '')}</span>
     </div>
   )
 }

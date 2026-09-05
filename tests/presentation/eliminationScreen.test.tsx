@@ -42,9 +42,7 @@ const state: GameState = {
 
 function ResultProbe() {
   const { state } = useGame()
-  return (
-    <span data-testid="winner">{state.outcome ? state.outcome.winner : ''}</span>
-  )
+  return <span data-testid="winner">{state.outcome ? state.outcome.winner : ''}</span>
 }
 
 describe('EliminationScreen', () => {
@@ -57,13 +55,9 @@ describe('EliminationScreen', () => {
       { initialState: state },
     )
     expect(screen.getByText(/ben was not an impostor/i)).toBeInTheDocument()
-    expect(
-      screen.getByText(/2 crew vs 1 impostors left/i),
-    ).toBeInTheDocument()
+    expect(screen.getByText(/2 crew vs 1 impostors left/i)).toBeInTheDocument()
     // Voted player was crew -> no last-chance guess section.
-    expect(
-      screen.queryByRole('button', { name: /they said it right/i }),
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /they said it right/i })).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: /next round/i }))
     expect(screen.getByTestId('screen')).toHaveTextContent('round')
@@ -118,13 +112,9 @@ describe('EliminationScreen', () => {
       </>,
       { initialState: failedGuess },
     )
-    expect(
-      screen.getByText(/ana guessed wrong and is out/i),
-    ).toBeInTheDocument()
+    expect(screen.getByText(/ana guessed wrong and is out/i)).toBeInTheDocument()
     // They already attempted and failed -> no last-chance guess button.
-    expect(
-      screen.queryByRole('button', { name: /they said it right/i }),
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /they said it right/i })).not.toBeInTheDocument()
   })
 
   it('shows See result on a terminal status and keeps the guess button', () => {
@@ -154,9 +144,7 @@ describe('EliminationScreen', () => {
       { initialState: crewWin },
     )
     // Last impostor could still steal it -> guess button present.
-    expect(
-      screen.getByRole('button', { name: /they said it right/i }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /they said it right/i })).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: /see result/i }))
     expect(screen.getByTestId('screen')).toHaveTextContent('result')

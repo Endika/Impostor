@@ -13,9 +13,7 @@ function ScreenProbe() {
     <div>
       <span data-testid="screen">{state.screen}</span>
       <span data-testid="winner">{state.outcome?.winner ?? ''}</span>
-      <span data-testid="config-players">
-        {state.config?.players.join(',') ?? ''}
-      </span>
+      <span data-testid="config-players">{state.config?.players.join(',') ?? ''}</span>
     </div>
   )
 }
@@ -87,9 +85,7 @@ describe('VoteScreen', () => {
 
     expect(screen.getByRole('button', { name: 'Ana' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Ben' })).toBeInTheDocument()
-    expect(
-      screen.queryByRole('button', { name: 'Cleo' }),
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Cleo' })).not.toBeInTheDocument()
   })
 })
 
@@ -119,9 +115,7 @@ describe('ResultScreen (crew win)', () => {
     // impostor name under "the impostors were"
     expect(screen.getByText(/the impostors were/i)).toBeInTheDocument()
     expect(screen.getByText('Ben')).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: /play again/i }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /play again/i })).toBeInTheDocument()
   })
 
   it('returns to setup keeping the config on Play again', () => {
@@ -134,9 +128,7 @@ describe('ResultScreen (crew win)', () => {
     )
     fireEvent.click(screen.getByRole('button', { name: /play again/i }))
     expect(screen.getByTestId('screen')).toHaveTextContent('setup')
-    expect(screen.getByTestId('config-players')).toHaveTextContent(
-      'Ana,Ben,Cleo',
-    )
+    expect(screen.getByTestId('config-players')).toHaveTextContent('Ana,Ben,Cleo')
   })
 })
 

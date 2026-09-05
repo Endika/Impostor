@@ -34,9 +34,7 @@ export function assignRoles(
         const j = Math.floor(rng() * (i + 1))
         ;[shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!]
       }
-      return impostorOrder.map(
-        (_, rank) => shuffled[rank % shuffled.length] ?? null,
-      )
+      return impostorOrder.map((_, rank) => shuffled[rank % shuffled.length] ?? null)
     }
     const shared = hints[Math.floor(rng() * hints.length)] ?? null
     return impostorOrder.map(() => shared)

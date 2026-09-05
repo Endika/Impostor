@@ -9,8 +9,7 @@ import { useTranslation } from 'react-i18next'
  */
 // Vite replaces __APP_VERSION__ at build time; under vitest the define isn't
 // applied, so fall back to a placeholder to render gracefully.
-const appVersion =
-  typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev'
+const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev'
 
 export function Layout({ children }: { children: ReactNode }) {
   const { t } = useTranslation()

@@ -2,16 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { categoryData, categoryIds } from '../../src/content/categories'
 import type { LocaleCode } from '../../src/domain/game/types'
 
-const expectedIds = [
-  'home',
-  'food',
-  'animals',
-  'music',
-  'places',
-  'cinema',
-  'nature',
-  'transport',
-]
+const expectedIds = ['home', 'food', 'animals', 'music', 'places', 'cinema', 'nature', 'transport']
 const locales: LocaleCode[] = ['ca', 'en', 'es', 'eu', 'gl', 'va']
 
 describe('bundled categories', () => {
@@ -23,9 +14,7 @@ describe('bundled categories', () => {
   for (const id of expectedIds) {
     describe(`category "${id}"`, () => {
       it('has all six locales', () => {
-        expect(Object.keys(categoryData[id]!).sort()).toEqual(
-          [...locales].sort(),
-        )
+        expect(Object.keys(categoryData[id]!).sort()).toEqual([...locales].sort())
       })
 
       for (const locale of locales) {
@@ -71,9 +60,7 @@ describe('bundled categories', () => {
         min = Math.min(min, count)
       }
     // eslint-disable-next-line no-console
-    console.log(
-      `[categories] grand total words: ${total}; min per (category,locale): ${min}`,
-    )
+    console.log(`[categories] grand total words: ${total}; min per (category,locale): ${min}`)
     expect(total).toBeGreaterThanOrEqual(1000)
   })
 })

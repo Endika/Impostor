@@ -14,8 +14,7 @@ import i18n from '../i18n'
 
 const LOCALES: LocaleCode[] = ['ca', 'en', 'es', 'eu', 'gl', 'va']
 
-const maxImpostorsFor = (playerCount: number): number =>
-  Math.max(1, playerCount - 1)
+const maxImpostorsFor = (playerCount: number): number => Math.max(1, playerCount - 1)
 
 const ERROR_KEY = {
   too_few_players: 'setup.errorTooFewPlayers',
@@ -33,19 +32,11 @@ export function SetupScreen() {
   const [saved] = useState(() => loadConfig())
 
   const [players, setPlayers] = useState<string[]>(() =>
-    saved?.players && saved.players.length >= 3
-      ? saved.players
-      : ['', '', ''],
+    saved?.players && saved.players.length >= 3 ? saved.players : ['', '', ''],
   )
-  const [impostorCount, setImpostorCount] = useState(
-    () => saved?.impostorCount ?? 1,
-  )
-  const [randomImpostors, setRandomImpostors] = useState(
-    () => saved?.randomImpostors ?? false,
-  )
-  const [impostorSeesClue, setImpostorSeesClue] = useState(
-    () => saved?.impostorSeesClue ?? false,
-  )
+  const [impostorCount, setImpostorCount] = useState(() => saved?.impostorCount ?? 1)
+  const [randomImpostors, setRandomImpostors] = useState(() => saved?.randomImpostors ?? false)
+  const [impostorSeesClue, setImpostorSeesClue] = useState(() => saved?.impostorSeesClue ?? false)
   const [impostorsSeeEachOther, setImpostorsSeeEachOther] = useState(
     () => saved?.impostorsSeeEachOther ?? false,
   )
@@ -53,9 +44,7 @@ export function SetupScreen() {
     () => saved?.differentCluePerImpostor ?? false,
   )
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
-    saved?.categoryIds && saved.categoryIds.length > 0
-      ? saved.categoryIds
-      : [...categoryIds],
+    saved?.categoryIds && saved.categoryIds.length > 0 ? saved.categoryIds : [...categoryIds],
   )
   const [locale, setLocale] = useState<LocaleCode>(
     () => saved?.locale ?? (i18n.language as LocaleCode) ?? 'en',
@@ -114,9 +103,7 @@ export function SetupScreen() {
 
   // At least two impostors are possible either when random mode could draw them
   // (players - 1 >= 2) or when the fixed count is already >= 2.
-  const twoImpostorsPossible = randomImpostors
-    ? maxImpostors >= 2
-    : impostorCount >= 2
+  const twoImpostorsPossible = randomImpostors ? maxImpostors >= 2 : impostorCount >= 2
 
   // The game might have >= 2 impostors, so enable the toggle when possible.
   const seeEachOtherDisabled = !twoImpostorsPossible
@@ -132,9 +119,7 @@ export function SetupScreen() {
       randomImpostors,
       impostorSeesClue,
       impostorsSeeEachOther: seeEachOtherDisabled ? false : impostorsSeeEachOther,
-      differentCluePerImpostor: differentClueDisabled
-        ? false
-        : differentCluePerImpostor,
+      differentCluePerImpostor: differentClueDisabled ? false : differentCluePerImpostor,
       categoryIds: selectedCategories,
       locale,
     }
@@ -198,11 +183,7 @@ export function SetupScreen() {
 
       <section className="flex flex-col gap-3">
         <SectionLabel>{t('setup.impostorCount')}</SectionLabel>
-        <div
-          className={`flex items-center gap-2 ${
-            randomImpostors ? 'opacity-40' : ''
-          }`}
-        >
+        <div className={`flex items-center gap-2 ${randomImpostors ? 'opacity-40' : ''}`}>
           <Button
             variant="secondary"
             aria-label="-"
@@ -234,9 +215,7 @@ export function SetupScreen() {
           </Button>
         </div>
         <label className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/70">
-          <span className="text-slate-700 dark:text-slate-200">
-            {t('setup.randomImpostors')}
-          </span>
+          <span className="text-slate-700 dark:text-slate-200">{t('setup.randomImpostors')}</span>
           <input
             type="checkbox"
             className="h-5 w-5 accent-brand-600"
@@ -248,9 +227,7 @@ export function SetupScreen() {
 
       <section className="flex flex-col gap-2">
         <label className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/70">
-          <span className="text-slate-700 dark:text-slate-200">
-            {t('setup.seesClue')}
-          </span>
+          <span className="text-slate-700 dark:text-slate-200">{t('setup.seesClue')}</span>
           <input
             type="checkbox"
             className="h-5 w-5 accent-brand-600"
@@ -263,9 +240,7 @@ export function SetupScreen() {
             seeEachOtherDisabled ? 'opacity-40' : ''
           }`}
         >
-          <span className="text-slate-700 dark:text-slate-200">
-            {t('setup.seeEachOther')}
-          </span>
+          <span className="text-slate-700 dark:text-slate-200">{t('setup.seeEachOther')}</span>
           <input
             type="checkbox"
             className="h-5 w-5 accent-brand-600"
@@ -279,9 +254,7 @@ export function SetupScreen() {
             differentClueDisabled ? 'opacity-40' : ''
           }`}
         >
-          <span className="text-slate-700 dark:text-slate-200">
-            {t('setup.differentClue')}
-          </span>
+          <span className="text-slate-700 dark:text-slate-200">{t('setup.differentClue')}</span>
           <input
             type="checkbox"
             className="h-5 w-5 accent-brand-600"
@@ -339,15 +312,8 @@ export function SetupScreen() {
 
       <section>
         <label className="flex min-h-11 items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
-          <span className="text-slate-700 dark:text-slate-200">
-            {t('setup.audio')}
-          </span>
-          <Button
-            variant="ghost"
-            aria-pressed={!muted}
-            className="px-4"
-            onClick={toggleMuted}
-          >
+          <span className="text-slate-700 dark:text-slate-200">{t('setup.audio')}</span>
+          <Button variant="ghost" aria-pressed={!muted} className="px-4" onClick={toggleMuted}>
             {muted ? t('common.off') : t('common.on')}
           </Button>
         </label>

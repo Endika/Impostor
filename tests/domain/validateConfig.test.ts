@@ -61,9 +61,9 @@ describe('validateConfig', () => {
   })
 
   it('ignores the impostor count when randomImpostors is true (even out of range)', () => {
-    expect(
-      validateConfig({ ...base, randomImpostors: true, impostorCount: 99 }),
-    ).toEqual({ ok: true })
+    expect(validateConfig({ ...base, randomImpostors: true, impostorCount: 99 })).toEqual({
+      ok: true,
+    })
   })
 
   it('rejects empty categoryIds', () => {
@@ -74,8 +74,9 @@ describe('validateConfig', () => {
   })
 
   it('rejects duplicate names', () => {
-    expect(
-      validateConfig({ ...base, players: ['Ana', 'Ana', 'Cleo'] }),
-    ).toEqual({ ok: false, error: 'duplicate_names' })
+    expect(validateConfig({ ...base, players: ['Ana', 'Ana', 'Cleo'] })).toEqual({
+      ok: false,
+      error: 'duplicate_names',
+    })
   })
 })

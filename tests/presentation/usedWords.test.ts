@@ -1,8 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import {
-  addUsedWord,
-  loadUsedWords,
-} from '../../src/presentation/state/usedWords'
+import { addUsedWord, loadUsedWords } from '../../src/presentation/state/usedWords'
 
 describe('usedWords storage', () => {
   beforeEach(() => {

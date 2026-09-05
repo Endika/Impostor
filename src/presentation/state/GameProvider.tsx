@@ -41,7 +41,5 @@ export function GameProvider({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.assignment])
 
-  return (
-    <GameContext.Provider value={{ state, dispatch }}>{children}</GameContext.Provider>
-  )
+  return <GameContext.Provider value={{ state, dispatch }}>{children}</GameContext.Provider>
 }
