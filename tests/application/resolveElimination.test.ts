@@ -7,12 +7,12 @@ function buildAssignment(impostorIds: string[], playerIds: string[]): Assignment
     id,
     name: id,
     isImpostor: impostorIds.includes(id),
+    clue: null,
   }))
   return {
     players,
     word: 'Playa',
     categoryId: 'home',
-    clue: null,
     impostorIds,
   }
 }
