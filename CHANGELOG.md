@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.8](https://github.com/Endika/Impostor/compare/v1.4.7...v1.4.8) (2026-09-05)
+
+
+### Chores
+
+* **deps-dev:** bump browserslist ([002eedc](https://github.com/Endika/Impostor/commit/002eedc2dab5258d712ffa46f4294220816f662c))
+* **deps-dev:** bump fast-uri ([3bb314a](https://github.com/Endika/Impostor/commit/3bb314a4c86f3993154d687460d4d46ddc5deb07))
+* **deps-dev:** bump fast-uri from 3.1.2 to 3.1.5 ([7bd2aa7](https://github.com/Endika/Impostor/commit/7bd2aa782d0bf1459618d38bf8fd404aa4ca9e42))
+* **deps-dev:** bump the npm-minor-patch group with 2 updates ([a3f6f34](https://github.com/Endika/Impostor/commit/a3f6f3491dc03361be1f95b895d2cd1e14ce0d43))
+* **deps-dev:** bump the npm-minor-patch group with 5 updates ([5e62762](https://github.com/Endika/Impostor/commit/5e627629133d68029b9638b5763eb8bd079be22c))
+* **deps-dev:** bump the npm-minor-patch group with 7 updates ([e3d6051](https://github.com/Endika/Impostor/commit/e3d6051cd25bf2d5111e5aeaaa2ef9993864be87))
+* **deps-dev:** bump the npm-minor-patch group with 8 updates ([8b754af](https://github.com/Endika/Impostor/commit/8b754afd5b0d8128108ca1434103afdaaec7430a))
+* **deps:** bump the npm-minor-patch group with 6 updates ([d4e61aa](https://github.com/Endika/Impostor/commit/d4e61aa319023d8e48ece6e6b3fabcba81c2664b))
+* type-check tests in CI ([109dd6f](https://github.com/Endika/Impostor/commit/109dd6f3b3af258ef9c9af27d78ebb834f0f8b45))
+
 ## [1.4.7](https://github.com/Endika/Impostor/compare/v1.4.6...v1.4.7) (2026-08-04)
 
 
