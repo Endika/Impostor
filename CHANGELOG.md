@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.11](https://github.com/Endika/Impostor/compare/v1.4.10...v1.4.11) (2026-09-05)
+
+
+### Chores
+
+* run the four CI gates in pre-commit ([3a6991e](https://github.com/Endika/Impostor/commit/3a6991e11c26fd606313c08b9e51a9cfcea8bc7b))
+
 ## [1.4.10](https://github.com/Endika/Impostor/compare/v1.4.9...v1.4.10) (2026-09-05)
 
 
