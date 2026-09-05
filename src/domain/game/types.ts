@@ -42,9 +42,5 @@ export type ValidationResult =
   | { ok: true }
   | {
       ok: false
-      error:
-        | 'too_few_players'
-        | 'invalid_impostor_count'
-        | 'no_category'
-        | 'duplicate_names'
+      error: 'too_few_players' | 'invalid_impostor_count' | 'no_category' | 'duplicate_names'
     }

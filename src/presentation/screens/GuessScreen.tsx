@@ -11,9 +11,7 @@ export function GuessScreen() {
   const assignment = state.assignment
   if (!assignment) return null
 
-  const alivePlayers = assignment.players.filter(
-    (p) => !state.eliminatedIds.includes(p.id),
-  )
+  const alivePlayers = assignment.players.filter((p) => !state.eliminatedIds.includes(p.id))
 
   return (
     <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
@@ -52,9 +50,7 @@ export function GuessScreen() {
             variant="danger"
             size="lg"
             className="w-full"
-            onClick={() =>
-              dispatch({ type: 'GUESS_FAILED', playerId: selectedId })
-            }
+            onClick={() => dispatch({ type: 'GUESS_FAILED', playerId: selectedId })}
           >
             {t('guess.wrong')}
           </Button>

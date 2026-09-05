@@ -19,9 +19,7 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
   // Pick the starting player once on mount among alive players only;
   // tests inject a deterministic rng.
   const [starter] = useState(() => {
-    const players = (assignment?.players ?? []).filter(
-      (p) => !state.eliminatedIds.includes(p.id),
-    )
+    const players = (assignment?.players ?? []).filter((p) => !state.eliminatedIds.includes(p.id))
     if (players.length === 0) return null
     return players[Math.floor(rng() * players.length)] ?? players[0]
   })
@@ -84,11 +82,7 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
       </label>
 
       <div className="flex flex-col gap-3">
-        <Button
-          size="lg"
-          className="w-full"
-          onClick={() => dispatch({ type: 'END_ROUND' })}
-        >
+        <Button size="lg" className="w-full" onClick={() => dispatch({ type: 'END_ROUND' })}>
           {t('round.vote')}
         </Button>
 

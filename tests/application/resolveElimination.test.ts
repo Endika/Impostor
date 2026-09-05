@@ -58,10 +58,7 @@ describe('resolveElimination', () => {
 
   it('handles a multi-round sequence with accumulating eliminations', () => {
     // 7 players, 2 impostors (p1,p2), crew p3..p7
-    const a = buildAssignment(
-      ['p1', 'p2'],
-      ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
-    )
+    const a = buildAssignment(['p1', 'p2'], ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'])
     const eliminated: string[] = []
 
     // Round 1: eliminate crew p3 -> 2 imp vs 4 crew -> continue
@@ -95,10 +92,7 @@ describe('resolveElimination', () => {
 
   it('reaches an impostor win only once every crew is gone', () => {
     // 7 players, 2 impostors (p1,p2), crew p3..p7
-    const a = buildAssignment(
-      ['p1', 'p2'],
-      ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
-    )
+    const a = buildAssignment(['p1', 'p2'], ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'])
     const eliminated: string[] = []
     const crew = ['p3', 'p4', 'p5', 'p6', 'p7']
 

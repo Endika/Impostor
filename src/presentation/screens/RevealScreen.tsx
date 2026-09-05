@@ -36,13 +36,9 @@ export function RevealScreen() {
     dispatch({ type: 'NEXT_REVEAL' })
   }
 
-  const otherImpostors = assignment.players.filter(
-    (p) => p.isImpostor && p.id !== current.id,
-  )
+  const otherImpostors = assignment.players.filter((p) => p.isImpostor && p.id !== current.id)
   const showOtherImpostors =
-    config.impostorsSeeEachOther &&
-    assignment.impostorIds.length >= 2 &&
-    otherImpostors.length > 0
+    config.impostorsSeeEachOther && assignment.impostorIds.length >= 2 && otherImpostors.length > 0
 
   // Back-face tone follows semantics: crew = emerald (positive), impostor = amber.
   const backTone = current.isImpostor

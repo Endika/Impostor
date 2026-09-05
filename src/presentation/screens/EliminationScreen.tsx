@@ -10,8 +10,8 @@ export function EliminationScreen() {
   if (!assignment || !lastElimination) return null
 
   const votedName =
-    assignment.players.find((p) => p.id === lastElimination.votedPlayerId)
-      ?.name ?? lastElimination.votedPlayerId
+    assignment.players.find((p) => p.id === lastElimination.votedPlayerId)?.name ??
+    lastElimination.votedPlayerId
 
   // Catching an impostor is good news for the crew (positive tone); voting out
   // an innocent is a setback (warn tone). Never the brand color for semantics.

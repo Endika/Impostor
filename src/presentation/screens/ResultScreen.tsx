@@ -37,8 +37,7 @@ export function ResultScreen() {
 
   if (!assignment || !outcome) return null
 
-  const nameById = (id: string) =>
-    assignment.players.find((p) => p.id === id)?.name ?? id
+  const nameById = (id: string) => assignment.players.find((p) => p.id === id)?.name ?? id
 
   const votedName = votedPlayerId ? nameById(votedPlayerId) : ''
   const impostorNames = outcome.impostorIds.map(nameById).join(', ')
@@ -101,11 +100,7 @@ export function ResultScreen() {
         </div>
       </div>
 
-      <Button
-        size="lg"
-        className="mt-auto w-full"
-        onClick={() => dispatch({ type: 'PLAY_AGAIN' })}
-      >
+      <Button size="lg" className="mt-auto w-full" onClick={() => dispatch({ type: 'PLAY_AGAIN' })}>
         {t('result.playAgain')}
       </Button>
     </div>

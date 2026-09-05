@@ -25,8 +25,7 @@ function startAndReachVote(cfg: GameConfig): GameState {
     bank,
     rng: () => 0,
   })
-  for (let i = 0; i < cfg.players.length; i++)
-    s = gameReducer(s, { type: 'NEXT_REVEAL' })
+  for (let i = 0; i < cfg.players.length; i++) s = gameReducer(s, { type: 'NEXT_REVEAL' })
   expect(s.screen).toBe('round')
   s = gameReducer(s, { type: 'END_ROUND' })
   expect(s.screen).toBe('vote')
@@ -34,9 +33,7 @@ function startAndReachVote(cfg: GameConfig): GameState {
 }
 
 function crewIds(s: GameState): string[] {
-  return s
-    .assignment!.players.filter((p) => !p.isImpostor)
-    .map((p) => p.id)
+  return s.assignment!.players.filter((p) => !p.isImpostor).map((p) => p.id)
 }
 
 describe('gameReducer', () => {

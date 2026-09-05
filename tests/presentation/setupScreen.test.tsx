@@ -46,9 +46,7 @@ describe('SetupScreen', () => {
     )
     setup()
 
-    const count = screen.getByLabelText(
-      /^number of impostors$/i,
-    ) as HTMLInputElement
+    const count = screen.getByLabelText(/^number of impostors$/i) as HTMLInputElement
     expect(count.value).toBe('3')
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
@@ -63,9 +61,7 @@ describe('SetupScreen', () => {
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
 
-    const count = screen.getByLabelText(
-      /^number of impostors$/i,
-    ) as HTMLInputElement
+    const count = screen.getByLabelText(/^number of impostors$/i) as HTMLInputElement
     fireEvent.change(count, { target: { value: '2' } })
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
@@ -93,9 +89,7 @@ describe('SetupScreen', () => {
     fireEvent.click(screen.getByRole('button', { name: /add player/i }))
     fillPlayer(3, 'Dan')
 
-    const count = screen.getByLabelText(
-      /^number of impostors$/i,
-    ) as HTMLInputElement
+    const count = screen.getByLabelText(/^number of impostors$/i) as HTMLInputElement
     // 4 players -> max 3 impostors.
     fireEvent.change(count, { target: { value: '3' } })
     expect(count.value).toBe('3')
@@ -117,17 +111,13 @@ describe('SetupScreen', () => {
     fireEvent.click(toggle)
     expect(toggle).toBeChecked()
 
-    const count = screen.getByLabelText(
-      /^number of impostors$/i,
-    ) as HTMLInputElement
+    const count = screen.getByLabelText(/^number of impostors$/i) as HTMLInputElement
     expect(count).toBeDisabled()
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
     expect(screen.getByTestId('screen')).toHaveTextContent('reveal')
-    const saved = JSON.parse(
-      window.localStorage.getItem('impostor.config') ?? '{}',
-    )
+    const saved = JSON.parse(window.localStorage.getItem('impostor.config') ?? '{}')
     expect(saved.randomImpostors).toBe(true)
   })
 
@@ -152,9 +142,7 @@ describe('SetupScreen', () => {
       }),
     )
     setup()
-    const inputs = screen.getAllByLabelText(
-      /player name/i,
-    ) as HTMLInputElement[]
+    const inputs = screen.getAllByLabelText(/player name/i) as HTMLInputElement[]
     expect(inputs).toHaveLength(4)
     expect(inputs[0]!.value).toBe('Zoe')
     expect(inputs[3]!.value).toBe('Wim')
@@ -186,9 +174,7 @@ describe('SetupScreen', () => {
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
     fireEvent.click(screen.getByRole('checkbox', { name: /see a clue/i }))
-    const count = screen.getByLabelText(
-      /^number of impostors$/i,
-    ) as HTMLInputElement
+    const count = screen.getByLabelText(/^number of impostors$/i) as HTMLInputElement
     fireEvent.change(count, { target: { value: '2' } })
 
     const toggle = screen.getByRole('checkbox', {
@@ -203,9 +189,7 @@ describe('SetupScreen', () => {
 
     // Valid config -> game starts; the persisted config carries the flag.
     expect(screen.getByTestId('screen')).toHaveTextContent('reveal')
-    const saved = JSON.parse(
-      window.localStorage.getItem('impostor.config') ?? '{}',
-    )
+    const saved = JSON.parse(window.localStorage.getItem('impostor.config') ?? '{}')
     expect(saved.differentCluePerImpostor).toBe(true)
   })
 

@@ -20,10 +20,7 @@ export function addUsedWord(locale: LocaleCode, word: string): void {
   try {
     const current = loadUsedWords(locale)
     if (current.includes(word)) return
-    window.localStorage.setItem(
-      keyFor(locale),
-      JSON.stringify([...current, word]),
-    )
+    window.localStorage.setItem(keyFor(locale), JSON.stringify([...current, word]))
   } catch {
     // Ignore storage failures (private mode, quota, etc.).
   }

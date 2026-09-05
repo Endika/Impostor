@@ -4,12 +4,7 @@ import type { CategoryData, WordBank } from './types'
 export class InMemoryWordBank implements WordBank {
   constructor(private readonly data: CategoryData) {}
 
-  pick(
-    categoryIds: string[],
-    locale: LocaleCode,
-    rng: Rng,
-    excludeWords: string[] = [],
-  ) {
+  pick(categoryIds: string[], locale: LocaleCode, rng: Rng, excludeWords: string[] = []) {
     const pool: { word: string; categoryId: string; hints: string[] }[] = []
     for (const id of categoryIds)
       for (const entry of this.data[id]?.[locale] ?? [])

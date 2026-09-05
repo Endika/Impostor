@@ -48,9 +48,7 @@ describe('InMemoryWordBank', () => {
 
   it('throws when no words exist for the locale/categories', () => {
     const bank = new InMemoryWordBank(fixture)
-    expect(() => bank.pick(['music'], 'ca', () => 0)).toThrow(
-      'no_words_available',
-    )
+    expect(() => bank.pick(['music'], 'ca', () => 0)).toThrow('no_words_available')
   })
 
   it('falls back to the full pool when every word is excluded', () => {
