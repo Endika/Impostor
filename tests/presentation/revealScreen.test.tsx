@@ -46,6 +46,9 @@ function buildState(revealIndex: number): GameState {
     assignment,
     revealIndex,
     outcome: null,
+    votedPlayerId: null,
+    eliminatedIds: [],
+    lastElimination: null,
   }
 }
 
