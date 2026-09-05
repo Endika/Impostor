@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.10](https://github.com/Endika/Impostor/compare/v1.4.9...v1.4.10) (2026-09-05)
+
+
+### Chores
+
+* ignore the prettier reformat in git blame ([04c12da](https://github.com/Endika/Impostor/commit/04c12da355dd2ae402bc6a0d4f250be581776b2d))
+
 ## [1.4.9](https://github.com/Endika/Impostor/compare/v1.4.8...v1.4.9) (2026-09-05)
 
 
