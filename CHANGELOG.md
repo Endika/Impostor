@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.12](https://github.com/Endika/Impostor/compare/v1.4.11...v1.4.12) (2026-09-07)
+
+
+### Chores
+
+* **deps-dev:** bump vitest and @vitest/coverage-v8 from 4.1.11 to 5.0.0 ([2848963](https://github.com/Endika/Impostor/commit/28489630c1bc3530350511b7ac89c34390db4730))
+* **deps:** bump the npm-minor-patch group with 11 updates ([00414fa](https://github.com/Endika/Impostor/commit/00414faddc6c8fcd6ff24f37aecabea84a1ec42b))
+
 ## [1.4.11](https://github.com/Endika/Impostor/compare/v1.4.10...v1.4.11) (2026-09-05)
 
 
