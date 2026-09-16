@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/Endika/Impostor/compare/v1.5.0...v1.6.0) (2026-09-16)
+
+
+### Features
+
+* **ci:** add CodeQL static analysis ([cd1b681](https://github.com/Endika/Impostor/commit/cd1b68137e74fb80d97366e3a1938d2cf748540d))
+
 ## [1.5.0](https://github.com/Endika/Impostor/compare/v1.4.12...v1.5.0) (2026-09-16)
 
 
