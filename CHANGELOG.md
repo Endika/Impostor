@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/Endika/Impostor/compare/v1.4.12...v1.5.0) (2026-09-16)
+
+
+### Features
+
+* **ci:** block PRs that introduce high-severity dependency advisories ([841c720](https://github.com/Endika/Impostor/commit/841c720c5fcd1c3e7c507dbe7ed62a04a564db15))
+
 ## [1.4.12](https://github.com/Endika/Impostor/compare/v1.4.11...v1.4.12) (2026-09-07)
 
 
