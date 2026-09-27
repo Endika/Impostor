@@ -15,7 +15,7 @@
     "impostors": "Impostores",
     "impostorCount": "Número de impostores",
     "randomImpostors": "Número de impostores aleatorio",
-    "seesClue": "Os impostores ven unha pista (a categoría)",
+    "seesClue": "Os impostores ven unha pista sobre a palabra",
     "seeEachOther": "Os impostores vense entre si",
     "differentClue": "Cada impostor recibe unha pista distinta",
     "categories": "Categorías de palabras",
@@ -43,7 +43,7 @@
     "crew": "Es TRIPULANTE",
     "theWordIs": "A palabra é",
     "impostor": "Es o IMPOSTOR",
-    "yourClue": "Pista (categoría)",
+    "yourClue": "Pista",
     "otherImpostors": "Outros impostores",
     "next": "Seguinte xogador"
   },

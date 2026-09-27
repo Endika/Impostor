@@ -15,7 +15,7 @@
     "impostors": "Inpostoreak",
     "impostorCount": "Inpostore kopurua",
     "randomImpostors": "Inpostore kopuru ausazkoa",
-    "seesClue": "Inpostoreek pista bat ikusten dute (kategoria)",
+    "seesClue": "Inpostoreek hitzari buruzko pista bat ikusten dute",
     "seeEachOther": "Inpostoreek elkar ikusten dute",
     "differentClue": "Inpostore bakoitzak pista desberdina jasotzen du",
     "categories": "Hitz kategoriak",
@@ -43,7 +43,7 @@
     "crew": "TRIPULATZAILEA zara",
     "theWordIs": "Hitza hau da",
     "impostor": "INPOSTOREA zara",
-    "yourClue": "Pista (kategoria)",
+    "yourClue": "Pista",
     "otherImpostors": "Beste inpostoreak",
     "next": "Hurrengo jokalaria"
   },

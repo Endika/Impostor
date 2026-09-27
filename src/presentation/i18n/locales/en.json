@@ -15,7 +15,7 @@
     "impostors": "Impostors",
     "impostorCount": "Number of impostors",
     "randomImpostors": "Random number of impostors",
-    "seesClue": "Impostors see a clue (the category)",
+    "seesClue": "Impostors see a clue about the word",
     "seeEachOther": "Impostors see each other",
     "differentClue": "Each impostor gets a different clue",
     "categories": "Word categories",
@@ -43,7 +43,7 @@
     "crew": "You are CREW",
     "theWordIs": "The word is",
     "impostor": "You are the IMPOSTOR",
-    "yourClue": "Clue (category)",
+    "yourClue": "Clue",
     "otherImpostors": "Other impostors",
     "next": "Next player"
   },

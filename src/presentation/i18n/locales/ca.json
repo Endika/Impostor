@@ -15,7 +15,7 @@
     "impostors": "Impostors",
     "impostorCount": "Nombre d'impostors",
     "randomImpostors": "Nombre d'impostors aleatori",
-    "seesClue": "Els impostors veuen una pista (la categoria)",
+    "seesClue": "Els impostors veuen una pista sobre la paraula",
     "seeEachOther": "Els impostors es veuen entre ells",
     "differentClue": "Cada impostor rep una pista diferent",
     "categories": "Categories de paraules",
@@ -43,7 +43,7 @@
     "crew": "Ets TRIPULANT",
     "theWordIs": "La paraula és",
     "impostor": "Ets l'IMPOSTOR",
-    "yourClue": "Pista (categoria)",
+    "yourClue": "Pista",
     "otherImpostors": "Altres impostors",
     "next": "Jugador següent"
   },
