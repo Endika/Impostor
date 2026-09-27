@@ -23,10 +23,10 @@
 ## What you can do
 
 - Play on a single phone — no signup, no accounts, fully offline.
-- Choose how many impostors join the round, from 1 up to the table size.
-- Toggle whether impostors get a clue (the word's category) or fly completely blind.
+- Choose how many impostors join the round, from 1 up to one fewer than the players.
+- Toggle whether impostors get a clue about the word or fly completely blind.
 - Toggle whether impostors know each other or play alone.
-- Pick word categories — General, Music, Places — 18 words each (54 per language), fully translated in six languages.
+- Pick word categories — Home, Food, Animals, Music, Places, Cinema, Nature, Transport — 247 words per language, fully translated in six languages.
 - Hold-to-reveal handoff: each player presses and holds to see their word, then passes the phone on.
 - A random player is chosen to start the conversation each round.
 - Vote in-app and get a win/lose reveal showing who the impostors were.
@@ -49,7 +49,7 @@ Catalan, English, Spanish, Basque, Galician, Valencian (`ca`, `en`, `es`, `eu`, 
 
 ## Privacy
 
-No login, no accounts, no backend. Everything runs in your browser and stays on your device. No analytics, no tracking, no cookies (except your language preference).
+No login, no accounts, no backend. Everything runs in your browser and stays on your device. No analytics, no tracking, no cookies. Your settings, language and the words already played are kept in your browser's local storage.
 
 ---
 
@@ -65,19 +65,19 @@ Open-source, MIT licensed. PRs welcome.
 
 ```sh
 git clone git@github.com:Endika/Impostor.git
-cd impostor
+cd Impostor
 npm install
 npm run dev
 ```
 
 ### Commands
 
-| Command             | Description                               |
-| ------------------- | ----------------------------------------- |
-| `npm run dev`       | Start the dev server                      |
-| `npm run build`     | Production build (`tsc -b && vite build`) |
-| `npm test`          | Run tests once                            |
-| `npm run lint`      | ESLint (zero warnings)                    |
-| `npm run typecheck` | TypeScript type check                     |
+| Command              | Description                               |
+| -------------------- | ----------------------------------------- |
+| `npm run dev`        | Start the dev server                      |
+| `npm run build`      | Production build (`tsc -b && vite build`) |
+| `npm run test:run`   | Run tests once                            |
+| `npm run lint`       | ESLint (zero warnings)                    |
+| `npm run type:check` | TypeScript type check                     |
 
-CI runs lint, typecheck, tests, and the production build on every PR.
+CI runs the format check, lint, type check, tests, and the production build on every PR.
