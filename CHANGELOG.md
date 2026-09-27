@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/Endika/Impostor/compare/v1.6.0...v1.6.1) (2026-09-27)
+
+
+### Bug Fixes
+
+* describe the impostor clue as a hint about the word, not the category ([0756ce4](https://github.com/Endika/Impostor/commit/0756ce4794cee53a28126f487b7601751f63c0b7))
+
 ## [1.6.0](https://github.com/Endika/Impostor/compare/v1.5.0...v1.6.0) (2026-09-16)
 
 
