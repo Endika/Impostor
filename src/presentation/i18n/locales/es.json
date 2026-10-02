@@ -1,20 +1,16 @@
 {
   "common": {
     "appName": "Impostor",
-    "next": "Siguiente",
-    "back": "Atrás",
-    "on": "Sí",
-    "off": "No",
     "confirmAgain": "Toca otra vez para confirmar",
     "leave": "Salir",
-    "leaveConfirm": "¿Salir de verdad?"
+    "leaveConfirm": "¿Salir de verdad?",
+    "close": "Cerrar"
   },
   "setup": {
     "title": "Nueva partida",
     "players": "Jugadores",
     "addPlayer": "Añadir jugador",
     "playerName": "Nombre del jugador",
-    "removePlayer": "Quitar",
     "impostors": "Impostores",
     "impostorCount": "Número de impostores",
     "randomImpostors": "Número de impostores aleatorio",
@@ -32,7 +28,14 @@
     "fewerImpostors": "Menos impostores",
     "moreImpostors": "Más impostores",
     "removePlayerNamed": "Quitar a {{name}}",
-    "removePlayerNumber": "Quitar jugador {{number}}"
+    "removePlayerNumber": "Quitar jugador {{number}}",
+    "settings": "Ajustes",
+    "summaryClue": "Con pista",
+    "summaryNoClue": "Sin pista",
+    "summaryCategories_one": "{{count}} categoría",
+    "summaryCategories_other": "{{count}} categorías",
+    "needsTwoImpostors": "Solo si puede haber 2 impostores",
+    "needsClue": "Activa antes la pista"
   },
   "categories": {
     "home": "Casa",
@@ -48,34 +51,38 @@
     "passTo": "Pasa el móvil a {{name}}",
     "holdToReveal": "Mantén pulsado para ver tu rol",
     "crew": "Eres TRIPULANTE",
-    "theWordIs": "La palabra es",
     "impostor": "Eres el IMPOSTOR",
-    "yourClue": "Pista",
-    "otherImpostors": "Otros impostores",
     "next": "Siguiente jugador",
-    "startDebate": "Empezar debate"
+    "startDebate": "Empezar debate",
+    "crewHint": "Es la palabra secreta: no la digas",
+    "clueHint": "Es tu pista, no la palabra",
+    "noClueWord": "Sin pista",
+    "noClueHint": "Escucha y haz como que la sabes",
+    "withImpostors": "Con {{names}}"
   },
   "round": {
-    "title": "Debate",
+    "title": "Ronda {{round}}",
     "startsWith": "Empieza {{name}}",
     "music": "Música de fondo",
     "vote": "Votar",
-    "guess": "Un impostor adivina"
+    "guess": "Un impostor adivina",
+    "players": "Jugadores",
+    "out": "fuera",
+    "reminder": "Por turnos, cada uno dice algo relacionado con la palabra. Votad cuando queráis."
   },
   "guess": {
     "title": "Adivina la palabra",
     "who": "¿Quién adivina?",
-    "prompt": "Di la palabra en voz alta.",
     "correct": "Lo ha acertado",
     "wrong": "Ha fallado",
-    "cancel": "Atrás"
+    "cancel": "Atrás",
+    "promptNamed": "{{name}}, di la palabra en voz alta."
   },
   "vote": {
     "title": "¿Quién es el impostor?",
     "confirm": "Confirmar voto"
   },
   "elimination": {
-    "title": "Expulsado",
     "wasImpostor": "{{name}} era impostor",
     "wasCrew": "{{name}} no era impostor",
     "failedGuess": "{{name}} falló al adivinar y queda fuera",
@@ -96,7 +103,28 @@
     "impostorWins": "¡Ganan los impostores!",
     "theWordWas": "La palabra era",
     "theImpostorsWere": "Los impostores eran",
-    "playAgain": "Jugar otra vez",
-    "guessedWord": "{{name}} adivinó la palabra"
+    "playAgain": "Cambiar ajustes",
+    "guessedWord": "{{name}} adivinó la palabra",
+    "rematch": "Revancha"
+  },
+  "timer": {
+    "label": "Temporizador",
+    "off": "No",
+    "minutes_one": "{{count}} min",
+    "minutes_other": "{{count}} min",
+    "timeUp": "¡Tiempo!",
+    "reset": "Reiniciar temporizador",
+    "pause": "Pausar",
+    "start": "Empezar temporizador",
+    "lastSeconds": "Quedan {{count}} segundos"
+  },
+  "rules": {
+    "open": "¿Cómo se juega?",
+    "title": "Cómo se juega",
+    "word": "Todos reciben la misma palabra secreta, menos los impostores, que no la conocen.",
+    "clues": "Por turnos, cada uno dice algo relacionado con la palabra, sin decirla ni ponerlo fácil.",
+    "vote": "Cuando queráis, votad a quien creáis impostor: queda fuera de la partida.",
+    "win": "Si echáis a todos los impostores, gana la tripulación; si no queda ningún tripulante, ganan los impostores.",
+    "guess": "En cualquier momento, un impostor puede arriesgarse a decir la palabra: si acierta, ganan los impostores; si falla, queda fuera."
   }
 }

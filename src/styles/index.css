@@ -1,41 +1,45 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/rubik';
 
 /*
-  Impostor design tokens.
-  - brand (violet): identity + primary actions ONLY.
-  - positive (emerald): crew win / success.
-  - warn (amber): innocent eliminated / setback.
-  - danger (red): errors / destructive.
-  - surface/border/text: neutral slate, light + dark.
-  Semantics are kept distinct from brand: brand never means win/lose or error.
-  Dark mode follows prefers-color-scheme (Tailwind's default `dark:` variant).
+  Impostor design tokens. Dark only: the game is played around a table, often
+  at night, with one phone passed hand to hand.
+  - brand (coral): the primary action of each screen, never decoration.
+  - positive / warn / danger: verdicts and destructive actions, always with words.
+  - every coloured fill carries dark ink (on-color), never white.
 */
 @theme {
-  /* Vivid-but-controlled violet brand */
-  --color-brand-50: #f5f3ff;
-  --color-brand-100: #ede9fe;
-  --color-brand-200: #ddd6fe;
-  --color-brand-300: #c4b5fd;
-  --color-brand-400: #a78bfa;
-  --color-brand-500: #8b5cf6;
-  --color-brand-600: #7c3aed;
-  --color-brand-700: #6d28d9;
-  --color-brand-800: #5b21b6;
-  --color-brand-900: #4c1d95;
+  --color-ground: #0d1020;
+  --color-surface: #171b30;
+  --color-raised: #222842;
+  --color-line: #2e3555;
+  --color-line-strong: #454e78;
+  --color-ink: #f5f6fb;
+  --color-muted: #a9aecb;
+  --color-on-color: #170a07;
 
-  /* Secondary accent (fuchsia) — used sparingly for identity glow only */
-  --color-accent-400: #e879f9;
-  --color-accent-500: #d946ef;
-  --color-accent-600: #c026d3;
+  --color-brand: #ff6b57;
+  --color-brand-hover: #ff8473;
+  --color-brand-press: #e85a47;
+  --color-positive: #3ddc97;
+  --color-positive-hover: #63e5ad;
+  --color-warn: #ffc23d;
+  --color-warn-hover: #ffd16b;
+  --color-danger: #ff5d73;
+  --color-danger-hover: #ff7d8f;
 
-  /* Motion */
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 
-  --font-sans: 'Inter var', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Rubik Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-press: 0 4px 14px -4px rgb(0 0 0 / 0.55), 0 2px 0 0 rgb(0 0 0 / 0.35);
+  --shadow-card: 0 18px 40px -18px rgb(0 0 0 / 0.7);
 }
 
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
+  accent-color: var(--color-brand);
+  caret-color: var(--color-brand);
 }
 
 html,
@@ -45,16 +49,19 @@ body,
 }
 
 body {
-  background-color: var(--color-slate-50);
-  color: var(--color-slate-900);
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  background-color: var(--color-ground);
+  color: var(--color-ink);
+  font-weight: 500;
+  -webkit-tap-highlight-color: transparent;
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: var(--color-slate-950);
-    color: var(--color-slate-100);
-  }
+::selection {
+  background: color-mix(in oklab, var(--color-brand) 45%, transparent);
+  color: var(--color-ink);
+}
+
+* {
+  scrollbar-color: var(--color-line-strong) transparent;
 }
 
 /* Headings that receive focus after a screen change are not controls. */
@@ -62,76 +69,15 @@ h1[tabindex='-1']:focus {
   outline: none;
 }
 
-/* Ambient app background: soft brand/accent radial glows + faint grain.
-   Lives behind everything via the shell's ::before, see .app-bg below. */
-.app-bg {
-  position: relative;
-  isolation: isolate;
-}
-.app-bg::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      55rem 55rem at 12% -10%,
-      color-mix(in oklab, var(--color-brand-400) 32%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(
-      48rem 48rem at 110% 8%,
-      color-mix(in oklab, var(--color-accent-500) 24%, transparent),
-      transparent 58%
-    );
-  opacity: 0.7;
-}
-@media (prefers-color-scheme: dark) {
-  .app-bg::before {
-    background:
-      radial-gradient(
-        55rem 55rem at 8% -12%,
-        color-mix(in oklab, var(--color-brand-600) 40%, transparent),
-        transparent 60%
-      ),
-      radial-gradient(
-        50rem 50rem at 112% 6%,
-        color-mix(in oklab, var(--color-accent-600) 30%, transparent),
-        transparent 58%
-      );
-    opacity: 0.55;
-  }
-}
-
-/* Subtle grain overlay for tactile depth (cheap inline SVG noise). */
-.app-grain::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-@media (prefers-color-scheme: dark) {
-  .app-grain::after {
-    opacity: 0.06;
-  }
-}
-
-/* ---- Reveal card 3D flip ---------------------------------------------- */
-/* The container holds two faces; rotateY swaps them in 3D. Content of the
-   back face is still conditionally rendered for privacy — the flip only
-   animates the shell. */
+/* ---- Reveal card flip --------------------------------------------------- */
+/* Two faces swap in 3D. The back face content is only rendered while held,
+   so the flip animates the shell, never the secret. */
 .flip-scene {
   perspective: 1400px;
 }
 .flip-card {
   transform-style: preserve-3d;
-  transition:
-    transform 0.5s var(--ease-spring),
-    box-shadow 0.2s ease;
+  transition: transform 0.45s var(--ease-out-quart);
   transform: rotateY(0deg);
 }
 .flip-card.is-flipped {
@@ -164,7 +110,24 @@ h1[tabindex='-1']:focus {
   }
 }
 
-/* ---- Celebratory confetti (cheap, CSS-only, result win) -------------- */
+/* ---- Verdict entrance: the one authored moment of the game ------------- */
+@keyframes verdict-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+.verdict-in {
+  animation: verdict-in 0.6s var(--ease-out-quart) both;
+}
+
+/* ---- Crew-win confetti (cheap, CSS-only) ------------------------------- */
 @keyframes confetti-fall {
   0% {
     transform: translate3d(0, -120%, 0) rotate(0deg);
@@ -186,28 +149,41 @@ h1[tabindex='-1']:focus {
   border-radius: 2px;
   animation: confetti-fall 2.6s linear infinite;
 }
-@media (prefers-reduced-motion: reduce) {
-  .confetti-piece {
-    display: none;
+
+/* ---- Bottom sheet dialog ------------------------------------------------ */
+dialog.sheet {
+  margin: auto auto 0;
+  max-height: 85dvh;
+  width: 100%;
+  max-width: 28rem;
+  border: none;
+  padding: 0;
+  background: transparent;
+  color: var(--color-ink);
+}
+dialog.sheet::backdrop {
+  background: rgb(5 7 16 / 0.7);
+}
+dialog.sheet[open] {
+  animation: sheet-up 0.32s var(--ease-out-quart) both;
+}
+@keyframes sheet-up {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
-/* Gentle entrance for screens. */
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.rise-in {
-  animation: rise-in 0.35s var(--ease-spring) both;
-}
 @media (prefers-reduced-motion: reduce) {
-  .rise-in {
+  .verdict-in,
+  dialog.sheet[open] {
     animation: none;
+  }
+  .confetti-piece {
+    display: none;
   }
 }

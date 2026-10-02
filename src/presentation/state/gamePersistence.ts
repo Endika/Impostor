@@ -50,6 +50,8 @@ export function loadGame(): GameState | null {
       votedPlayerId: null,
       lastElimination: null,
       guesserId: null,
+      round: 1,
+      starterId: null,
       ...parsed,
     } as GameState
   } catch {

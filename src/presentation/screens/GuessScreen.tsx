@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ArrowLeft } from 'lucide-react'
 import { useGame } from '../state/useGame'
 import { Button } from '../components/Button'
 import { ConfirmButton } from '../components/ConfirmButton'
+import { PlayerRow } from '../components/PlayerRow'
 
 export function GuessScreen() {
   const { t } = useTranslation()
@@ -13,34 +15,32 @@ export function GuessScreen() {
   if (!assignment) return null
 
   const alivePlayers = assignment.players.filter((p) => !state.eliminatedIds.includes(p.id))
+  const selectedName = alivePlayers.find((p) => p.id === selectedId)?.name
 
   return (
-    <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
-      <h1 className="text-center text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
-        {t('guess.title')}
-      </h1>
-
-      <p className="text-center text-base font-semibold text-slate-600 dark:text-slate-300">
-        {selectedId ? t('guess.prompt') : t('guess.who')}
-      </p>
+    <div className="flex flex-1 flex-col gap-6">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-extrabold tracking-tight">{t('guess.title')}</h1>
+        {!selectedId && <p className="text-lg text-muted">{t('guess.who')}</p>}
+      </div>
 
       {!selectedId ? (
-        <div className="flex flex-1 flex-col gap-3">
+        <div className="flex flex-1 flex-col gap-2.5">
           {alivePlayers.map((player) => (
-            <button
+            <PlayerRow
               key={player.id}
-              type="button"
-              className="flex min-h-13 items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 text-lg font-bold text-slate-800 shadow-sm backdrop-blur-sm transition-all hover:bg-white active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:bg-slate-800/70 dark:focus-visible:ring-offset-slate-950"
+              name={player.name}
               onClick={() => setSelectedId(player.id)}
-            >
-              <span className="min-w-0 break-words">{player.name}</span>
-            </button>
+            />
           ))}
         </div>
       ) : (
-        <div className="flex flex-1 flex-col justify-center gap-3">
+        <div className="flex flex-1 flex-col gap-3">
+          <p className="flex flex-1 items-center justify-center text-center text-4xl leading-tight font-extrabold text-balance [overflow-wrap:anywhere]">
+            {t('guess.promptNamed', { name: selectedName })}
+          </p>
           <ConfirmButton
-            variant="success"
+            variant="positive"
             size="lg"
             className="w-full"
             onConfirm={() => dispatch({ type: 'IMPOSTOR_GUESSED_RIGHT', playerId: selectedId })}
@@ -60,10 +60,10 @@ export function GuessScreen() {
 
       <Button
         variant="ghost"
-        size="lg"
-        className="mt-auto w-full"
-        onClick={() => dispatch({ type: 'CANCEL_GUESS' })}
+        className="w-full"
+        onClick={() => (selectedId ? setSelectedId(null) : dispatch({ type: 'CANCEL_GUESS' }))}
       >
+        <ArrowLeft aria-hidden size={20} strokeWidth={2.5} />
         {t('guess.cancel')}
       </Button>
     </div>

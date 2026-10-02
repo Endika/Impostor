@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next'
+import { CircleX, UserCheck, UserX } from 'lucide-react'
 import { useGame } from '../state/useGame'
 import { Button } from '../components/Button'
+import { Card } from '../components/Card'
 import { ConfirmButton } from '../components/ConfirmButton'
 
 export function EliminationScreen() {
@@ -14,8 +16,8 @@ export function EliminationScreen() {
     assignment.players.find((p) => p.id === lastElimination.votedPlayerId)?.name ??
     lastElimination.votedPlayerId
 
-  // Catching an impostor is good news for the crew (positive tone); voting out
-  // an innocent is a setback (warn tone). Never the brand color for semantics.
+  // Catching an impostor is good news for the crew (positive); voting out an
+  // innocent is a setback (warn); a failed guess is a loss for that player.
   const caughtImpostor = lastElimination.votedWasImpostor
   const isContinue = lastElimination.status === 'continue'
   const fromFailedGuess = lastElimination.fromFailedGuess === true
@@ -23,57 +25,49 @@ export function EliminationScreen() {
   // offer the last-chance guess again here.
   const showGuessButton = caughtImpostor && !fromFailedGuess
 
-  return (
-    <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
-      <h1 className="text-center text-xs font-bold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-        {t('elimination.title')}
-      </h1>
+  const tone = fromFailedGuess ? 'bg-danger' : caughtImpostor ? 'bg-positive' : 'bg-warn'
+  const Icon = fromFailedGuess ? CircleX : caughtImpostor ? UserCheck : UserX
+  const verdict = fromFailedGuess
+    ? t('elimination.failedGuess', { name: votedName })
+    : caughtImpostor
+      ? t('elimination.wasImpostor', { name: votedName })
+      : t('elimination.wasCrew', { name: votedName })
 
-      <div
-        className={`flex flex-col items-center gap-3 rounded-3xl px-5 py-10 text-center text-xl font-extrabold shadow-lg ${
-          fromFailedGuess
-            ? 'bg-gradient-to-br from-red-500 to-red-600 text-white shadow-red-600/30'
-            : caughtImpostor
-              ? 'bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-emerald-600/30'
-              : 'bg-gradient-to-br from-amber-400 to-amber-500 text-amber-950 shadow-amber-500/30'
-        }`}
-      >
-        <span aria-hidden className="text-5xl drop-shadow-sm">
-          {fromFailedGuess ? '❌' : caughtImpostor ? '✅' : '😬'}
-        </span>
-        <span className="text-balance">
-          {fromFailedGuess
-            ? t('elimination.failedGuess', { name: votedName })
-            : caughtImpostor
-              ? t('elimination.wasImpostor', { name: votedName })
-              : t('elimination.wasCrew', { name: votedName })}
-        </span>
+  return (
+    <div className="flex flex-1 flex-col gap-6">
+      <div className="flex flex-1 flex-col justify-center gap-6">
+        <div
+          className={`verdict-in flex flex-col items-center gap-4 rounded-3xl px-6 py-10 text-center text-on-color shadow-card ${tone}`}
+        >
+          <Icon aria-hidden size={56} strokeWidth={2.25} />
+          <h1 className="text-[2.6rem] leading-[1.05] font-extrabold tracking-tight text-balance [overflow-wrap:anywhere]">
+            {verdict}
+          </h1>
+        </div>
+
+        <p role="status" className="text-center text-2xl font-bold text-balance">
+          {t('elimination.remaining', {
+            crew: t('elimination.crewCount', { count: lastElimination.aliveCrewCount }),
+            impostors: t('elimination.impostorCount', {
+              count: lastElimination.aliveImpostorCount,
+            }),
+          })}
+        </p>
       </div>
 
-      <p className="text-center text-lg font-semibold text-slate-700 dark:text-slate-200">
-        {t('elimination.remaining', {
-          crew: t('elimination.crewCount', { count: lastElimination.aliveCrewCount }),
-          impostors: t('elimination.impostorCount', {
-            count: lastElimination.aliveImpostorCount,
-          }),
-        })}
-      </p>
-
       {showGuessButton && (
-        <section className="flex flex-col gap-3 rounded-2xl border border-amber-300/70 bg-amber-50/80 px-4 py-4 text-center shadow-sm backdrop-blur-sm dark:border-amber-500/30 dark:bg-amber-500/10">
-          <p className="text-sm font-medium text-amber-900 dark:text-amber-200">
-            {t('elimination.guessPrompt')}
-          </p>
+        <Card className="flex flex-col gap-3 p-5 text-center">
+          <p className="text-muted">{t('elimination.guessPrompt')}</p>
           <ConfirmButton
-            variant="secondary"
-            className="w-full border-amber-400 bg-amber-400 text-amber-950 hover:bg-amber-300 dark:border-amber-500/50 dark:bg-amber-500/30 dark:text-amber-100"
+            variant="warn"
+            className="w-full"
             onConfirm={() =>
               dispatch({ type: 'IMPOSTOR_GUESSED_RIGHT', playerId: lastElimination.votedPlayerId })
             }
           >
             {t('elimination.guessedRight')}
           </ConfirmButton>
-        </section>
+        </Card>
       )}
 
       {isContinue ? (

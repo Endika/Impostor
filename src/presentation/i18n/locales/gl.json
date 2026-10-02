@@ -1,20 +1,16 @@
 {
   "common": {
     "appName": "Impostor",
-    "next": "Seguinte",
-    "back": "Atrás",
-    "on": "Si",
-    "off": "Non",
     "confirmAgain": "Toca outra vez para confirmar",
     "leave": "Saír",
-    "leaveConfirm": "Seguro que saes?"
+    "leaveConfirm": "Seguro que saes?",
+    "close": "Pechar"
   },
   "setup": {
     "title": "Nova partida",
     "players": "Xogadores",
     "addPlayer": "Engadir xogador",
     "playerName": "Nome do xogador",
-    "removePlayer": "Quitar",
     "impostors": "Impostores",
     "impostorCount": "Número de impostores",
     "randomImpostors": "Número de impostores aleatorio",
@@ -32,7 +28,14 @@
     "fewerImpostors": "Menos impostores",
     "moreImpostors": "Máis impostores",
     "removePlayerNamed": "Quitar a {{name}}",
-    "removePlayerNumber": "Quitar o xogador {{number}}"
+    "removePlayerNumber": "Quitar o xogador {{number}}",
+    "settings": "Axustes",
+    "summaryClue": "Con pista",
+    "summaryNoClue": "Sen pista",
+    "summaryCategories_one": "{{count}} categoría",
+    "summaryCategories_other": "{{count}} categorías",
+    "needsTwoImpostors": "Só se pode haber 2 impostores",
+    "needsClue": "Activa antes a pista"
   },
   "categories": {
     "home": "Casa",
@@ -48,34 +51,38 @@
     "passTo": "Pásalle o móbil a {{name}}",
     "holdToReveal": "Mantén premido para ver o teu rol",
     "crew": "Es TRIPULANTE",
-    "theWordIs": "A palabra é",
     "impostor": "Es o IMPOSTOR",
-    "yourClue": "Pista",
-    "otherImpostors": "Outros impostores",
     "next": "Seguinte xogador",
-    "startDebate": "Comezar o debate"
+    "startDebate": "Comezar o debate",
+    "crewHint": "É a palabra secreta: non a digas",
+    "clueHint": "É a túa pista, non a palabra",
+    "noClueWord": "Sen pista",
+    "noClueHint": "Escoita e fai como que a sabes",
+    "withImpostors": "Con {{names}}"
   },
   "round": {
-    "title": "Debate",
+    "title": "Rolda {{round}}",
     "startsWith": "Comeza {{name}}",
     "music": "Música de fondo",
     "vote": "Votar",
-    "guess": "Un impostor adiviña"
+    "guess": "Un impostor adiviña",
+    "players": "Xogadores",
+    "out": "fóra",
+    "reminder": "Por quendas, cada quen di algo relacionado coa palabra. Votade cando queirades."
   },
   "guess": {
     "title": "Adiviña a palabra",
     "who": "Quen adiviña?",
-    "prompt": "Di a palabra en voz alta.",
     "correct": "Acertouna",
     "wrong": "Fallou",
-    "cancel": "Atrás"
+    "cancel": "Atrás",
+    "promptNamed": "{{name}}, di a palabra en voz alta."
   },
   "vote": {
     "title": "Quen é o impostor?",
     "confirm": "Confirmar voto"
   },
   "elimination": {
-    "title": "Expulsado",
     "wasImpostor": "{{name}} era impostor",
     "wasCrew": "{{name}} non era impostor",
     "failedGuess": "{{name}} fallou ao adiviñar e queda fóra",
@@ -96,7 +103,28 @@
     "impostorWins": "Gañan os impostores!",
     "theWordWas": "A palabra era",
     "theImpostorsWere": "Os impostores eran",
-    "playAgain": "Xogar de novo",
-    "guessedWord": "{{name}} adiviñou a palabra"
+    "playAgain": "Cambiar axustes",
+    "guessedWord": "{{name}} adiviñou a palabra",
+    "rematch": "Revancha"
+  },
+  "timer": {
+    "label": "Temporizador",
+    "off": "Non",
+    "minutes_one": "{{count}} min",
+    "minutes_other": "{{count}} min",
+    "timeUp": "Tempo!",
+    "reset": "Reiniciar o temporizador",
+    "pause": "Pausar",
+    "start": "Iniciar o temporizador",
+    "lastSeconds": "Quedan {{count}} segundos"
+  },
+  "rules": {
+    "open": "Como se xoga?",
+    "title": "Como se xoga",
+    "word": "Todos reciben a mesma palabra secreta, agás os impostores, que non a coñecen.",
+    "clues": "Por quendas, cada quen di algo relacionado coa palabra, sen dicila nin poñelo doado.",
+    "vote": "Cando queirades, votade a quen credes que é impostor: queda fóra da partida.",
+    "win": "Se botades a todos os impostores, gaña a tripulación; se non queda ningún tripulante, gañan os impostores.",
+    "guess": "En calquera momento, un impostor pode arriscarse a dicir a palabra: se acerta, gañan os impostores; se falla, queda fóra."
   }
 }

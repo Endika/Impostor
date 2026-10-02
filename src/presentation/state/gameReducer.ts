@@ -13,6 +13,8 @@ export interface GameState {
   eliminatedIds: string[]
   lastElimination: EliminationResult | null
   guesserId: string | null // who said the word when the impostors won by guessing
+  round: number
+  starterId: string | null // who opens the current round's debate
 }
 
 export const initialState: GameState = {
@@ -25,6 +27,8 @@ export const initialState: GameState = {
   eliminatedIds: [],
   lastElimination: null,
   guesserId: null,
+  round: 1,
+  starterId: null,
 }
 
 export type GameAction =
@@ -42,6 +46,7 @@ export type GameAction =
   | { type: 'GUESS_FAILED'; playerId: string }
   | { type: 'CAST_VOTE'; votedPlayerId: string }
   | { type: 'NEXT_ROUND' }
+  | { type: 'SET_STARTER'; playerId: string }
   | { type: 'SHOW_RESULT' }
   | { type: 'IMPOSTOR_GUESSED_RIGHT'; playerId: string }
   | { type: 'PLAY_AGAIN' }
@@ -67,6 +72,8 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         eliminatedIds: [],
         lastElimination: null,
         guesserId: null,
+        round: 1,
+        starterId: null,
         screen: 'reveal',
       }
     }
@@ -137,7 +144,10 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     }
     case 'NEXT_ROUND': {
       if (state.screen !== 'elimination') return state
-      return { ...state, screen: 'round' }
+      return { ...state, round: state.round + 1, starterId: null, screen: 'round' }
+    }
+    case 'SET_STARTER': {
+      return { ...state, starterId: action.playerId }
     }
     case 'SHOW_RESULT': {
       return { ...state, screen: 'result' }
@@ -169,6 +179,8 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         eliminatedIds: [],
         lastElimination: null,
         guesserId: null,
+        round: 1,
+        starterId: null,
         screen: 'setup',
       }
     }

@@ -1,20 +1,16 @@
 {
   "common": {
     "appName": "Impostor",
-    "next": "Hurrengoa",
-    "back": "Atzera",
-    "on": "Bai",
-    "off": "Ez",
     "confirmAgain": "Sakatu berriro baieztatzeko",
     "leave": "Irten",
-    "leaveConfirm": "Benetan irten?"
+    "leaveConfirm": "Benetan irten?",
+    "close": "Itxi"
   },
   "setup": {
     "title": "Partida berria",
     "players": "Jokalariak",
     "addPlayer": "Gehitu jokalaria",
     "playerName": "Jokalariaren izena",
-    "removePlayer": "Kendu",
     "impostors": "Inpostoreak",
     "impostorCount": "Inpostore kopurua",
     "randomImpostors": "Inpostore kopuru ausazkoa",
@@ -32,7 +28,14 @@
     "fewerImpostors": "Inpostore gutxiago",
     "moreImpostors": "Inpostore gehiago",
     "removePlayerNamed": "Kendu {{name}}",
-    "removePlayerNumber": "Kendu {{number}}. jokalaria"
+    "removePlayerNumber": "Kendu {{number}}. jokalaria",
+    "settings": "Ezarpenak",
+    "summaryClue": "Pistarekin",
+    "summaryNoClue": "Pistarik gabe",
+    "summaryCategories_one": "{{count}} kategoria",
+    "summaryCategories_other": "{{count}} kategoria",
+    "needsTwoImpostors": "2 inpostore egon badaitezke bakarrik",
+    "needsClue": "Lehenik aktibatu pista"
   },
   "categories": {
     "home": "Etxea",
@@ -48,34 +51,38 @@
     "passTo": "Pasatu mugikorra {{name}}(r)i",
     "holdToReveal": "Eutsi sakatuta zure rola ikusteko",
     "crew": "TRIPULATZAILEA zara",
-    "theWordIs": "Hitza hau da",
     "impostor": "INPOSTOREA zara",
-    "yourClue": "Pista",
-    "otherImpostors": "Beste inpostoreak",
     "next": "Hurrengo jokalaria",
-    "startDebate": "Hasi eztabaida"
+    "startDebate": "Hasi eztabaida",
+    "crewHint": "Hitz sekretua da: ez esan",
+    "clueHint": "Zure pista da, ez hitza",
+    "noClueWord": "Pistarik ez",
+    "noClueHint": "Entzun eta egin hitza dakizula",
+    "withImpostors": "{{names}}(r)ekin"
   },
   "round": {
-    "title": "Eztabaida",
+    "title": "{{round}}. txanda",
     "startsWith": "{{name}} hasten da",
     "music": "Atzeko planoko musika",
     "vote": "Bozkatu",
-    "guess": "Inpostore batek asmatzen du"
+    "guess": "Inpostore batek asmatzen du",
+    "players": "Jokalariak",
+    "out": "kanpo",
+    "reminder": "Txandaka, bakoitzak hitzarekin lotutako zerbait esaten du. Bozkatu nahi duzuenean."
   },
   "guess": {
     "title": "Asmatu hitza",
     "who": "Nork asmatzen du?",
-    "prompt": "Esan hitza ozen.",
     "correct": "Asmatu du",
     "wrong": "Huts egin du",
-    "cancel": "Atzera"
+    "cancel": "Atzera",
+    "promptNamed": "{{name}}, esan hitza ozen."
   },
   "vote": {
     "title": "Nor da inpostorea?",
     "confirm": "Berretsi botoa"
   },
   "elimination": {
-    "title": "Kanporatua",
     "wasImpostor": "{{name}} inpostorea zen",
     "wasCrew": "{{name}} ez zen inpostorea",
     "failedGuess": "{{name}}-k huts egin du asmatzean eta kanpoan da",
@@ -96,7 +103,28 @@
     "impostorWins": "Inpostoreek irabazi dute!",
     "theWordWas": "Hitza hau zen",
     "theImpostorsWere": "Inpostoreak hauek ziren",
-    "playAgain": "Jolastu berriro",
-    "guessedWord": "{{name}}(e)k hitza asmatu du"
+    "playAgain": "Aldatu ezarpenak",
+    "guessedWord": "{{name}}(e)k hitza asmatu du",
+    "rematch": "Beste partida bat"
+  },
+  "timer": {
+    "label": "Tenporizadorea",
+    "off": "Ez",
+    "minutes_one": "{{count}} min",
+    "minutes_other": "{{count}} min",
+    "timeUp": "Denbora!",
+    "reset": "Berrabiarazi tenporizadorea",
+    "pause": "Pausatu",
+    "start": "Hasi tenporizadorea",
+    "lastSeconds": "{{count}} segundo geratzen dira"
+  },
+  "rules": {
+    "open": "Nola jokatzen da?",
+    "title": "Nola jokatu",
+    "word": "Denek hitz sekretu bera jasotzen dute, inpostoreek izan ezik: haiek ez dakite.",
+    "clues": "Txandaka, bakoitzak hitzarekin lotutako zerbait esaten du, hitza esan gabe eta errazegi jarri gabe.",
+    "vote": "Nahi duzuenean, bozkatu inpostorea dela uste duzuena: partidatik kanpo geratzen da.",
+    "win": "Inpostore guztiak kanporatzen badituzue, tripulazioak irabazten du; tripulatzailerik geratzen ez bada, inpostoreek.",
+    "guess": "Edozein unetan, inpostore batek hitza esateko arriskua har dezake: asmatzen badu, inpostoreek irabazten dute; huts egiten badu, kanpo geratzen da."
   }
 }

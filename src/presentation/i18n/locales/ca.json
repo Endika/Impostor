@@ -1,20 +1,16 @@
 {
   "common": {
     "appName": "Impostor",
-    "next": "Següent",
-    "back": "Enrere",
-    "on": "Sí",
-    "off": "No",
     "confirmAgain": "Toca una altra vegada per confirmar",
     "leave": "Surt",
-    "leaveConfirm": "Segur que surts?"
+    "leaveConfirm": "Segur que surts?",
+    "close": "Tanca"
   },
   "setup": {
     "title": "Nova partida",
     "players": "Jugadors",
     "addPlayer": "Afegeix jugador",
     "playerName": "Nom del jugador",
-    "removePlayer": "Treu",
     "impostors": "Impostors",
     "impostorCount": "Nombre d'impostors",
     "randomImpostors": "Nombre d'impostors aleatori",
@@ -32,7 +28,14 @@
     "fewerImpostors": "Menys impostors",
     "moreImpostors": "Més impostors",
     "removePlayerNamed": "Treu {{name}}",
-    "removePlayerNumber": "Treu el jugador {{number}}"
+    "removePlayerNumber": "Treu el jugador {{number}}",
+    "settings": "Configuració",
+    "summaryClue": "Amb pista",
+    "summaryNoClue": "Sense pista",
+    "summaryCategories_one": "{{count}} categoria",
+    "summaryCategories_other": "{{count}} categories",
+    "needsTwoImpostors": "Només si hi pot haver 2 impostors",
+    "needsClue": "Activa primer la pista"
   },
   "categories": {
     "home": "Casa",
@@ -48,34 +51,38 @@
     "passTo": "Passa el mòbil a {{name}}",
     "holdToReveal": "Mantén premut per veure el teu rol",
     "crew": "Ets TRIPULANT",
-    "theWordIs": "La paraula és",
     "impostor": "Ets l'IMPOSTOR",
-    "yourClue": "Pista",
-    "otherImpostors": "Altres impostors",
     "next": "Jugador següent",
-    "startDebate": "Comença el debat"
+    "startDebate": "Comença el debat",
+    "crewHint": "És la paraula secreta: no la diguis",
+    "clueHint": "És la teva pista, no la paraula",
+    "noClueWord": "Sense pista",
+    "noClueHint": "Escolta i fes veure que la saps",
+    "withImpostors": "Amb {{names}}"
   },
   "round": {
-    "title": "Debat",
+    "title": "Ronda {{round}}",
     "startsWith": "Comença {{name}}",
     "music": "Música de fons",
     "vote": "Vota",
-    "guess": "Un impostor endevina"
+    "guess": "Un impostor endevina",
+    "players": "Jugadors",
+    "out": "fora",
+    "reminder": "Per torns, cadascú diu alguna cosa relacionada amb la paraula. Voteu quan vulgueu."
   },
   "guess": {
     "title": "Endevina la paraula",
     "who": "Qui endevina?",
-    "prompt": "Digues la paraula en veu alta.",
     "correct": "L'ha encertat",
     "wrong": "Ha fallat",
-    "cancel": "Enrere"
+    "cancel": "Enrere",
+    "promptNamed": "{{name}}, digues la paraula en veu alta."
   },
   "vote": {
     "title": "Qui és l'impostor?",
     "confirm": "Confirma el vot"
   },
   "elimination": {
-    "title": "Expulsat",
     "wasImpostor": "{{name}} era impostor",
     "wasCrew": "{{name}} no era impostor",
     "failedGuess": "{{name}} ha fallat en endevinar i queda fora",
@@ -96,7 +103,28 @@
     "impostorWins": "Guanyen els impostors!",
     "theWordWas": "La paraula era",
     "theImpostorsWere": "Els impostors eren",
-    "playAgain": "Torna a jugar",
-    "guessedWord": "{{name}} ha endevinat la paraula"
+    "playAgain": "Canvia la configuració",
+    "guessedWord": "{{name}} ha endevinat la paraula",
+    "rematch": "Revenja"
+  },
+  "timer": {
+    "label": "Temporitzador",
+    "off": "No",
+    "minutes_one": "{{count}} min",
+    "minutes_other": "{{count}} min",
+    "timeUp": "Temps!",
+    "reset": "Reinicia el temporitzador",
+    "pause": "Pausa",
+    "start": "Inicia el temporitzador",
+    "lastSeconds": "Queden {{count}} segons"
+  },
+  "rules": {
+    "open": "Com es juga?",
+    "title": "Com es juga",
+    "word": "Tothom rep la mateixa paraula secreta, menys els impostors, que no la saben.",
+    "clues": "Per torns, cadascú diu alguna cosa relacionada amb la paraula, sense dir-la ni posar-ho fàcil.",
+    "vote": "Quan vulgueu, voteu qui creieu que és impostor: queda fora de la partida.",
+    "win": "Si expulseu tots els impostors, guanya la tripulació; si no queda cap tripulant, guanyen els impostors.",
+    "guess": "En qualsevol moment, un impostor pot arriscar-se a dir la paraula: si l'encerta, guanyen els impostors; si falla, queda fora."
   }
 }

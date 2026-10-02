@@ -32,6 +32,8 @@ const state: GameState = {
   eliminatedIds: [],
   lastElimination: null,
   guesserId: null,
+  round: 1,
+  starterId: null,
 }
 
 describe('RoundScreen', () => {
@@ -51,13 +53,11 @@ describe('RoundScreen', () => {
     expect(screen.queryByText(/ana starts/i)).not.toBeInTheDocument()
   })
 
-  it('shows the round title and a vote button, with no countdown timer', () => {
-    renderWithProviders(<RoundScreen rng={() => 0} />, { initialState: state })
-    expect(screen.getByText(/discuss/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /vote/i })).toBeInTheDocument()
-    // No timer of any kind on this screen.
+  it('shows the round number and a vote button, with the timer off by default', () => {
+    renderWithProviders(<RoundScreen rng={() => 0} />, { initialState: { ...state, round: 2 } })
+    expect(screen.getByRole('heading', { name: /round 2/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^vote$/i })).toBeInTheDocument()
     expect(screen.queryByRole('timer')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('timer')).not.toBeInTheDocument()
   })
 
   it('dispatches END_ROUND when clicking Vote, moving to the vote screen', () => {
@@ -68,7 +68,7 @@ describe('RoundScreen', () => {
       </>,
       { initialState: state },
     )
-    fireEvent.click(screen.getByRole('button', { name: /vote/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^vote$/i }))
     expect(screen.getByTestId('screen')).toHaveTextContent('vote')
   })
 

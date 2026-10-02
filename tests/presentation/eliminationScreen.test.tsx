@@ -39,6 +39,8 @@ const state: GameState = {
     aliveCrewCount: 2,
   },
   guesserId: null,
+  round: 1,
+  starterId: null,
 }
 
 function ResultProbe() {

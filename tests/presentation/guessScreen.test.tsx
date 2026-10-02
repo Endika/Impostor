@@ -48,6 +48,8 @@ const baseState: GameState = {
   eliminatedIds: [],
   lastElimination: null,
   guesserId: null,
+  round: 1,
+  starterId: null,
 }
 
 describe('GuessScreen', () => {
