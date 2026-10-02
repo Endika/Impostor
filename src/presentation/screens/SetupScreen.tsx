@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { categoryData, categoryIds } from '../../content/categories'
 import { InMemoryWordBank } from '../../domain/content/InMemoryWordBank'
@@ -6,8 +6,13 @@ import { validateConfig } from '../../domain/game/validateConfig'
 import type { GameConfig, LocaleCode } from '../../domain/game/types'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
+import { Check, ChevronDown, CircleHelp, Plus, Settings2, X } from 'lucide-react'
 import { Button } from '../components/Button'
-import { SectionLabel } from '../components/Card'
+import { Card, SectionLabel } from '../components/Card'
+import { Input } from '../components/Input'
+import { Stepper } from '../components/Stepper'
+import { Toggle } from '../components/Toggle'
+import { RulesSheet } from '../components/RulesSheet'
 import { loadConfig, saveConfig } from '../state/persistence'
 import { loadUsedWords } from '../state/usedWords'
 import i18n from '../i18n'
@@ -37,6 +42,7 @@ export function SetupScreen() {
   const { t } = useTranslation()
   const { dispatch } = useGame()
   const { muted, toggleMuted } = useAudio()
+  const settingsId = useId()
 
   // Prefill from the last saved config so participants are remembered.
   const [saved] = useState(() => loadConfig())
@@ -60,6 +66,8 @@ export function SetupScreen() {
     () => saved?.locale ?? (i18n.language as LocaleCode) ?? 'en',
   )
   const [error, setError] = useState<string | null>(null)
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [rulesOpen, setRulesOpen] = useState(false)
 
   // Apply the remembered language once on mount.
   useEffect(() => {
@@ -155,21 +163,28 @@ export function SetupScreen() {
       })
     : null
 
+  const settingsSummary = [
+    impostorSeesClue ? t('setup.summaryClue') : t('setup.summaryNoClue'),
+    t('setup.summaryCategories', { count: selectedCategories.length }),
+    LOCALE_NAMES[locale],
+  ].join(' · ')
+
   return (
-    <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
-      <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
-        {t('setup.title')}
-      </h1>
+    <div className="flex flex-1 flex-col gap-7">
+      <h1 className="text-4xl font-extrabold tracking-tight">{t('setup.title')}</h1>
 
       <section className="flex flex-col gap-3">
         <SectionLabel>{t('setup.players')}</SectionLabel>
         <ul className="flex flex-col gap-2">
           {players.map((name, index) => (
             <li key={index} className="flex items-center gap-2">
-              <input
+              <Input
                 aria-label={t('setup.playerName')}
-                className="min-h-11 min-w-0 flex-1 rounded-xl border border-slate-300/80 bg-white/80 px-3.5 py-2.5 text-slate-900 shadow-sm backdrop-blur placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
+                className="flex-1"
                 value={name}
+                maxLength={16}
+                autoComplete="off"
+                enterKeyHint="next"
                 onChange={(e) => updatePlayer(index, e.target.value)}
                 placeholder={`${t('setup.playerName')} ${index + 1}`}
               />
@@ -181,170 +196,157 @@ export function SetupScreen() {
                       ? t('setup.removePlayerNamed', { name: name.trim() })
                       : t('setup.removePlayerNumber', { number: index + 1 })
                   }
-                  className="shrink-0 px-3"
+                  size="icon"
                   onClick={() => removePlayer(index)}
                 >
-                  ✕
+                  <X aria-hidden size={22} strokeWidth={2.5} />
                 </Button>
               )}
             </li>
           ))}
         </ul>
         <Button variant="secondary" onClick={addPlayer}>
+          <Plus aria-hidden size={20} strokeWidth={2.75} />
           {t('setup.addPlayer')}
         </Button>
       </section>
 
-      <section className="flex flex-col gap-3">
-        <SectionLabel>{t('setup.impostorCount')}</SectionLabel>
-        <div className={`flex items-center gap-2 ${randomImpostors ? 'opacity-40' : ''}`}>
-          <Button
-            variant="secondary"
-            aria-label={t('setup.fewerImpostors')}
-            className="h-11 w-11 shrink-0 px-0 text-xl"
-            disabled={randomImpostors}
-            onClick={() => changeCount(impostorCount - 1)}
-          >
-            −
-          </Button>
-          <input
-            id="impostor-count"
-            type="number"
-            aria-label={t('setup.impostorCount')}
+      <section className="flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-4">
+          <SectionLabel id="impostor-count-label">{t('setup.impostors')}</SectionLabel>
+          <Stepper
+            value={impostorCount}
             min={1}
             max={maxImpostors}
+            onChange={changeCount}
+            label={t('setup.impostorCount')}
+            decreaseLabel={t('setup.fewerImpostors')}
+            increaseLabel={t('setup.moreImpostors')}
             disabled={randomImpostors}
-            className="min-h-11 w-full min-w-0 rounded-xl border border-slate-300/80 bg-white/80 px-3 py-2 text-center text-lg font-bold text-slate-900 shadow-sm backdrop-blur focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 disabled:cursor-not-allowed dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
-            value={impostorCount}
-            onChange={(e) => changeCount(Number(e.target.value) || 1)}
           />
-          <Button
-            variant="secondary"
-            aria-label={t('setup.moreImpostors')}
-            className="h-11 w-11 shrink-0 px-0 text-xl"
-            disabled={randomImpostors}
-            onClick={() => changeCount(impostorCount + 1)}
-          >
-            +
-          </Button>
         </div>
-        <label className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/70">
-          <span className="text-slate-700 dark:text-slate-200">{t('setup.randomImpostors')}</span>
-          <input
-            type="checkbox"
-            className="h-5 w-5 accent-brand-600"
-            checked={randomImpostors}
-            onChange={(e) => setRandomImpostors(e.target.checked)}
-          />
-        </label>
+        <Toggle
+          label={t('setup.randomImpostors')}
+          checked={randomImpostors}
+          onChange={setRandomImpostors}
+        />
       </section>
 
-      <section className="flex flex-col gap-2">
-        <label className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/70">
-          <span className="text-slate-700 dark:text-slate-200">{t('setup.seesClue')}</span>
-          <input
-            type="checkbox"
-            className="h-5 w-5 accent-brand-600"
-            checked={impostorSeesClue}
-            onChange={(e) => setImpostorSeesClue(e.target.checked)}
-          />
-        </label>
-        <label
-          className={`flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/70 ${
-            seeEachOtherDisabled ? 'opacity-40' : ''
-          }`}
+      <section className="flex flex-col">
+        <button
+          type="button"
+          aria-expanded={settingsOpen}
+          aria-controls={settingsId}
+          className="flex min-h-14 items-center gap-3 rounded-2xl border-2 border-line bg-surface px-4 py-3 text-left transition-colors hover:border-line-strong focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand/70"
+          onClick={() => setSettingsOpen((o) => !o)}
         >
-          <span className="text-slate-700 dark:text-slate-200">{t('setup.seeEachOther')}</span>
-          <input
-            type="checkbox"
-            className="h-5 w-5 accent-brand-600"
-            checked={!seeEachOtherDisabled && impostorsSeeEachOther}
-            disabled={seeEachOtherDisabled}
-            onChange={(e) => setImpostorsSeeEachOther(e.target.checked)}
+          <Settings2 aria-hidden size={22} strokeWidth={2.5} className="shrink-0 text-muted" />
+          <span className="flex min-w-0 flex-1 flex-col">
+            <span className="font-bold">{t('setup.settings')}</span>
+            <span className="truncate text-sm text-muted">{settingsSummary}</span>
+          </span>
+          <ChevronDown
+            aria-hidden
+            size={22}
+            strokeWidth={2.5}
+            className={`shrink-0 text-muted transition-transform duration-200 ${settingsOpen ? 'rotate-180' : ''}`}
           />
-        </label>
-        <label
-          className={`flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm transition hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/70 ${
-            differentClueDisabled ? 'opacity-40' : ''
-          }`}
-        >
-          <span className="text-slate-700 dark:text-slate-200">{t('setup.differentClue')}</span>
-          <input
-            type="checkbox"
-            className="h-5 w-5 accent-brand-600"
-            checked={!differentClueDisabled && differentCluePerImpostor}
-            disabled={differentClueDisabled}
-            onChange={(e) => setDifferentCluePerImpostor(e.target.checked)}
-          />
-        </label>
-      </section>
+        </button>
 
-      <section className="flex flex-col gap-2">
-        <SectionLabel>{t('setup.categories')}</SectionLabel>
-        <div className="flex flex-wrap gap-2">
-          {categoryIds.map((id) => {
-            const active = selectedCategories.includes(id)
-            return (
-              <button
-                key={id}
-                type="button"
-                aria-pressed={active}
-                className={`min-h-11 rounded-full border px-4 py-2 text-sm font-semibold transition active:scale-[0.95] ${
-                  active
-                    ? 'border-transparent bg-gradient-to-b from-brand-500 to-brand-600 text-white shadow-sm shadow-brand-600/25'
-                    : 'border-slate-300/80 bg-white/60 text-slate-600 backdrop-blur hover:bg-white dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:bg-slate-800'
-                }`}
-                onClick={() => toggleCategory(id)}
+        <div id={settingsId} hidden={!settingsOpen}>
+          <Card className="mt-2 flex flex-col gap-5 p-4">
+            <div className="flex flex-col">
+              <Toggle
+                label={t('setup.seesClue')}
+                checked={impostorSeesClue}
+                onChange={setImpostorSeesClue}
+              />
+              <Toggle
+                label={t('setup.seeEachOther')}
+                checked={!seeEachOtherDisabled && impostorsSeeEachOther}
+                disabled={seeEachOtherDisabled}
+                disabledReason={t('setup.needsTwoImpostors')}
+                onChange={setImpostorsSeeEachOther}
+              />
+              <Toggle
+                label={t('setup.differentClue')}
+                checked={!differentClueDisabled && differentCluePerImpostor}
+                disabled={differentClueDisabled}
+                disabledReason={
+                  impostorSeesClue ? t('setup.needsTwoImpostors') : t('setup.needsClue')
+                }
+                onChange={setDifferentCluePerImpostor}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2.5">
+              <SectionLabel>{t('setup.categories')}</SectionLabel>
+              <div className="flex flex-wrap gap-2">
+                {categoryIds.map((id) => {
+                  const active = selectedCategories.includes(id)
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      aria-pressed={active}
+                      className={`flex min-h-11 items-center gap-1.5 rounded-full border-2 px-4 text-base font-bold transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand/70 ${
+                        active
+                          ? 'border-ink bg-raised text-ink'
+                          : 'border-line text-muted hover:text-ink'
+                      }`}
+                      onClick={() => toggleCategory(id)}
+                    >
+                      {active && <Check aria-hidden size={16} strokeWidth={3} />}
+                      {t(`categories.${id}`)}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2.5">
+              <label htmlFor="language-select" className="text-base font-bold">
+                {t('setup.language')}
+              </label>
+              <select
+                id="language-select"
+                className="min-h-12 rounded-2xl border-2 border-line bg-raised px-3 text-lg text-ink focus:border-ink focus:outline-none"
+                value={locale}
+                onChange={(e) => changeLocale(e.target.value as LocaleCode)}
               >
-                {t(`categories.${id}`)}
-              </button>
-            )
-          })}
+                {LOCALES.map((code) => (
+                  <option key={code} value={code} lang={code === 'va' ? 'ca-valencia' : code}>
+                    {LOCALE_NAMES[code]}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <Toggle label={t('setup.audio')} checked={!muted} onChange={toggleMuted} />
+          </Card>
         </div>
       </section>
 
-      <section className="flex flex-col gap-2">
-        <label
-          htmlFor="language-select"
-          className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400"
-        >
-          {t('setup.language')}
-        </label>
-        <select
-          id="language-select"
-          className="min-h-11 rounded-xl border border-slate-300/80 bg-white/80 px-3 py-2 text-slate-900 shadow-sm backdrop-blur focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100"
-          value={locale}
-          onChange={(e) => changeLocale(e.target.value as LocaleCode)}
-        >
-          {LOCALES.map((code) => (
-            <option key={code} value={code} lang={code === 'va' ? 'ca-valencia' : code}>
-              {LOCALE_NAMES[code]}
-            </option>
-          ))}
-        </select>
-      </section>
-
-      <section>
-        <label className="flex min-h-11 items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
-          <span className="text-slate-700 dark:text-slate-200">{t('setup.audio')}</span>
-          <Button variant="ghost" aria-pressed={!muted} className="px-4" onClick={toggleMuted}>
-            {muted ? t('common.off') : t('common.on')}
-          </Button>
-        </label>
-      </section>
-
-      {errorMessage && (
-        <p
-          role="alert"
-          className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm font-medium text-red-700 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-300"
-        >
-          {errorMessage}
-        </p>
-      )}
-
-      <Button size="lg" className="mt-auto w-full" onClick={handleStart}>
-        {t('setup.start')}
+      <Button variant="ghost" className="self-start" onClick={() => setRulesOpen(true)}>
+        <CircleHelp aria-hidden size={20} strokeWidth={2.5} />
+        {t('rules.open')}
       </Button>
+
+      <div className="sticky bottom-0 mt-auto flex flex-col gap-3 bg-ground pt-2 pb-1">
+        {errorMessage && (
+          <p
+            role="alert"
+            className="rounded-2xl border-2 border-danger px-4 py-3 font-bold text-danger"
+          >
+            {errorMessage}
+          </p>
+        )}
+        <Button size="lg" className="w-full" onClick={handleStart}>
+          {t('setup.start')}
+        </Button>
+      </div>
+
+      <RulesSheet open={rulesOpen} onClose={() => setRulesOpen(false)} />
     </div>
   )
 }

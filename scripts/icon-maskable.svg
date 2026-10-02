@@ -1,22 +1,9 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#8b5cf6"/>
-      <stop offset="1" stop-color="#6d28d9"/>
-    </linearGradient>
-  </defs>
-  <!-- full-bleed background for maskable safe zone -->
-  <rect width="512" height="512" fill="url(#bg)"/>
-  <!-- mark scaled to ~70% and centered (safe zone) -->
-  <g transform="translate(76,76) scale(0.703)">
-    <ellipse cx="256" cy="196" rx="186" ry="40" fill="#0f172a"/>
-    <path d="M150 196 C150 130 196 96 256 96 C316 96 362 130 362 196 Z" fill="#1e293b"/>
-    <rect x="150" y="178" width="212" height="22" rx="6" fill="#8b5cf6"/>
-    <path d="M120 268 C120 244 142 230 176 230 C208 230 230 244 256 244 C282 244 304 230 336 230 C370 230 392 244 392 268 C392 312 360 340 312 340 C282 340 268 320 256 320 C244 320 230 340 200 340 C152 340 120 312 120 268 Z" fill="#0f172a"/>
-    <circle cx="196" cy="284" r="22" fill="#ffffff"/>
-    <circle cx="316" cy="284" r="22" fill="#ffffff"/>
-    <circle cx="196" cy="284" r="10" fill="#0f172a"/>
-    <circle cx="316" cy="284" r="10" fill="#0f172a"/>
-    <text x="256" y="436" font-family="Arial, Helvetica, sans-serif" font-size="120" font-weight="800" fill="#ffffff" text-anchor="middle">?</text>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- full-bleed ground; the mark stays inside the 80% safe zone -->
+  <rect width="512" height="512" fill="#0d1020"/>
+  <g transform="translate(76,72) scale(5.625)">
+    <path d="M8 30c0-6 5-10 13-10 6 0 8 3 11 3s5-3 11-3c8 0 13 4 13 10 0 9-6 15-14 15-5 0-7-4-10-4s-5 4-10 4c-8 0-14-6-14-15z" fill="#ff6b57"/>
+    <ellipse cx="21" cy="31" rx="5" ry="4" fill="#0d1020"/>
+    <ellipse cx="43" cy="31" rx="5" ry="4" fill="#0d1020"/>
   </g>
 </svg>

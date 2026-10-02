@@ -1,20 +1,16 @@
 {
   "common": {
     "appName": "Impostor",
-    "next": "Next",
-    "back": "Back",
-    "on": "On",
-    "off": "Off",
     "confirmAgain": "Tap again to confirm",
     "leave": "Leave",
-    "leaveConfirm": "Really leave?"
+    "leaveConfirm": "Really leave?",
+    "close": "Close"
   },
   "setup": {
     "title": "New game",
     "players": "Players",
     "addPlayer": "Add player",
     "playerName": "Player name",
-    "removePlayer": "Remove",
     "impostors": "Impostors",
     "impostorCount": "Number of impostors",
     "randomImpostors": "Random number of impostors",
@@ -32,7 +28,14 @@
     "fewerImpostors": "Fewer impostors",
     "moreImpostors": "More impostors",
     "removePlayerNamed": "Remove {{name}}",
-    "removePlayerNumber": "Remove player {{number}}"
+    "removePlayerNumber": "Remove player {{number}}",
+    "settings": "Settings",
+    "summaryClue": "With clue",
+    "summaryNoClue": "No clue",
+    "summaryCategories_one": "{{count}} category",
+    "summaryCategories_other": "{{count}} categories",
+    "needsTwoImpostors": "Only when there can be 2 impostors",
+    "needsClue": "Turn on the clue first"
   },
   "categories": {
     "home": "Home",
@@ -48,34 +51,38 @@
     "passTo": "Pass the phone to {{name}}",
     "holdToReveal": "Hold to see your role",
     "crew": "You are CREW",
-    "theWordIs": "The word is",
     "impostor": "You are the IMPOSTOR",
-    "yourClue": "Clue",
-    "otherImpostors": "Other impostors",
     "next": "Next player",
-    "startDebate": "Start the debate"
+    "startDebate": "Start the debate",
+    "crewHint": "It's the secret word: don't say it",
+    "clueHint": "It's your clue, not the word",
+    "noClueWord": "No clue",
+    "noClueHint": "Listen and pretend you know it",
+    "withImpostors": "With {{names}}"
   },
   "round": {
-    "title": "Discuss",
+    "title": "Round {{round}}",
     "startsWith": "{{name}} starts",
     "music": "Background music",
     "vote": "Vote",
-    "guess": "An impostor guesses"
+    "guess": "An impostor guesses",
+    "players": "Players",
+    "out": "out",
+    "reminder": "Take turns saying something related to the word. Vote whenever you like."
   },
   "guess": {
     "title": "Guess the word",
     "who": "Who is guessing?",
-    "prompt": "Say the word out loud.",
     "correct": "They got it right",
     "wrong": "They got it wrong",
-    "cancel": "Back"
+    "cancel": "Back",
+    "promptNamed": "{{name}}, say the word out loud."
   },
   "vote": {
     "title": "Who is the impostor?",
     "confirm": "Confirm vote"
   },
   "elimination": {
-    "title": "Voted out",
     "wasImpostor": "{{name}} was an impostor",
     "wasCrew": "{{name}} was not an impostor",
     "failedGuess": "{{name}} guessed wrong and is out",
@@ -96,7 +103,28 @@
     "impostorWins": "The impostors win!",
     "theWordWas": "The word was",
     "theImpostorsWere": "The impostors were",
-    "playAgain": "Play again",
-    "guessedWord": "{{name}} guessed the word"
+    "playAgain": "Change settings",
+    "guessedWord": "{{name}} guessed the word",
+    "rematch": "Rematch"
+  },
+  "timer": {
+    "label": "Timer",
+    "off": "Off",
+    "minutes_one": "{{count}} min",
+    "minutes_other": "{{count}} min",
+    "timeUp": "Time!",
+    "reset": "Reset timer",
+    "pause": "Pause",
+    "start": "Start timer",
+    "lastSeconds": "{{count}} seconds left"
+  },
+  "rules": {
+    "open": "How to play",
+    "title": "How to play",
+    "word": "Everyone gets the same secret word, except the impostors, who don't know it.",
+    "clues": "Take turns saying something related to the word, without saying it or making it too easy.",
+    "vote": "Whenever you're ready, vote for who you think is an impostor: they're out.",
+    "win": "Vote out every impostor and the crew wins; if no crew members are left, the impostors win.",
+    "guess": "At any moment an impostor can risk saying the word: right and the impostors win; wrong and they're out."
   }
 }

@@ -1,9 +1,24 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CircleHelp, Lightbulb, UserX } from 'lucide-react'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
 import { Button } from '../components/Button'
+import { Card } from '../components/Card'
+import { Toggle } from '../components/Toggle'
+import { DebateTimer, TENSE_FROM_SECONDS } from '../components/DebateTimer'
+import { RulesSheet } from '../components/RulesSheet'
 import type { Rng } from '../../domain/game/types'
+
+const MUSIC_KEY = 'impostor.music'
+
+function loadMusicOn(): boolean {
+  try {
+    return window.localStorage.getItem(MUSIC_KEY) === 'true'
+  } catch {
+    return false
+  }
+}
 
 interface RoundScreenProps {
   rng?: Rng
@@ -12,89 +27,113 @@ interface RoundScreenProps {
 export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
   const { t } = useTranslation()
   const { state, dispatch } = useGame()
-  const { startLoop, stopLoop, muted } = useAudio()
+  const { startLoop, stopLoop, play, muted } = useAudio()
 
-  const assignment = state.assignment
+  const { assignment, eliminatedIds, round, starterId } = state
+  const alive = (assignment?.players ?? []).filter((p) => !eliminatedIds.includes(p.id))
 
-  // Pick the starting player once on mount among alive players only;
-  // tests inject a deterministic rng.
-  const [starter] = useState(() => {
-    const players = (assignment?.players ?? []).filter((p) => !state.eliminatedIds.includes(p.id))
-    if (players.length === 0) return null
-    return players[Math.floor(rng() * players.length)] ?? players[0]
-  })
-
-  const [musicOn, setMusicOn] = useState(false)
+  // The starter is drawn once per round and kept in the game state, so leaving
+  // for a guess or reloading the app never reshuffles who opens the debate.
+  const [drawn] = useState(() => alive[Math.floor(rng() * alive.length)] ?? alive[0])
+  const starter = alive.find((p) => p.id === starterId) ?? drawn
 
   useEffect(() => {
-    if (musicOn && !muted) {
-      try {
-        startLoop('calm')
-      } catch {
-        // background music is best-effort
-      }
-    } else {
-      try {
-        stopLoop()
-      } catch {
-        // ignore
-      }
+    if (!starterId && drawn) dispatch({ type: 'SET_STARTER', playerId: drawn.id })
+  }, [starterId, drawn, dispatch])
+
+  const [musicOn, setMusicOn] = useState(loadMusicOn)
+  const [tense, setTense] = useState(false)
+  const [rulesOpen, setRulesOpen] = useState(false)
+
+  useEffect(() => {
+    try {
+      if (musicOn && !muted) startLoop(tense ? 'tense' : 'calm')
+      else stopLoop()
+    } catch {
+      // background music is best-effort
     }
-    return () => {
-      try {
-        stopLoop()
-      } catch {
-        // ignore
-      }
+  }, [musicOn, muted, tense, startLoop, stopLoop])
+
+  useEffect(() => () => stopLoop(), [stopLoop])
+
+  function changeMusic(on: boolean) {
+    setMusicOn(on)
+    try {
+      window.localStorage.setItem(MUSIC_KEY, String(on))
+    } catch {
+      // ignore persistence failures
     }
-  }, [musicOn, muted, startLoop, stopLoop])
+  }
 
   if (!assignment || !starter) return null
 
   return (
-    <div className="rise-in flex min-h-full flex-1 flex-col gap-8">
-      <h1 className="text-center text-xs font-bold uppercase tracking-[0.18em] text-brand-500 dark:text-brand-300">
-        {t('round.title')}
-      </h1>
-
-      <div className="flex flex-1 flex-col items-center justify-center gap-5 text-center">
-        <span
-          aria-hidden
-          className="flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-500/15 to-accent-500/15 text-5xl shadow-sm ring-1 ring-brand-500/20"
-        >
-          💬
-        </span>
-        <p className="text-balance text-4xl font-black leading-tight tracking-tight text-slate-900 dark:text-slate-50">
+    <div className="flex flex-1 flex-col gap-6">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-3xl font-extrabold tracking-tight">{t('round.title', { round })}</h1>
+        <p className="text-2xl font-bold text-muted [overflow-wrap:anywhere]">
           {t('round.startsWith', { name: starter.name })}
         </p>
       </div>
 
-      <label className="flex min-h-11 items-center justify-between rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
-        <span className="text-base font-medium text-slate-700 dark:text-slate-200">
-          {t('round.music')}
-        </span>
-        <input
-          type="checkbox"
-          className="h-5 w-5 accent-brand-600"
-          checked={musicOn}
-          onChange={(e) => setMusicOn(e.target.checked)}
-        />
-      </label>
+      <ul aria-label={t('round.players')} className="flex flex-wrap gap-2">
+        {assignment.players.map((p) => {
+          const out = eliminatedIds.includes(p.id)
+          return (
+            <li
+              key={p.id}
+              className={`flex min-h-10 items-center gap-1.5 rounded-full border-2 px-3.5 text-base font-bold ${
+                out
+                  ? 'border-transparent bg-surface text-muted line-through'
+                  : 'border-line bg-raised'
+              }`}
+            >
+              {out && <UserX aria-hidden size={16} strokeWidth={2.5} />}
+              <span className="[overflow-wrap:anywhere]">{p.name}</span>
+              {out && <span className="sr-only">{t('round.out')}</span>}
+            </li>
+          )
+        })}
+      </ul>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col items-start gap-1">
+        <p className="text-lg text-muted">{t('round.reminder')}</p>
+        <Button variant="ghost" size="sm" className="-ml-3" onClick={() => setRulesOpen(true)}>
+          <CircleHelp aria-hidden size={18} strokeWidth={2.5} />
+          {t('rules.open')}
+        </Button>
+      </div>
+
+      <Card className="flex flex-col gap-2 p-4">
+        <DebateTimer
+          roundKey={`${assignment.word}:${round}`}
+          onTick={(left, running) => setTense(running && left > 0 && left <= TENSE_FROM_SECONDS)}
+          onTimeUp={() => {
+            try {
+              play('timeUp')
+            } catch {
+              // audio is best-effort
+            }
+          }}
+        />
+        <Toggle label={t('round.music')} checked={musicOn} onChange={changeMusic} />
+      </Card>
+
+      <div className="sticky bottom-0 mt-auto flex flex-col gap-3 bg-ground pt-2 pb-1">
         <Button size="lg" className="w-full" onClick={() => dispatch({ type: 'END_ROUND' })}>
           {t('round.vote')}
         </Button>
-
         <Button
           variant="secondary"
-          size="lg"
-          className="w-full border-amber-400 bg-amber-400/90 text-amber-950 shadow-amber-500/20 hover:bg-amber-300 dark:border-amber-500/50 dark:bg-amber-500/25 dark:text-amber-100 dark:hover:bg-amber-500/35"
+          className="w-full"
           onClick={() => dispatch({ type: 'START_GUESS' })}
         >
+          <Lightbulb aria-hidden size={20} strokeWidth={2.5} />
           {t('round.guess')}
         </Button>
       </div>
+
+      <RulesSheet open={rulesOpen} onClose={() => setRulesOpen(false)} />
     </div>
   )
 }

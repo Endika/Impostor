@@ -24,19 +24,27 @@ export default defineConfig({
         name: 'Impostor',
         short_name: 'Impostor',
         description: 'Offline party game — find the impostor. No login.',
-        theme_color: '#7c3aed',
-        background_color: '#0f172a',
+        theme_color: '#0d1020',
+        background_color: '#0d1020',
         display: 'standalone',
         start_url: '/Impostor/',
         scope: '/Impostor/',
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-          { src: 'icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          {
+            src: 'icon-maskable-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
         ],
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,json,svg,png,ico,woff2}'],
+        // The six locales are Latin script; leave the other Rubik subsets to
+        // load on demand instead of precaching them.
+        globIgnores: ['**/rubik-{arabic,cyrillic,cyrillic-ext,hebrew,greek}-*.woff2'],
         navigateFallback: '/Impostor/index.html',
       },
       devOptions: { enabled: false },

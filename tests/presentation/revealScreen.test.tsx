@@ -50,6 +50,8 @@ function buildState(revealIndex: number): GameState {
     eliminatedIds: [],
     lastElimination: null,
     guesserId: null,
+    round: 1,
+    starterId: null,
   }
 }
 
@@ -95,14 +97,16 @@ describe('RevealScreen', () => {
   })
 
   it('gives crew and impostors the exact same card so nobody reads it from afar', () => {
+    // Same surface and the same skeleton: every child in the same slot with
+    // the same type size, whatever the role.
     const backOf = (index: number) => {
       const { unmount } = render(index)
       const card = screen.getByTestId('reveal-card')
       fireEvent.pointerDown(card)
       const back = card.querySelector('.flip-back')!
-      const classes = back.className
+      const shape = [back.className, ...[...back.children].map((c) => c.className)].join('|')
       unmount()
-      return classes
+      return shape
     }
     expect(backOf(0)).toBe(backOf(1))
   })
@@ -124,9 +128,9 @@ describe('RevealScreen', () => {
     render(0)
     const card = screen.getByTestId('reveal-card')
     fireEvent.pointerDown(card)
-    expect(screen.getByText(/you are crew\. the word is: playa/i)).toBeInTheDocument()
+    expect(screen.getByText(/you are crew\. playa\. /i)).toBeInTheDocument()
     fireEvent.pointerUp(card)
-    expect(screen.queryByText(/the word is: playa/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/you are crew\. playa/i)).not.toBeInTheDocument()
   })
 
   it('only lets the phone move on after the player has seen the card', () => {

@@ -52,6 +52,8 @@ describe('VoteScreen', () => {
       eliminatedIds: [],
       lastElimination: null,
       guesserId: null,
+      round: 1,
+      starterId: null,
     }
     renderWithProviders(
       <>
@@ -61,7 +63,7 @@ describe('VoteScreen', () => {
       { initialState: state },
     )
 
-    fireEvent.click(screen.getByRole('button', { name: 'Ben' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'Ben' }))
     fireEvent.click(screen.getByRole('button', { name: /confirm vote/i }))
 
     // CAST_VOTE always lands on the elimination screen now, even on a
@@ -82,12 +84,14 @@ describe('VoteScreen', () => {
       eliminatedIds: ['p3'],
       lastElimination: null,
       guesserId: null,
+      round: 1,
+      starterId: null,
     }
     renderWithProviders(<VoteScreen />, { initialState: state })
 
-    expect(screen.getByRole('button', { name: 'Ana' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Ben' })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Cleo' })).not.toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: 'Ana' })).toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: 'Ben' })).toBeInTheDocument()
+    expect(screen.queryByRole('radio', { name: 'Cleo' })).not.toBeInTheDocument()
   })
 })
 
@@ -108,6 +112,8 @@ describe('ResultScreen (crew win)', () => {
     eliminatedIds: ['p2'],
     lastElimination: null,
     guesserId: null,
+    round: 1,
+    starterId: null,
   }
 
   it('reveals the voted player was the impostor and the crew won', () => {
@@ -118,7 +124,7 @@ describe('ResultScreen (crew win)', () => {
     // impostor name under "the impostors were"
     expect(screen.getByText(/the impostors were/i)).toBeInTheDocument()
     expect(screen.getByText('Ben')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /play again/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /change settings/i })).toBeInTheDocument()
   })
 
   it('returns to setup keeping the config on Play again', () => {
@@ -129,7 +135,7 @@ describe('ResultScreen (crew win)', () => {
       </>,
       { initialState: state },
     )
-    fireEvent.click(screen.getByRole('button', { name: /play again/i }))
+    fireEvent.click(screen.getByRole('button', { name: /change settings/i }))
     expect(screen.getByTestId('screen')).toHaveTextContent('setup')
     expect(screen.getByTestId('config-players')).toHaveTextContent('Ana,Ben,Cleo')
   })
@@ -153,6 +159,8 @@ describe('ResultScreen (impostor win)', () => {
       eliminatedIds: ['p1'],
       lastElimination: null,
       guesserId: null,
+      round: 1,
+      starterId: null,
     }
     renderWithProviders(<ResultScreen />, { initialState: state })
     expect(screen.getByText(/ana was not the impostor/i)).toBeInTheDocument()

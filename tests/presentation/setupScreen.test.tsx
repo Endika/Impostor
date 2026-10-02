@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { fireEvent, screen } from '@testing-library/react'
+import { fireEvent, screen, within } from '@testing-library/react'
 import { renderWithProviders } from '../helpers/renderWithProviders'
 import { SetupScreen } from '../../src/presentation/screens/SetupScreen'
 import { useGame } from '../../src/presentation/state/useGame'
@@ -12,6 +12,22 @@ function ScreenProbe() {
 function fillPlayer(index: number, name: string) {
   const inputs = screen.getAllByLabelText(/player name/i)
   fireEvent.change(inputs[index]!, { target: { value: name } })
+}
+
+function impostorCount() {
+  const group = screen.getByRole('group', { name: /^number of impostors$/i })
+  return within(group).getByRole('status').textContent
+}
+
+function setCount(target: number) {
+  const more = screen.getByRole('button', { name: /more impostors/i })
+  const fewer = screen.getByRole('button', { name: /fewer impostors/i })
+  for (let i = 0; i < 10 && Number(impostorCount()) < target; i++) fireEvent.click(more)
+  for (let i = 0; i < 10 && Number(impostorCount()) > target; i++) fireEvent.click(fewer)
+}
+
+function openSettings() {
+  fireEvent.click(screen.getByRole('button', { name: /settings/i }))
 }
 
 function setup() {
@@ -46,8 +62,7 @@ describe('SetupScreen', () => {
     )
     setup()
 
-    const count = screen.getByLabelText(/^number of impostors$/i) as HTMLInputElement
-    expect(count.value).toBe('3')
+    expect(impostorCount()).toBe('3')
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
@@ -61,8 +76,7 @@ describe('SetupScreen', () => {
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
 
-    const count = screen.getByLabelText(/^number of impostors$/i) as HTMLInputElement
-    fireEvent.change(count, { target: { value: '2' } })
+    setCount(2)
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
@@ -89,14 +103,14 @@ describe('SetupScreen', () => {
     fireEvent.click(screen.getByRole('button', { name: /add player/i }))
     fillPlayer(3, 'Dan')
 
-    const count = screen.getByLabelText(/^number of impostors$/i) as HTMLInputElement
     // 4 players -> max 3 impostors.
-    fireEvent.change(count, { target: { value: '3' } })
-    expect(count.value).toBe('3')
+    setCount(3)
+    expect(impostorCount()).toBe('3')
+    expect(screen.getByRole('button', { name: /more impostors/i })).toBeDisabled()
 
     // Remove a player: max drops to 2, so the count is clamped.
     fireEvent.click(screen.getAllByRole('button', { name: /remove/i })[0]!)
-    expect(count.value).toBe('2')
+    expect(impostorCount()).toBe('2')
   })
 
   it('disables the count stepper and starts a random game when the random toggle is on', () => {
@@ -105,14 +119,12 @@ describe('SetupScreen', () => {
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
 
-    const toggle = screen.getByRole('checkbox', {
-      name: /random number of impostors/i,
-    }) as HTMLInputElement
+    const toggle = screen.getByRole('switch', { name: /random number of impostors/i })
     fireEvent.click(toggle)
     expect(toggle).toBeChecked()
 
-    const count = screen.getByLabelText(/^number of impostors$/i) as HTMLInputElement
-    expect(count).toBeDisabled()
+    expect(screen.getByRole('button', { name: /more impostors/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /fewer impostors/i })).toBeDisabled()
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
@@ -123,6 +135,7 @@ describe('SetupScreen', () => {
 
   it('renders chips for the new categories', () => {
     setup()
+    openSettings()
     expect(screen.getByRole('button', { name: 'Food' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Animals' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Cinema' })).toBeInTheDocument()
@@ -150,22 +163,22 @@ describe('SetupScreen', () => {
 
   it('renders the different-clue toggle, disabled while clues are off', () => {
     setup()
-    const toggle = screen.getByRole('checkbox', {
-      name: /each impostor gets a different clue/i,
-    }) as HTMLInputElement
-    expect(toggle).toBeInTheDocument()
-    // Clues default off -> toggle disabled.
+    openSettings()
+    const toggle = screen.getByRole('switch', { name: /each impostor gets a different clue/i })
+    // Clues default off -> toggle disabled, and it says why.
     expect(toggle).toBeDisabled()
+    expect(toggle).toHaveAccessibleDescription(/turn on the clue first/i)
+    expect(toggle).toHaveAccessibleName('Each impostor gets a different clue')
   })
 
   it('keeps the different-clue toggle disabled when fewer than 2 impostors', () => {
     setup()
+    openSettings()
     // Turn clues on but leave the fixed count at 1.
-    fireEvent.click(screen.getByRole('checkbox', { name: /see a clue/i }))
-    const toggle = screen.getByRole('checkbox', {
-      name: /each impostor gets a different clue/i,
-    }) as HTMLInputElement
+    fireEvent.click(screen.getByRole('switch', { name: /see a clue/i }))
+    const toggle = screen.getByRole('switch', { name: /each impostor gets a different clue/i })
     expect(toggle).toBeDisabled()
+    expect(toggle).toHaveAccessibleDescription(/2 impostors/i)
   })
 
   it('enables the different-clue toggle when clues are on and the count is >= 2', () => {
@@ -173,13 +186,11 @@ describe('SetupScreen', () => {
     fillPlayer(0, 'Ana')
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
-    fireEvent.click(screen.getByRole('checkbox', { name: /see a clue/i }))
-    const count = screen.getByLabelText(/^number of impostors$/i) as HTMLInputElement
-    fireEvent.change(count, { target: { value: '2' } })
+    openSettings()
+    fireEvent.click(screen.getByRole('switch', { name: /see a clue/i }))
+    setCount(2)
 
-    const toggle = screen.getByRole('checkbox', {
-      name: /each impostor gets a different clue/i,
-    }) as HTMLInputElement
+    const toggle = screen.getByRole('switch', { name: /each impostor gets a different clue/i })
     expect(toggle).not.toBeDisabled()
 
     fireEvent.click(toggle)
@@ -207,6 +218,7 @@ describe('SetupScreen', () => {
 
   it('names every control by what it does', () => {
     setup()
+    openSettings()
     expect(screen.getByRole('button', { name: /fewer impostors/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /more impostors/i })).toBeInTheDocument()
     expect(screen.getByRole('option', { name: 'Euskara' })).toBeInTheDocument()

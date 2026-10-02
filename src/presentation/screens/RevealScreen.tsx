@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
+import { Hand } from 'lucide-react'
 import { Button } from '../components/Button'
 
 export function RevealScreen() {
@@ -59,25 +60,36 @@ export function RevealScreen() {
   const showOtherImpostors =
     config.impostorsSeeEachOther && assignment.impostorIds.length >= 2 && otherImpostors.length > 0
 
-  // Both roles share one back face so nobody can read the role from across the
-  // table; only the text on it differs.
-  const backTone = 'border-slate-300/80 bg-white dark:border-slate-600 dark:bg-slate-800'
+  const others = showOtherImpostors ? otherImpostors.map((p) => p.name).join(', ') : null
+  const back = !current.isImpostor
+    ? { title: t('reveal.crew'), display: assignment.word, support: t('reveal.crewHint') }
+    : {
+        title: t('reveal.impostor'),
+        display: current.clue ?? t('reveal.noClueWord'),
+        support: [
+          current.clue ? t('reveal.clueHint') : t('reveal.noClueHint'),
+          others && t('reveal.withImpostors', { names: others }),
+        ]
+          .filter(Boolean)
+          .join(' · '),
+      }
+  const last = revealIndex === assignment.players.length - 1
 
   return (
-    <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
+    <div className="flex flex-1 flex-col gap-5">
       <h1
         ref={heading}
         tabIndex={-1}
-        className="text-center text-base font-medium text-slate-500 dark:text-slate-400"
+        className="text-center text-2xl font-extrabold text-balance [overflow-wrap:anywhere]"
       >
         {t('reveal.passTo', { name: current.name })}
       </h1>
 
-      <div className="flip-scene flex flex-1">
+      <div className="flip-scene flex min-h-[22rem] flex-1">
         <button
           type="button"
           data-testid="reveal-card"
-          className={`flip-card relative flex w-full flex-1 select-none touch-none rounded-3xl outline-none transition-transform duration-150 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-slate-950 ${
+          className={`flip-card relative flex w-full flex-1 touch-none rounded-3xl select-none focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ground ${
             revealed ? 'is-flipped' : ''
           }`}
           onPointerDown={show}
@@ -97,63 +109,29 @@ export function RevealScreen() {
           onBlur={hide}
           onContextMenu={(e) => e.preventDefault()}
         >
-          {/* FRONT FACE — large player name + hold prompt. Always mounted; no secret here. */}
-          <span className="flip-face flip-front absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-3xl border border-slate-200/80 bg-white/85 p-6 text-center shadow-lg backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/70">
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand-500 dark:text-brand-300">
-              {t('reveal.holdToReveal')}
-            </span>
-            <span className="break-words text-5xl font-black leading-none tracking-tight text-slate-900 dark:text-slate-50">
+          {/* FRONT FACE: the player's name and the hold prompt. No secret here. */}
+          <span className="flip-face flip-front absolute inset-0 flex flex-col items-center justify-center gap-5 rounded-3xl border-2 border-line bg-surface p-6 text-center shadow-card">
+            <Hand aria-hidden size={44} strokeWidth={2} className="text-muted" />
+            <span className="text-5xl leading-none font-extrabold tracking-tight text-balance [overflow-wrap:anywhere]">
               {current.name}
             </span>
-            <span aria-hidden className="mt-1 text-4xl opacity-70">
-              👆
-            </span>
+            <span className="text-lg font-medium text-muted">{t('reveal.holdToReveal')}</span>
           </span>
 
-          {/* BACK FACE — secret role. Content is conditionally rendered on `revealed`
-              for privacy; the face shell flips into view in 3D. */}
-          <span
-            className={`flip-face flip-back absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-3xl border p-6 text-center shadow-lg ${backTone}`}
-          >
-            {revealed && !current.isImpostor && (
+          {/* BACK FACE: one neutral card with one silhouette for every role
+              (title, one display line, one supporting line), so nobody can
+              read the role from across the table. Content exists only while
+              held. */}
+          <span className="flip-face flip-back absolute inset-0 flex flex-col items-center justify-center gap-5 rounded-3xl border-2 border-line bg-raised p-6 text-center shadow-card">
+            {revealed && (
               <>
-                <span className="text-2xl font-extrabold text-slate-900 dark:text-slate-50">
-                  {t('reveal.crew')}
+                <span className="text-3xl font-extrabold">{back.title}</span>
+                <span className="text-5xl leading-tight font-extrabold tracking-tight text-balance [overflow-wrap:anywhere]">
+                  {back.display}
                 </span>
-                <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
-                  {t('reveal.theWordIs')}
+                <span className="text-lg text-muted text-balance [overflow-wrap:anywhere]">
+                  {back.support}
                 </span>
-                <span className="break-words text-4xl font-black leading-tight text-slate-900 dark:text-slate-50">
-                  {assignment.word}
-                </span>
-              </>
-            )}
-
-            {revealed && current.isImpostor && (
-              <>
-                <span className="text-2xl font-extrabold text-slate-900 dark:text-slate-50">
-                  {t('reveal.impostor')}
-                </span>
-                {current.clue && (
-                  <div className="flex flex-col gap-1">
-                    <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
-                      {t('reveal.yourClue')}
-                    </span>
-                    <span className="text-xl font-bold text-slate-900 dark:text-slate-100">
-                      {current.clue}
-                    </span>
-                  </div>
-                )}
-                {showOtherImpostors && (
-                  <div className="flex flex-col gap-1">
-                    <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
-                      {t('reveal.otherImpostors')}
-                    </span>
-                    <span className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                      {otherImpostors.map((p) => p.name).join(', ')}
-                    </span>
-                  </div>
-                )}
               </>
             )}
           </span>
@@ -161,16 +139,11 @@ export function RevealScreen() {
       </div>
 
       <p aria-live="polite" className="sr-only">
-        {revealed &&
-          (current.isImpostor
-            ? [t('reveal.impostor'), current.clue && `${t('reveal.yourClue')}: ${current.clue}`]
-                .filter(Boolean)
-                .join('. ')
-            : `${t('reveal.crew')}. ${t('reveal.theWordIs')}: ${assignment.word}`)}
+        {revealed && `${back.title}. ${back.display}. ${back.support}`}
       </p>
 
       <Button size="lg" className="w-full" disabled={!seen} onClick={next}>
-        {revealIndex === assignment.players.length - 1 ? t('reveal.startDebate') : t('reveal.next')}
+        {last ? t('reveal.startDebate') : t('reveal.next')}
       </Button>
     </div>
   )
