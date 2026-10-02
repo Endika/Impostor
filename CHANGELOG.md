@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/Endika/Impostor/compare/v1.7.0...v1.8.0) (2026-10-02)
+
+
+### Features
+
+* new look with a debate timer, round tracker, rules and rematch ([84be12a](https://github.com/Endika/Impostor/commit/84be12a2a4b441e6093a247e69a821f9899b934d))
+
 ## [1.7.0](https://github.com/Endika/Impostor/compare/v1.6.1...v1.7.0) (2026-10-02)
 
 
