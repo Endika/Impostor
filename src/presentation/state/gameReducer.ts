@@ -12,6 +12,7 @@ export interface GameState {
   votedPlayerId: string | null
   eliminatedIds: string[]
   lastElimination: EliminationResult | null
+  guesserId: string | null // who said the word when the impostors won by guessing
 }
 
 export const initialState: GameState = {
@@ -23,6 +24,7 @@ export const initialState: GameState = {
   votedPlayerId: null,
   eliminatedIds: [],
   lastElimination: null,
+  guesserId: null,
 }
 
 export type GameAction =
@@ -41,8 +43,9 @@ export type GameAction =
   | { type: 'CAST_VOTE'; votedPlayerId: string }
   | { type: 'NEXT_ROUND' }
   | { type: 'SHOW_RESULT' }
-  | { type: 'IMPOSTOR_GUESSED_RIGHT' }
+  | { type: 'IMPOSTOR_GUESSED_RIGHT'; playerId: string }
   | { type: 'PLAY_AGAIN' }
+  | { type: 'LEAVE_GAME' }
   | { type: 'RESET' }
 
 export function gameReducer(state: GameState, action: GameAction): GameState {
@@ -63,6 +66,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         votedPlayerId: null,
         eliminatedIds: [],
         lastElimination: null,
+        guesserId: null,
         screen: 'reveal',
       }
     }
@@ -150,9 +154,11 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
           word: state.assignment.word,
           impostorIds: state.assignment.impostorIds,
         },
+        guesserId: action.playerId,
         screen: 'result',
       }
     }
+    case 'LEAVE_GAME':
     case 'PLAY_AGAIN': {
       return {
         ...state,
@@ -162,6 +168,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         revealIndex: 0,
         eliminatedIds: [],
         lastElimination: null,
+        guesserId: null,
         screen: 'setup',
       }
     }

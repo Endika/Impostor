@@ -204,4 +204,17 @@ describe('SetupScreen', () => {
     expect(screen.getByText(/names must be different/i)).toBeInTheDocument()
     expect(screen.getByTestId('screen')).toHaveTextContent('setup')
   })
+
+  it('names every control by what it does', () => {
+    setup()
+    expect(screen.getByRole('button', { name: /fewer impostors/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /more impostors/i })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: 'Euskara' })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: 'Valencià' })).toHaveAttribute('lang', 'ca-valencia')
+
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(0, 'Ana')
+    expect(screen.getByRole('button', { name: 'Remove Ana' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Remove player 2' })).toBeInTheDocument()
+  })
 })

@@ -31,6 +31,7 @@ const state: GameState = {
   votedPlayerId: null,
   eliminatedIds: [],
   lastElimination: null,
+  guesserId: null,
 }
 
 describe('RoundScreen', () => {

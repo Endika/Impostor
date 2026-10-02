@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { fireEvent, screen } from '@testing-library/react'
+import { fireEvent, screen, within } from '@testing-library/react'
 import { renderWithProviders } from '../helpers/renderWithProviders'
 import { RevealScreen } from '../../src/presentation/screens/RevealScreen'
 import { useGame } from '../../src/presentation/state/useGame'
@@ -49,6 +49,7 @@ function buildState(revealIndex: number): GameState {
     votedPlayerId: null,
     eliminatedIds: [],
     lastElimination: null,
+    guesserId: null,
   }
 }
 
@@ -75,8 +76,8 @@ describe('RevealScreen', () => {
     const card = screen.getByTestId('reveal-card')
 
     fireEvent.pointerDown(card)
-    expect(screen.getByText('Playa')).toBeInTheDocument()
-    expect(screen.getByText(/you are crew/i)).toBeInTheDocument()
+    expect(within(card).getByText('Playa')).toBeInTheDocument()
+    expect(within(card).getByText(/you are crew/i)).toBeInTheDocument()
 
     fireEvent.pointerUp(card)
     expect(screen.queryByText('Playa')).not.toBeInTheDocument()
@@ -87,21 +88,69 @@ describe('RevealScreen', () => {
     const card = screen.getByTestId('reveal-card')
 
     fireEvent.pointerDown(card)
-    expect(screen.getByText(/you are the impostor/i)).toBeInTheDocument()
-    expect(screen.getByText('Tiempo')).toBeInTheDocument()
+    expect(within(card).getByText(/you are the impostor/i)).toBeInTheDocument()
+    expect(within(card).getByText('Tiempo')).toBeInTheDocument()
     // other impostor (Cleo) is shown, current impostor (Ben) is not listed as "other"
-    expect(screen.getByText(/cleo/i)).toBeInTheDocument()
+    expect(within(card).getByText(/cleo/i)).toBeInTheDocument()
   })
 
-  it('advances revealIndex when clicking next player', () => {
+  it('gives crew and impostors the exact same card so nobody reads it from afar', () => {
+    const backOf = (index: number) => {
+      const { unmount } = render(index)
+      const card = screen.getByTestId('reveal-card')
+      fireEvent.pointerDown(card)
+      const back = card.querySelector('.flip-back')!
+      const classes = back.className
+      unmount()
+      return classes
+    }
+    expect(backOf(0)).toBe(backOf(1))
+  })
+
+  it('reveals while Space is held and hides on release', () => {
     render(0)
-    fireEvent.click(screen.getByRole('button', { name: /next player/i }))
-    expect(screen.getByTestId('index')).toHaveTextContent('1')
+    const card = screen.getByTestId('reveal-card')
+
+    fireEvent.keyDown(card, { key: ' ' })
+    expect(within(card).getByText('Playa')).toBeInTheDocument()
+    fireEvent.keyUp(card, { key: ' ' })
+    expect(screen.queryByText('Playa')).not.toBeInTheDocument()
+
+    fireEvent.keyDown(card, { key: 'Enter' })
+    expect(within(card).getByText('Playa')).toBeInTheDocument()
   })
 
-  it('moves to round after the last player', () => {
+  it('announces the role to screen readers only while revealed', () => {
+    render(0)
+    const card = screen.getByTestId('reveal-card')
+    fireEvent.pointerDown(card)
+    expect(screen.getByText(/you are crew\. the word is: playa/i)).toBeInTheDocument()
+    fireEvent.pointerUp(card)
+    expect(screen.queryByText(/the word is: playa/i)).not.toBeInTheDocument()
+  })
+
+  it('only lets the phone move on after the player has seen the card', () => {
+    render(0)
+    const next = screen.getByRole('button', { name: /next player/i })
+    expect(next).toBeDisabled()
+
+    const card = screen.getByTestId('reveal-card')
+    fireEvent.pointerDown(card)
+    fireEvent.pointerUp(card)
+    expect(next).toBeEnabled()
+
+    fireEvent.click(next)
+    expect(screen.getByTestId('index')).toHaveTextContent('1')
+    // The next player starts locked again.
+    expect(screen.getByRole('button', { name: /next player/i })).toBeDisabled()
+  })
+
+  it('lets the last player start the debate', () => {
     render(3) // last player
-    fireEvent.click(screen.getByRole('button', { name: /next player/i }))
+    const card = screen.getByTestId('reveal-card')
+    fireEvent.pointerDown(card)
+    fireEvent.pointerUp(card)
+    fireEvent.click(screen.getByRole('button', { name: /start the debate/i }))
     expect(screen.getByTestId('screen')).toHaveTextContent('round')
   })
 })

@@ -8,6 +8,16 @@ import eu from './locales/eu.json'
 import gl from './locales/gl.json'
 import va from './locales/va.json'
 
+// Valencian has no two-letter code of its own; BCP 47 spells it ca-valencia.
+const htmlLang = (code: string): string => (code === 'va' ? 'ca-valencia' : code)
+
+function syncDocumentLang(code: string | undefined): void {
+  if (typeof document === 'undefined' || !code) return
+  document.documentElement.lang = htmlLang(code)
+}
+
+i18n.on('languageChanged', syncDocumentLang)
+
 void i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -25,5 +35,6 @@ void i18n
     interpolation: { escapeValue: false },
     detection: { order: ['localStorage', 'navigator'], caches: ['localStorage'] },
   })
+  .then(() => syncDocumentLang(i18n.resolvedLanguage))
 
 export default i18n

@@ -38,6 +38,7 @@ const state: GameState = {
     aliveImpostorCount: 1,
     aliveCrewCount: 2,
   },
+  guesserId: null,
 }
 
 function ResultProbe() {
@@ -55,7 +56,7 @@ describe('EliminationScreen', () => {
       { initialState: state },
     )
     expect(screen.getByText(/ben was not an impostor/i)).toBeInTheDocument()
-    expect(screen.getByText(/2 crew vs 1 impostors left/i)).toBeInTheDocument()
+    expect(screen.getByText(/2 crew members and 1 impostor left/i)).toBeInTheDocument()
     // Voted player was crew -> no last-chance guess section.
     expect(screen.queryByRole('button', { name: /they said it right/i })).not.toBeInTheDocument()
 
@@ -87,6 +88,8 @@ describe('EliminationScreen', () => {
     expect(screen.getByText(/ana was an impostor/i)).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: /they said it right/i }))
+    expect(screen.getByTestId('screen')).toHaveTextContent('elimination')
+    fireEvent.click(screen.getByRole('button', { name: /tap again to confirm/i }))
     expect(screen.getByTestId('screen')).toHaveTextContent('result')
     expect(screen.getByTestId('winner')).toHaveTextContent('impostors')
   })

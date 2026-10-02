@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type KeyboardEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
@@ -9,6 +9,7 @@ export function RevealScreen() {
   const { state, dispatch } = useGame()
   const { play } = useAudio()
   const [revealed, setRevealed] = useState(false)
+  const [seen, setSeen] = useState(false)
 
   const { assignment, revealIndex, config } = state
   if (!assignment || !config) return null
@@ -25,6 +26,7 @@ export function RevealScreen() {
       }
     }
     setRevealed(true)
+    setSeen(true)
   }
 
   function hide() {
@@ -33,23 +35,27 @@ export function RevealScreen() {
 
   function next() {
     setRevealed(false)
+    setSeen(false)
     dispatch({ type: 'NEXT_REVEAL' })
+  }
+
+  function isRevealKey(e: KeyboardEvent<HTMLButtonElement>) {
+    return e.key === ' ' || e.key === 'Enter'
   }
 
   const otherImpostors = assignment.players.filter((p) => p.isImpostor && p.id !== current.id)
   const showOtherImpostors =
     config.impostorsSeeEachOther && assignment.impostorIds.length >= 2 && otherImpostors.length > 0
 
-  // Back-face tone follows semantics: crew = emerald (positive), impostor = amber.
-  const backTone = current.isImpostor
-    ? 'border-amber-400/70 bg-gradient-to-br from-amber-50 to-amber-100 dark:border-amber-500/40 dark:from-amber-500/15 dark:to-amber-600/10'
-    : 'border-emerald-400/70 bg-gradient-to-br from-emerald-50 to-emerald-100 dark:border-emerald-500/40 dark:from-emerald-500/15 dark:to-emerald-600/10'
+  // Both roles share one back face so nobody can read the role from across the
+  // table; only the text on it differs.
+  const backTone = 'border-slate-300/80 bg-white dark:border-slate-600 dark:bg-slate-800'
 
   return (
     <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
-      <p className="text-center text-base font-medium text-slate-500 dark:text-slate-400">
+      <h1 className="text-center text-base font-medium text-slate-500 dark:text-slate-400">
         {t('reveal.passTo', { name: current.name })}
-      </p>
+      </h1>
 
       <div className="flip-scene flex flex-1">
         <button
@@ -58,17 +64,25 @@ export function RevealScreen() {
           className={`flip-card relative flex w-full flex-1 select-none touch-none rounded-3xl outline-none transition-transform duration-150 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-slate-950 ${
             revealed ? 'is-flipped' : ''
           }`}
-          aria-pressed={revealed}
           onPointerDown={show}
           onPointerUp={hide}
           onPointerLeave={hide}
           onPointerCancel={hide}
-          onTouchStart={show}
-          onTouchEnd={hide}
+          onKeyDown={(e) => {
+            if (!isRevealKey(e)) return
+            e.preventDefault()
+            if (!e.repeat) show()
+          }}
+          onKeyUp={(e) => {
+            if (!isRevealKey(e)) return
+            e.preventDefault()
+            hide()
+          }}
+          onBlur={hide}
           onContextMenu={(e) => e.preventDefault()}
         >
           {/* FRONT FACE — large player name + hold prompt. Always mounted; no secret here. */}
-          <span className="flip-face absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-3xl border border-slate-200/80 bg-white/85 p-6 text-center shadow-lg backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/70">
+          <span className="flip-face flip-front absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-3xl border border-slate-200/80 bg-white/85 p-6 text-center shadow-lg backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/70">
             <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand-500 dark:text-brand-300">
               {t('reveal.holdToReveal')}
             </span>
@@ -87,7 +101,7 @@ export function RevealScreen() {
           >
             {revealed && !current.isImpostor && (
               <>
-                <span className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-300">
+                <span className="text-2xl font-extrabold text-slate-900 dark:text-slate-50">
                   {t('reveal.crew')}
                 </span>
                 <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
@@ -101,7 +115,7 @@ export function RevealScreen() {
 
             {revealed && current.isImpostor && (
               <>
-                <span className="text-2xl font-extrabold text-amber-600 dark:text-amber-300">
+                <span className="text-2xl font-extrabold text-slate-900 dark:text-slate-50">
                   {t('reveal.impostor')}
                 </span>
                 {current.clue && (
@@ -130,8 +144,17 @@ export function RevealScreen() {
         </button>
       </div>
 
-      <Button size="lg" className="w-full" onClick={next}>
-        {t('reveal.next')}
+      <p aria-live="polite" className="sr-only">
+        {revealed &&
+          (current.isImpostor
+            ? [t('reveal.impostor'), current.clue && `${t('reveal.yourClue')}: ${current.clue}`]
+                .filter(Boolean)
+                .join('. ')
+            : `${t('reveal.crew')}. ${t('reveal.theWordIs')}: ${assignment.word}`)}
+      </p>
+
+      <Button size="lg" className="w-full" disabled={!seen} onClick={next}>
+        {revealIndex === assignment.players.length - 1 ? t('reveal.startDebate') : t('reveal.next')}
       </Button>
     </div>
   )

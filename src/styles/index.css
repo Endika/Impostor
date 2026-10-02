@@ -140,7 +140,8 @@ body {
   transform: rotateY(180deg);
 }
 
-/* Reduced motion: no 3D rotation, fall back to a plain crossfade. */
+/* Reduced motion: no 3D rotation, so backface-visibility no longer hides the
+   back face; show exactly one face instead. */
 @media (prefers-reduced-motion: reduce) {
   .flip-card {
     transition: none;
@@ -148,6 +149,13 @@ body {
   }
   .flip-card .flip-back {
     transform: none;
+    visibility: hidden;
+  }
+  .flip-card.is-flipped .flip-back {
+    visibility: visible;
+  }
+  .flip-card.is-flipped .flip-front {
+    visibility: hidden;
   }
 }
 

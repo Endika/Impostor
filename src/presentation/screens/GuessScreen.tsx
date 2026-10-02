@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGame } from '../state/useGame'
 import { Button } from '../components/Button'
+import { ConfirmButton } from '../components/ConfirmButton'
 
 export function GuessScreen() {
   const { t } = useTranslation()
@@ -38,22 +39,22 @@ export function GuessScreen() {
         </div>
       ) : (
         <div className="flex flex-1 flex-col justify-center gap-3">
-          <Button
+          <ConfirmButton
             variant="success"
             size="lg"
             className="w-full"
-            onClick={() => dispatch({ type: 'IMPOSTOR_GUESSED_RIGHT' })}
+            onConfirm={() => dispatch({ type: 'IMPOSTOR_GUESSED_RIGHT', playerId: selectedId })}
           >
             {t('guess.correct')}
-          </Button>
-          <Button
+          </ConfirmButton>
+          <ConfirmButton
             variant="danger"
             size="lg"
             className="w-full"
-            onClick={() => dispatch({ type: 'GUESS_FAILED', playerId: selectedId })}
+            onConfirm={() => dispatch({ type: 'GUESS_FAILED', playerId: selectedId })}
           >
             {t('guess.wrong')}
-          </Button>
+          </ConfirmButton>
         </div>
       )}
 

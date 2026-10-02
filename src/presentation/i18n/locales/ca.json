@@ -4,7 +4,10 @@
     "next": "Següent",
     "back": "Enrere",
     "on": "Sí",
-    "off": "No"
+    "off": "No",
+    "confirmAgain": "Toca una altra vegada per confirmar",
+    "leave": "Surt",
+    "leaveConfirm": "Segur que surts?"
   },
   "setup": {
     "title": "Nova partida",
@@ -25,7 +28,11 @@
     "errorTooFewPlayers": "Afegeix com a mínim 3 jugadors",
     "errorInvalidImpostorCount": "Tria entre 1 i {{max}} impostors (ha de quedar com a mínim 1 tripulant)",
     "errorNoCategory": "Tria com a mínim una categoria",
-    "errorDuplicateNames": "Els noms dels jugadors han de ser diferents"
+    "errorDuplicateNames": "Els noms dels jugadors han de ser diferents",
+    "fewerImpostors": "Menys impostors",
+    "moreImpostors": "Més impostors",
+    "removePlayerNamed": "Treu {{name}}",
+    "removePlayerNumber": "Treu el jugador {{number}}"
   },
   "categories": {
     "home": "Casa",
@@ -45,7 +52,8 @@
     "impostor": "Ets l'IMPOSTOR",
     "yourClue": "Pista",
     "otherImpostors": "Altres impostors",
-    "next": "Jugador següent"
+    "next": "Jugador següent",
+    "startDebate": "Comença el debat"
   },
   "round": {
     "title": "Debat",
@@ -71,11 +79,15 @@
     "wasImpostor": "{{name}} era impostor",
     "wasCrew": "{{name}} no era impostor",
     "failedGuess": "{{name}} ha fallat en endevinar i queda fora",
-    "remaining": "Queden {{crew}} tripulants vs {{impostors}} impostors",
+    "remaining": "Queden {{crew}} i {{impostors}}",
     "nextRound": "Ronda següent",
     "guessPrompt": "Un impostor expulsat pot dir la paraula en veu alta.",
     "guessedRight": "L'ha dit bé: guanyen els impostors",
-    "seeResult": "Veure resultat"
+    "seeResult": "Veure resultat",
+    "crewCount_one": "{{count}} tripulant",
+    "crewCount_other": "{{count}} tripulants",
+    "impostorCount_one": "{{count}} impostor",
+    "impostorCount_other": "{{count}} impostors"
   },
   "result": {
     "isImpostor": "{{name}} ERA l'impostor",
@@ -84,6 +96,7 @@
     "impostorWins": "Guanyen els impostors!",
     "theWordWas": "La paraula era",
     "theImpostorsWere": "Els impostors eren",
-    "playAgain": "Torna a jugar"
+    "playAgain": "Torna a jugar",
+    "guessedWord": "{{name}} ha endevinat la paraula"
   }
 }
