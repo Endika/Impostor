@@ -1,10 +1,13 @@
 import { useEffect, useReducer, useRef, type ReactNode } from 'react'
 import { gameReducer, initialState, type GameState } from './gameReducer'
 import { loadConfig, saveConfig } from './persistence'
+import { loadGame, saveGame } from './gamePersistence'
 import { addUsedWord } from './usedWords'
 import { GameContext } from './gameContext'
 
 function init(base: GameState): GameState {
+  const game = loadGame()
+  if (game) return game
   const persisted = loadConfig()
   if (!persisted) return base
   return { ...base, config: { ...base.config, ...persisted } as GameState['config'] }
@@ -30,6 +33,10 @@ export function GameProvider({
       saveConfig(state.config)
     }
   }, [state.config])
+
+  useEffect(() => {
+    if (!seededState) saveGame(state)
+  }, [state, seededState])
 
   // Record each newly assigned word so no-repeat selection accumulates across
   // games within a session. Depends only on the assignment identity, so it

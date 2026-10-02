@@ -14,6 +14,16 @@ import i18n from '../i18n'
 
 const LOCALES: LocaleCode[] = ['ca', 'en', 'es', 'eu', 'gl', 'va']
 
+// Each language is listed in its own name so anyone can find theirs.
+const LOCALE_NAMES: Record<LocaleCode, string> = {
+  ca: 'Català',
+  en: 'English',
+  es: 'Español',
+  eu: 'Euskara',
+  gl: 'Galego',
+  va: 'Valencià',
+}
+
 const maxImpostorsFor = (playerCount: number): number => Math.max(1, playerCount - 1)
 
 const ERROR_KEY = {
@@ -166,7 +176,11 @@ export function SetupScreen() {
               {players.length > 3 && (
                 <Button
                   variant="ghost"
-                  aria-label={t('setup.removePlayer')}
+                  aria-label={
+                    name.trim()
+                      ? t('setup.removePlayerNamed', { name: name.trim() })
+                      : t('setup.removePlayerNumber', { number: index + 1 })
+                  }
                   className="shrink-0 px-3"
                   onClick={() => removePlayer(index)}
                 >
@@ -186,7 +200,7 @@ export function SetupScreen() {
         <div className={`flex items-center gap-2 ${randomImpostors ? 'opacity-40' : ''}`}>
           <Button
             variant="secondary"
-            aria-label="-"
+            aria-label={t('setup.fewerImpostors')}
             className="h-11 w-11 shrink-0 px-0 text-xl"
             disabled={randomImpostors}
             onClick={() => changeCount(impostorCount - 1)}
@@ -206,7 +220,7 @@ export function SetupScreen() {
           />
           <Button
             variant="secondary"
-            aria-label="+"
+            aria-label={t('setup.moreImpostors')}
             className="h-11 w-11 shrink-0 px-0 text-xl"
             disabled={randomImpostors}
             onClick={() => changeCount(impostorCount + 1)}
@@ -303,8 +317,8 @@ export function SetupScreen() {
           onChange={(e) => changeLocale(e.target.value as LocaleCode)}
         >
           {LOCALES.map((code) => (
-            <option key={code} value={code}>
-              {code.toUpperCase()}
+            <option key={code} value={code} lang={code === 'va' ? 'ca-valencia' : code}>
+              {LOCALE_NAMES[code]}
             </option>
           ))}
         </select>

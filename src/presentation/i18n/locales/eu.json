@@ -4,7 +4,10 @@
     "next": "Hurrengoa",
     "back": "Atzera",
     "on": "Bai",
-    "off": "Ez"
+    "off": "Ez",
+    "confirmAgain": "Sakatu berriro baieztatzeko",
+    "leave": "Irten",
+    "leaveConfirm": "Benetan irten?"
   },
   "setup": {
     "title": "Partida berria",
@@ -25,7 +28,11 @@
     "errorTooFewPlayers": "Gehitu gutxienez 3 jokalari",
     "errorInvalidImpostorCount": "Aukeratu 1 eta {{max}} inpostore artean (gutxienez tripulatzaile 1 geratu behar da)",
     "errorNoCategory": "Aukeratu gutxienez kategoria bat",
-    "errorDuplicateNames": "Jokalarien izenek desberdinak izan behar dute"
+    "errorDuplicateNames": "Jokalarien izenek desberdinak izan behar dute",
+    "fewerImpostors": "Inpostore gutxiago",
+    "moreImpostors": "Inpostore gehiago",
+    "removePlayerNamed": "Kendu {{name}}",
+    "removePlayerNumber": "Kendu {{number}}. jokalaria"
   },
   "categories": {
     "home": "Etxea",
@@ -45,7 +52,8 @@
     "impostor": "INPOSTOREA zara",
     "yourClue": "Pista",
     "otherImpostors": "Beste inpostoreak",
-    "next": "Hurrengo jokalaria"
+    "next": "Hurrengo jokalaria",
+    "startDebate": "Hasi eztabaida"
   },
   "round": {
     "title": "Eztabaida",
@@ -71,11 +79,15 @@
     "wasImpostor": "{{name}} inpostorea zen",
     "wasCrew": "{{name}} ez zen inpostorea",
     "failedGuess": "{{name}}-k huts egin du asmatzean eta kanpoan da",
-    "remaining": "{{crew}} tripulatzaile vs {{impostors}} inpostore geratzen dira",
+    "remaining": "{{crew}} eta {{impostors}} geratzen dira",
     "nextRound": "Hurrengo txanda",
     "guessPrompt": "Kanporatutako inpostore batek hitza ozen esan dezake orain.",
     "guessedRight": "Ondo esan du: inpostoreek irabazi dute",
-    "seeResult": "Ikusi emaitza"
+    "seeResult": "Ikusi emaitza",
+    "crewCount_one": "{{count}} tripulatzaile",
+    "crewCount_other": "{{count}} tripulatzaile",
+    "impostorCount_one": "{{count}} inpostore",
+    "impostorCount_other": "{{count}} inpostore"
   },
   "result": {
     "isImpostor": "{{name}} inpostorea ZEN",
@@ -84,6 +96,7 @@
     "impostorWins": "Inpostoreek irabazi dute!",
     "theWordWas": "Hitza hau zen",
     "theImpostorsWere": "Inpostoreak hauek ziren",
-    "playAgain": "Jolastu berriro"
+    "playAgain": "Jolastu berriro",
+    "guessedWord": "{{name}}(e)k hitza asmatu du"
   }
 }

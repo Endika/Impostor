@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useGame } from '../state/useGame'
 import { Button } from '../components/Button'
+import { ConfirmButton } from '../components/ConfirmButton'
 
 export function EliminationScreen() {
   const { t } = useTranslation()
@@ -51,8 +52,10 @@ export function EliminationScreen() {
 
       <p className="text-center text-lg font-semibold text-slate-700 dark:text-slate-200">
         {t('elimination.remaining', {
-          crew: lastElimination.aliveCrewCount,
-          impostors: lastElimination.aliveImpostorCount,
+          crew: t('elimination.crewCount', { count: lastElimination.aliveCrewCount }),
+          impostors: t('elimination.impostorCount', {
+            count: lastElimination.aliveImpostorCount,
+          }),
         })}
       </p>
 
@@ -61,13 +64,15 @@ export function EliminationScreen() {
           <p className="text-sm font-medium text-amber-900 dark:text-amber-200">
             {t('elimination.guessPrompt')}
           </p>
-          <Button
+          <ConfirmButton
             variant="secondary"
             className="w-full border-amber-400 bg-amber-400 text-amber-950 hover:bg-amber-300 dark:border-amber-500/50 dark:bg-amber-500/30 dark:text-amber-100"
-            onClick={() => dispatch({ type: 'IMPOSTOR_GUESSED_RIGHT' })}
+            onConfirm={() =>
+              dispatch({ type: 'IMPOSTOR_GUESSED_RIGHT', playerId: lastElimination.votedPlayerId })
+            }
           >
             {t('elimination.guessedRight')}
-          </Button>
+          </ConfirmButton>
         </section>
       )}
 

@@ -4,7 +4,10 @@
     "next": "Seguinte",
     "back": "Atrás",
     "on": "Si",
-    "off": "Non"
+    "off": "Non",
+    "confirmAgain": "Toca outra vez para confirmar",
+    "leave": "Saír",
+    "leaveConfirm": "Seguro que saes?"
   },
   "setup": {
     "title": "Nova partida",
@@ -25,7 +28,11 @@
     "errorTooFewPlayers": "Engade polo menos 3 xogadores",
     "errorInvalidImpostorCount": "Escolle entre 1 e {{max}} impostores (debe quedar polo menos 1 tripulante)",
     "errorNoCategory": "Escolle polo menos unha categoría",
-    "errorDuplicateNames": "Os nomes dos xogadores deben ser distintos"
+    "errorDuplicateNames": "Os nomes dos xogadores deben ser distintos",
+    "fewerImpostors": "Menos impostores",
+    "moreImpostors": "Máis impostores",
+    "removePlayerNamed": "Quitar a {{name}}",
+    "removePlayerNumber": "Quitar o xogador {{number}}"
   },
   "categories": {
     "home": "Casa",
@@ -45,7 +52,8 @@
     "impostor": "Es o IMPOSTOR",
     "yourClue": "Pista",
     "otherImpostors": "Outros impostores",
-    "next": "Seguinte xogador"
+    "next": "Seguinte xogador",
+    "startDebate": "Comezar o debate"
   },
   "round": {
     "title": "Debate",
@@ -71,11 +79,15 @@
     "wasImpostor": "{{name}} era impostor",
     "wasCrew": "{{name}} non era impostor",
     "failedGuess": "{{name}} fallou ao adiviñar e queda fóra",
-    "remaining": "Quedan {{crew}} tripulantes vs {{impostors}} impostores",
+    "remaining": "Quedan {{crew}} e {{impostors}}",
     "nextRound": "Seguinte rolda",
     "guessPrompt": "Un impostor expulsado pode dicir a palabra en voz alta.",
     "guessedRight": "Dixoa ben: gañan os impostores",
-    "seeResult": "Ver resultado"
+    "seeResult": "Ver resultado",
+    "crewCount_one": "{{count}} tripulante",
+    "crewCount_other": "{{count}} tripulantes",
+    "impostorCount_one": "{{count}} impostor",
+    "impostorCount_other": "{{count}} impostores"
   },
   "result": {
     "isImpostor": "{{name}} ERA o impostor",
@@ -84,6 +96,7 @@
     "impostorWins": "Gañan os impostores!",
     "theWordWas": "A palabra era",
     "theImpostorsWere": "Os impostores eran",
-    "playAgain": "Xogar de novo"
+    "playAgain": "Xogar de novo",
+    "guessedWord": "{{name}} adiviñou a palabra"
   }
 }

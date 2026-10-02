@@ -47,6 +47,7 @@ const baseState: GameState = {
   votedPlayerId: null,
   eliminatedIds: [],
   lastElimination: null,
+  guesserId: null,
 }
 
 describe('GuessScreen', () => {
@@ -65,6 +66,9 @@ describe('GuessScreen', () => {
     // Step 2: say the word, then confirm correct
     expect(screen.getByText(/say the word out loud/i)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /got it right/i }))
+    // One tap only arms it; nothing irreversible has happened yet.
+    expect(screen.getByTestId('screen')).toHaveTextContent('guess')
+    fireEvent.click(screen.getByRole('button', { name: /tap again to confirm/i }))
 
     expect(screen.getByTestId('screen')).toHaveTextContent('result')
     expect(screen.getByTestId('winner')).toHaveTextContent('impostors')
@@ -80,6 +84,7 @@ describe('GuessScreen', () => {
     )
     fireEvent.click(screen.getByRole('button', { name: /^ana$/i }))
     fireEvent.click(screen.getByRole('button', { name: /got it wrong/i }))
+    fireEvent.click(screen.getByRole('button', { name: /tap again to confirm/i }))
 
     expect(screen.getByTestId('screen')).toHaveTextContent('elimination')
     expect(screen.getByTestId('failedGuess')).toHaveTextContent('true')
@@ -114,6 +119,7 @@ describe('GuessScreen', () => {
     )
     fireEvent.click(screen.getByRole('button', { name: /^ben$/i }))
     fireEvent.click(screen.getByRole('button', { name: /got it wrong/i }))
+    fireEvent.click(screen.getByRole('button', { name: /tap again to confirm/i }))
 
     // Removing the last impostor is a terminal crew win.
     expect(screen.getByTestId('screen')).toHaveTextContent('elimination')

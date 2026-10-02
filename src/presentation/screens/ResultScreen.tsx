@@ -22,7 +22,7 @@ export function ResultScreen() {
   const { state, dispatch } = useGame()
   const { play } = useAudio()
 
-  const { assignment, outcome, votedPlayerId } = state
+  const { assignment, outcome, votedPlayerId, guesserId } = state
 
   const crewWon = outcome?.winner === 'crew'
 
@@ -70,15 +70,17 @@ export function ResultScreen() {
         <span aria-hidden className="text-5xl drop-shadow-sm">
           {crewWon ? '🎉' : '🕵️'}
         </span>
-        <span className="text-balance">
+        <h1 className="text-balance">
           {crewWon ? t('result.crewWins') : t('result.impostorWins')}
-        </span>
+        </h1>
       </div>
 
       <p className="text-center text-lg font-semibold text-slate-700 dark:text-slate-200">
-        {outcome.votedWasImpostor
-          ? t('result.isImpostor', { name: votedName })
-          : t('result.notImpostor', { name: votedName })}
+        {guesserId
+          ? t('result.guessedWord', { name: nameById(guesserId) })
+          : outcome.votedWasImpostor
+            ? t('result.isImpostor', { name: votedName })
+            : t('result.notImpostor', { name: votedName })}
       </p>
 
       <div className="flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white/80 p-5 text-center shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">

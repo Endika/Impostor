@@ -112,8 +112,10 @@ describe('gameReducer', () => {
     expect(next.outcome?.winner).toBe('crew')
 
     // ... but the impostor guesses the word and the impostors steal the win.
-    next = gameReducer(next, { type: 'IMPOSTOR_GUESSED_RIGHT' })
+    const guesser = s.assignment!.impostorIds[0]!
+    next = gameReducer(next, { type: 'IMPOSTOR_GUESSED_RIGHT', playerId: guesser })
     expect(next.screen).toBe('result')
+    expect(next.guesserId).toBe(guesser)
     expect(next.outcome?.winner).toBe('impostors')
     expect(next.outcome?.votedWasImpostor).toBe(true)
   })
