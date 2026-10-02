@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.7.0](https://github.com/Endika/Impostor/compare/v1.6.1...v1.7.0) (2026-10-02)
+
+
+### Features
+
+* generative background music that never repeats a pass ([2fd0b1c](https://github.com/Endika/Impostor/commit/2fd0b1c0c39f92cc198322d60ecd543e65b94d7d))
+
+
+### Bug Fixes
+
+* keep roles secret on the reveal card, confirm game-ending taps, resume games and label controls ([9725135](https://github.com/Endika/Impostor/commit/97251352e2a87afa41cae5cac76260d86bf41007))
+* keep the leave button clear of the wordmark, skip missed music steps and refocus after passing the phone ([ee2d0ac](https://github.com/Endika/Impostor/commit/ee2d0ac35e774c45ceb4805e6e8eab88d77eb4a6))
+
 ## [1.6.1](https://github.com/Endika/Impostor/compare/v1.6.0...v1.6.1) (2026-09-27)
 
 
