@@ -21,20 +21,22 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="app-bg app-grain min-h-dvh w-full text-slate-900 dark:text-slate-100">
       <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-4 pb-6 pt-4 sm:px-6">
-        <header className="relative mb-4 flex min-h-11 items-center justify-center gap-2 select-none">
-          <span
-            aria-hidden
-            className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-accent-500 text-sm shadow-sm"
-          >
-            🕵️
-          </span>
-          <span className="bg-gradient-to-r from-brand-600 to-accent-500 bg-clip-text text-base font-extrabold tracking-tight text-transparent dark:from-brand-300 dark:to-accent-400">
-            {t('common.appName')}
+        <header className="mb-4 flex min-h-11 items-center justify-between gap-2 select-none">
+          <span className="flex items-center gap-2">
+            <span
+              aria-hidden
+              className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-accent-500 text-sm shadow-sm"
+            >
+              🕵️
+            </span>
+            <span className="bg-gradient-to-r from-brand-600 to-accent-500 bg-clip-text text-base font-extrabold tracking-tight text-transparent dark:from-brand-300 dark:to-accent-400">
+              {t('common.appName')}
+            </span>
           </span>
           {inGame && (
             <ConfirmButton
               variant="ghost"
-              className="absolute right-0 top-0 px-3 text-sm"
+              className="shrink-0 px-3 text-sm"
               armedLabel={t('common.leaveConfirm')}
               onConfirm={() => dispatch({ type: 'LEAVE_GAME' })}
             >

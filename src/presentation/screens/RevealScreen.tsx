@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
@@ -10,6 +10,18 @@ export function RevealScreen() {
   const { play } = useAudio()
   const [revealed, setRevealed] = useState(false)
   const [seen, setSeen] = useState(false)
+  const heading = useRef<HTMLHeadingElement>(null)
+  const firstPlayer = useRef(true)
+
+  // Next re-locks itself for the new player, so hand focus to the new
+  // "pass the phone" heading instead of leaving it on a disabled button.
+  useEffect(() => {
+    if (firstPlayer.current) {
+      firstPlayer.current = false
+      return
+    }
+    heading.current?.focus()
+  }, [state.revealIndex])
 
   const { assignment, revealIndex, config } = state
   if (!assignment || !config) return null
@@ -53,7 +65,11 @@ export function RevealScreen() {
 
   return (
     <div className="rise-in flex min-h-full flex-1 flex-col gap-6">
-      <h1 className="text-center text-base font-medium text-slate-500 dark:text-slate-400">
+      <h1
+        ref={heading}
+        tabIndex={-1}
+        className="text-center text-base font-medium text-slate-500 dark:text-slate-400"
+      >
         {t('reveal.passTo', { name: current.name })}
       </h1>
 

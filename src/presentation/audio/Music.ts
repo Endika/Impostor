@@ -99,6 +99,9 @@ export class Music {
   }
 
   private tick(): void {
+    // If timers were throttled while the audio clock kept running, skip the
+    // missed steps instead of firing them all at once.
+    if (this.nextTime < this.ctx.currentTime) this.nextTime = this.ctx.currentTime + 0.05
     while (this.nextTime < this.ctx.currentTime + LOOKAHEAD_S) {
       this.scheduleStep(this.step, this.nextTime)
       this.nextTime += 60 / FEEL[this.track].bpm / 2

@@ -153,6 +153,20 @@ describe('background music', () => {
     expect(f.oscs.length).toBe(count)
   })
 
+  it('skips missed steps after a stall instead of playing them at once', () => {
+    const f = clockedCtx()
+    const engine = new AudioEngine(() => f.ctx, seededRng(9))
+    engine.startLoop('calm')
+    f.advance(2)
+    const before = f.oscs.length
+    // The audio clock runs on while the page's timers were frozen.
+    ;(f.ctx as unknown as { currentTime: number }).currentTime += 60
+    f.advance(0.05)
+    engine.stopLoop()
+    const late = f.oscs.slice(before).filter((o) => o.startAt < f.ctx.currentTime - 0.2)
+    expect(late).toHaveLength(0)
+  })
+
   it('resumes a suspended context before playing', () => {
     const f = clockedCtx('suspended')
     const engine = new AudioEngine(() => f.ctx)
