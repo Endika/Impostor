@@ -1,4 +1,6 @@
-export type Sfx = 'reveal' | 'vote' | 'victoryCrew' | 'victoryImpostor'
+import { Music } from './Music'
+
+export type Sfx = 'reveal' | 'vote' | 'victoryCrew' | 'victoryImpostor' | 'timeUp'
 export type LoopTrack = 'calm' | 'tense'
 
 interface Note {
@@ -29,20 +31,22 @@ const SFX_NOTES: Record<Sfx, Note[]> = {
     { freq: 311.13, start: 0.15, duration: 0.16, type: 'sawtooth', gain: 0.18 },
     { freq: 233.08, start: 0.3, duration: 0.34, type: 'sawtooth', gain: 0.18 },
   ],
-}
-
-const LOOP_TRACKS: Record<LoopTrack, { notes: number[]; step: number; type: OscillatorType }> = {
-  calm: { notes: [261.63, 329.63, 392.0, 329.63], step: 0.4, type: 'sine' },
-  tense: { notes: [220.0, 233.08, 220.0, 207.65], step: 0.28, type: 'triangle' },
+  timeUp: [
+    { freq: 880, start: 0, duration: 0.12, type: 'square', gain: 0.12 },
+    { freq: 880, start: 0.2, duration: 0.12, type: 'square', gain: 0.12 },
+    { freq: 659.25, start: 0.4, duration: 0.3, type: 'square', gain: 0.12 },
+  ],
 }
 
 export class AudioEngine {
   private ctx: AudioContext | null = null
   private _muted = false
-  private loopTimer: ReturnType<typeof setInterval> | null = null
-  private loopNodes: { osc: OscillatorNode; gain: GainNode }[] = []
+  private music: Music | null = null
 
-  constructor(private readonly ctxFactory: () => AudioContext) {}
+  constructor(
+    private readonly ctxFactory: () => AudioContext,
+    private readonly rng: () => number = Math.random,
+  ) {}
 
   get muted(): boolean {
     return this._muted
@@ -55,6 +59,11 @@ export class AudioEngine {
       } catch {
         this.ctx = null
       }
+    }
+    // Browsers start or park the context suspended (autoplay rules, iOS calls
+    // and backgrounding); without a resume every later sound stays silent.
+    if (this.ctx && this.ctx.state !== 'running') {
+      void this.ctx.resume?.().catch(() => undefined)
     }
     return this.ctx
   }
@@ -74,60 +83,29 @@ export class AudioEngine {
     }
   }
 
+  /** Starts the background music, or moves the running music to another mood. */
   startLoop(track: LoopTrack): void {
     if (this._muted) return
+    if (this.music) {
+      this.music.setTrack(track)
+      return
+    }
     const ctx = this.getCtx()
     if (!ctx) return
-    this.stopLoop()
-    const cfg = LOOP_TRACKS[track]
-    const scheduleBar = () => {
-      const now = ctx.currentTime
-      cfg.notes.forEach((freq, i) => {
-        const nodes = this.scheduleNote(
-          ctx,
-          {
-            freq,
-            start: i * cfg.step,
-            duration: cfg.step * 0.9,
-            type: cfg.type,
-            gain: 0.06,
-          },
-          now,
-        )
-        if (nodes) this.loopNodes.push(nodes)
-      })
+    try {
+      this.music = new Music(ctx, track, this.rng)
+      this.music.start()
+    } catch {
+      this.music = null
     }
-    scheduleBar()
-    const barLength = cfg.notes.length * cfg.step
-    this.loopTimer = setInterval(scheduleBar, barLength * 1000)
   }
 
   stopLoop(): void {
-    if (this.loopTimer !== null) {
-      clearInterval(this.loopTimer)
-      this.loopTimer = null
-    }
-    for (const { osc, gain } of this.loopNodes) {
-      try {
-        osc.stop()
-      } catch {
-        // already stopped
-      }
-      try {
-        osc.disconnect()
-        gain.disconnect()
-      } catch {
-        // already disconnected
-      }
-    }
-    this.loopNodes = []
+    this.music?.stop()
+    this.music = null
   }
 
-  private scheduleNote(
-    ctx: AudioContext,
-    note: Note,
-    now: number,
-  ): { osc: OscillatorNode; gain: GainNode } | null {
+  private scheduleNote(ctx: AudioContext, note: Note, now: number): void {
     try {
       const osc = ctx.createOscillator()
       const gain = ctx.createGain()
@@ -139,11 +117,14 @@ export class AudioEngine {
       gain.gain.linearRampToValueAtTime(0.0001, now + note.start + note.duration)
       osc.connect(gain)
       gain.connect(ctx.destination)
+      osc.onended = () => {
+        osc.disconnect()
+        gain.disconnect()
+      }
       osc.start(now + note.start)
       osc.stop(now + note.start + note.duration + 0.02)
-      return { osc, gain }
     } catch {
-      return null
+      // audio is best-effort
     }
   }
 }
