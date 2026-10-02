@@ -27,6 +27,9 @@ export default defineConfig({
         theme_color: '#0d1020',
         background_color: '#0d1020',
         display: 'standalone',
+        // An explicit id lets Chrome offer a clean install again after an
+        // uninstall it never registered.
+        id: '/Impostor/?app=impostor',
         start_url: '/Impostor/',
         scope: '/Impostor/',
         icons: [
