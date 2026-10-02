@@ -57,6 +57,11 @@ body {
   }
 }
 
+/* Headings that receive focus after a screen change are not controls. */
+h1[tabindex='-1']:focus {
+  outline: none;
+}
+
 /* Ambient app background: soft brand/accent radial glows + faint grain.
    Lives behind everything via the shell's ::before, see .app-bg below. */
 .app-bg {

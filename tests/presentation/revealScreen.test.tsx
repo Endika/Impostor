@@ -145,6 +145,17 @@ describe('RevealScreen', () => {
     expect(screen.getByRole('button', { name: /next player/i })).toBeDisabled()
   })
 
+  it('moves focus to the next player heading after passing the phone', () => {
+    render(0)
+    const card = screen.getByTestId('reveal-card')
+    fireEvent.pointerDown(card)
+    fireEvent.pointerUp(card)
+    fireEvent.click(screen.getByRole('button', { name: /next player/i }))
+    expect(document.activeElement).toBe(
+      screen.getByRole('heading', { name: /pass the phone to ben/i }),
+    )
+  })
+
   it('lets the last player start the debate', () => {
     render(3) // last player
     const card = screen.getByTestId('reveal-card')
