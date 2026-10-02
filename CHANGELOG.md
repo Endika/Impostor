@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.1](https://github.com/Endika/Impostor/compare/v1.8.0...v1.8.1) (2026-10-02)
+
+
+### Bug Fixes
+
+* give the web app manifest an explicit id so Chrome offers to install it again ([3150885](https://github.com/Endika/Impostor/commit/3150885c8d6c4cfcda9022310656ebf7692ba186))
+* review the word bank in all six languages ([c8eb4e1](https://github.com/Endika/Impostor/commit/c8eb4e169219beb57da70e2e5172b915f6702b7f))
+
 ## [1.8.0](https://github.com/Endika/Impostor/compare/v1.7.0...v1.8.0) (2026-10-02)
 
 
