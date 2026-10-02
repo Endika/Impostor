@@ -77,6 +77,7 @@ describe('AudioEngine', () => {
     e.play('vote')
     e.play('victoryCrew')
     e.play('victoryImpostor')
+    e.play('timeUp')
     expect(f.started.length).toBeGreaterThan(0)
   })
 })
