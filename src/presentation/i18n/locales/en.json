@@ -124,7 +124,7 @@
     "word": "Everyone gets the same secret word, except the impostors, who don't know it.",
     "clues": "Take turns saying something related to the word, without saying it or making it too easy.",
     "vote": "Whenever you're ready, vote for who you think is an impostor: they're out.",
-    "win": "Vote out every impostor and the crew wins; if no crew members are left, the impostors win.",
+    "win": "Vote out every impostor and the crew wins; if no crew members are left, or only one impostor and one crew member remain, the impostors win.",
     "guess": "At any moment an impostor can risk saying the word: right and the impostors win; wrong and they're out."
   }
 }

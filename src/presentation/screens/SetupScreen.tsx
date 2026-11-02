@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { categoryData, categoryIds } from '../../content/categories'
 import { InMemoryWordBank } from '../../domain/content/InMemoryWordBank'
 import { validateConfig } from '../../domain/game/validateConfig'
+import { maxImpostorsFor } from '../../domain/game/impostorLimits'
 import type { GameConfig, LocaleCode } from '../../domain/game/types'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
@@ -28,8 +29,6 @@ const LOCALE_NAMES: Record<LocaleCode, string> = {
   gl: 'Galego',
   va: 'Valencià',
 }
-
-const maxImpostorsFor = (playerCount: number): number => Math.max(1, playerCount - 1)
 
 const ERROR_KEY = {
   too_few_players: 'setup.errorTooFewPlayers',
@@ -120,7 +119,7 @@ export function SetupScreen() {
   }
 
   // At least two impostors are possible either when random mode could draw them
-  // (players - 1 >= 2) or when the fixed count is already >= 2.
+  // or when the fixed count is already >= 2.
   const twoImpostorsPossible = randomImpostors ? maxImpostors >= 2 : impostorCount >= 2
 
   // The game might have >= 2 impostors, so enable the toggle when possible.

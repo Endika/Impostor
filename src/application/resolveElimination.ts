@@ -23,7 +23,8 @@ export function resolveElimination(
   const aliveCrewCount = alive.length - aliveImpostorCount
   let status: RoundStatus = 'continue'
   if (aliveImpostorCount === 0) status = 'crew_win'
-  else if (aliveCrewCount === 0) status = 'impostor_win'
+  else if (aliveCrewCount === 0 || (aliveImpostorCount === 1 && aliveCrewCount === 1))
+    status = 'impostor_win'
   return {
     votedPlayerId,
     votedWasImpostor,

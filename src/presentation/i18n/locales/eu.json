@@ -124,7 +124,7 @@
     "word": "Denek hitz sekretu bera jasotzen dute, inpostoreek izan ezik: haiek ez dakite.",
     "clues": "Txandaka, bakoitzak hitzarekin lotutako zerbait esaten du, hitza esan gabe eta errazegi jarri gabe.",
     "vote": "Nahi duzuenean, bozkatu inpostorea dela uste duzuena: partidatik kanpo geratzen da.",
-    "win": "Inpostore guztiak kanporatzen badituzue, tripulazioak irabazten du; tripulatzailerik geratzen ez bada, inpostoreek.",
+    "win": "Inpostore guztiak kanporatzen badituzue, tripulazioak irabazten du; tripulatzailerik geratzen ez bada, edo inpostore bat eta tripulatzaile bat bakarrik geratzen badira, inpostoreek.",
     "guess": "Edozein unetan, inpostore batek hitza esateko arriskua har dezake: asmatzen badu, inpostoreek irabazten dute; huts egiten badu, kanpo geratzen da."
   }
 }

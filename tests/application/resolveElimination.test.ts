@@ -19,12 +19,12 @@ function buildAssignment(impostorIds: string[], playerIds: string[]): Assignment
 
 describe('resolveElimination', () => {
   it('continues when a crew is voted while impostors and crew both remain', () => {
-    // 5 players, 2 impostors (p1,p2), crew p3,p4,p5
-    const a = buildAssignment(['p1', 'p2'], ['p1', 'p2', 'p3', 'p4', 'p5'])
+    // 6 players, 2 impostors (p1,p2), crew p3..p6
+    const a = buildAssignment(['p1', 'p2'], ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'])
     const r = resolveElimination(a, [], 'p3')
     expect(r.status).toBe('continue')
     expect(r.aliveImpostorCount).toBe(2)
-    expect(r.aliveCrewCount).toBe(2)
+    expect(r.aliveCrewCount).toBe(3)
     expect(r.votedWasImpostor).toBe(false)
   })
 
@@ -90,24 +90,35 @@ describe('resolveElimination', () => {
     expect(r.votedWasImpostor).toBe(true)
   })
 
-  it('reaches an impostor win only once every crew is gone', () => {
-    // 7 players, 2 impostors (p1,p2), crew p3..p7
-    const a = buildAssignment(['p1', 'p2'], ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'])
-    const eliminated: string[] = []
-    const crew = ['p3', 'p4', 'p5', 'p6', 'p7']
-
-    // Voting out crew one by one keeps the game going while any crew remains.
-    for (let i = 0; i < crew.length - 1; i++) {
-      const r = resolveElimination(a, eliminated, crew[i]!)
-      expect(r.status).toBe('continue')
-      expect(r.votedWasImpostor).toBe(false)
-      eliminated.push(crew[i]!)
-    }
-
-    // Voting out the very last crew flips it to an impostor win.
-    const last = resolveElimination(a, eliminated, crew[crew.length - 1]!)
+  it('declares impostor win when only one impostor and one crew are left', () => {
+    // 4 players, 1 impostor (p1): 1 vs 2 after the first crew vote, 1 vs 1 after the second.
+    const a = buildAssignment(['p1'], ['p1', 'p2', 'p3', 'p4'])
+    expect(resolveElimination(a, [], 'p3').status).toBe('continue')
+    const last = resolveElimination(a, ['p3'], 'p4')
     expect(last.status).toBe('impostor_win')
-    expect(last.aliveCrewCount).toBe(0)
-    expect(last.aliveImpostorCount).toBe(2)
+    expect(last.aliveImpostorCount).toBe(1)
+    expect(last.aliveCrewCount).toBe(1)
+  })
+
+  it('keeps playing when impostors equal or outnumber a crew of two or more', () => {
+    // 7 players, 3 impostors (p1..p3), crew p4..p7: 3 vs 3, then 3 vs 2.
+    const a = buildAssignment(['p1', 'p2', 'p3'], ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'])
+    expect(resolveElimination(a, [], 'p4').status).toBe('continue')
+    expect(resolveElimination(a, ['p4'], 'p5').status).toBe('continue')
+  })
+
+  it('lets the crew still win from two against two', () => {
+    // 4 players, 2 impostors (p1,p2), crew p3,p4.
+    const a = buildAssignment(['p1', 'p2'], ['p1', 'p2', 'p3', 'p4'])
+    expect(resolveElimination(a, [], 'p1').status).toBe('continue')
+    expect(resolveElimination(a, ['p1'], 'p2').status).toBe('crew_win')
+  })
+
+  it('keeps playing with two impostors against one crew', () => {
+    const a = buildAssignment(['p1', 'p2'], ['p1', 'p2', 'p3', 'p4'])
+    const r = resolveElimination(a, [], 'p4')
+    expect(r.status).toBe('continue')
+    expect(r.aliveImpostorCount).toBe(2)
+    expect(r.aliveCrewCount).toBe(1)
   })
 })

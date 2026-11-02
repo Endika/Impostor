@@ -1,6 +1,7 @@
 import { uuidv7 } from 'uuidv7'
 import type { Assignment, GameConfig, Player, Rng } from '../domain/game/types'
 import type { WordBank } from '../domain/content/types'
+import { maxImpostorsFor } from '../domain/game/impostorLimits'
 
 export function assignRoles(
   config: GameConfig,
@@ -9,7 +10,7 @@ export function assignRoles(
   excludeWords: string[] = [],
 ): Assignment {
   const impostorCount = config.randomImpostors
-    ? 1 + Math.floor(rng() * (config.players.length - 1)) // random in [1, players-1]
+    ? 1 + Math.floor(rng() * maxImpostorsFor(config.players.length))
     : config.impostorCount
   const { word, categoryId, hints } = bank.pick(
     config.categoryIds,

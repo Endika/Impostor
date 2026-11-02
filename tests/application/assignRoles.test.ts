@@ -40,10 +40,10 @@ describe('assignRoles', () => {
     expect(assignment.impostorIds).toHaveLength(1)
   })
 
-  it('reaches players-1 in random mode when rng() is near 1', () => {
-    // 5 players -> max 4 impostors.
+  it('stays below the crew size in random mode when rng() is near 1', () => {
+    // 5 players -> at most 2 impostors against 3 crew.
     const assignment = assignRoles(makeConfig({ randomImpostors: true }), bank, () => 0.99)
-    expect(assignment.impostorIds).toHaveLength(4)
+    expect(assignment.impostorIds).toHaveLength(2)
   })
 
   it('assigns the picked word and category', () => {

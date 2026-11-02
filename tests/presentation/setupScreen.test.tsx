@@ -102,15 +102,17 @@ describe('SetupScreen', () => {
     fillPlayer(2, 'Cleo')
     fireEvent.click(screen.getByRole('button', { name: /add player/i }))
     fillPlayer(3, 'Dan')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(4, 'Eve')
 
-    // 4 players -> max 3 impostors.
-    setCount(3)
-    expect(impostorCount()).toBe('3')
+    // 5 players -> max 2 impostors, fewer than the 3 crew.
+    setCount(2)
+    expect(impostorCount()).toBe('2')
     expect(screen.getByRole('button', { name: /more impostors/i })).toBeDisabled()
 
-    // Remove a player: max drops to 2, so the count is clamped.
+    // Remove a player: max drops to 1, so the count is clamped.
     fireEvent.click(screen.getAllByRole('button', { name: /remove/i })[0]!)
-    expect(impostorCount()).toBe('2')
+    expect(impostorCount()).toBe('1')
   })
 
   it('disables the count stepper and starts a random game when the random toggle is on', () => {
@@ -186,6 +188,10 @@ describe('SetupScreen', () => {
     fillPlayer(0, 'Ana')
     fillPlayer(1, 'Ben')
     fillPlayer(2, 'Cleo')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(3, 'Dan')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(4, 'Eve')
     openSettings()
     fireEvent.click(screen.getByRole('switch', { name: /see a clue/i }))
     setCount(2)

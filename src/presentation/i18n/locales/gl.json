@@ -124,7 +124,7 @@
     "word": "Todos reciben a mesma palabra secreta, agás os impostores, que non a coñecen.",
     "clues": "Por quendas, cada quen di algo relacionado coa palabra, sen dicila nin poñelo doado.",
     "vote": "Cando queirades, votade a quen credes que é impostor: queda fóra da partida.",
-    "win": "Se botades a todos os impostores, gaña a tripulación; se non queda ningún tripulante, gañan os impostores.",
+    "win": "Se botades a todos os impostores, gaña a tripulación; se non queda ningún tripulante, ou só quedan un impostor e un tripulante, gañan os impostores.",
     "guess": "En calquera momento, un impostor pode arriscarse a dicir a palabra: se acerta, gañan os impostores; se falla, queda fóra."
   }
 }
