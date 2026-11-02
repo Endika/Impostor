@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.2](https://github.com/Endika/Impostor/compare/v1.8.1...v1.8.2) (2026-11-02)
+
+
+### Bug Fixes
+
+* **content:** use the cowbell instead of mooing as the Vaca hint ([3c1961a](https://github.com/Endika/Impostor/commit/3c1961aabccd459d2a8995d8f19777d2f5f27986))
+
 ## [1.8.1](https://github.com/Endika/Impostor/compare/v1.8.0...v1.8.1) (2026-10-02)
 
 
