@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/Endika/Impostor/compare/v1.8.2...v1.9.0) (2026-11-02)
+
+
+### Features
+
+* **game:** end at one impostor against one crew and cap impostors below the crew ([a27487a](https://github.com/Endika/Impostor/commit/a27487a80f26e5320f2d3704904a2a28f9986c3b))
+
 ## [1.8.2](https://github.com/Endika/Impostor/compare/v1.8.1...v1.8.2) (2026-11-02)
 
 
