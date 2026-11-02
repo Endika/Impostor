@@ -104,15 +104,17 @@ describe('SetupScreen', () => {
     fillPlayer(3, 'Dan')
     fireEvent.click(screen.getByRole('button', { name: /add player/i }))
     fillPlayer(4, 'Eve')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(5, 'Fin')
 
-    // 5 players -> max 2 impostors, fewer than the 3 crew.
-    setCount(2)
-    expect(impostorCount()).toBe('2')
+    // 6 players -> max 3 impostors, half the table.
+    setCount(3)
+    expect(impostorCount()).toBe('3')
     expect(screen.getByRole('button', { name: /more impostors/i })).toBeDisabled()
 
-    // Remove a player: max drops to 1, so the count is clamped.
+    // Remove a player: max drops to 2, so the count is clamped.
     fireEvent.click(screen.getAllByRole('button', { name: /remove/i })[0]!)
-    expect(impostorCount()).toBe('1')
+    expect(impostorCount()).toBe('2')
   })
 
   it('disables the count stepper and starts a random game when the random toggle is on', () => {
@@ -208,6 +210,25 @@ describe('SetupScreen', () => {
     expect(screen.getByTestId('screen')).toHaveTextContent('reveal')
     const saved = JSON.parse(window.localStorage.getItem('impostor.config') ?? '{}')
     expect(saved.differentCluePerImpostor).toBe(true)
+  })
+
+  it('keeps the see-each-other toggle usable in random mode with four players', () => {
+    setup()
+    fillPlayer(0, 'Ana')
+    fillPlayer(1, 'Ben')
+    fillPlayer(2, 'Cleo')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(3, 'Dan')
+    fireEvent.click(screen.getByRole('switch', { name: /random number of impostors/i }))
+    openSettings()
+
+    // Four players can draw two impostors at random, so the toggle is offered,
+    // and switching it on must not disable it.
+    const toggle = screen.getByRole('switch', { name: /impostors see each other/i })
+    expect(toggle).not.toBeDisabled()
+    fireEvent.click(toggle)
+    expect(toggle).toBeChecked()
+    expect(toggle).not.toBeDisabled()
   })
 
   it('shows the duplicate names error', () => {

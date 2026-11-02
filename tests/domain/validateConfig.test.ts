@@ -32,10 +32,10 @@ describe('validateConfig', () => {
     })
   })
 
-  it('rejects a fixed impostor count that would start the game at parity', () => {
-    // 4 players -> max 1; two impostors against two crew would already win.
+  it('rejects a fixed impostor count above half the players', () => {
+    // 4 players -> max 2; three impostors would outnumber the crew.
     expect(
-      validateConfig({ ...base, players: ['Ana', 'Ben', 'Cleo', 'Dan'], impostorCount: 2 }),
+      validateConfig({ ...base, players: ['Ana', 'Ben', 'Cleo', 'Dan'], impostorCount: 3 }),
     ).toEqual({
       ok: false,
       error: 'invalid_impostor_count',
@@ -52,12 +52,12 @@ describe('validateConfig', () => {
     ).toEqual({ ok: false, error: 'invalid_impostor_count' })
   })
 
-  it('accepts a valid fixed count at the upper bound (8 players, 3 impostors)', () => {
+  it('accepts a valid fixed count at the upper bound (8 players, 4 impostors)', () => {
     expect(
       validateConfig({
         ...base,
         players: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-        impostorCount: 3,
+        impostorCount: 4,
       }),
     ).toEqual({ ok: true })
   })

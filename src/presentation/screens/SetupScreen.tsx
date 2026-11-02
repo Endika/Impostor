@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { categoryData, categoryIds } from '../../content/categories'
 import { InMemoryWordBank } from '../../domain/content/InMemoryWordBank'
 import { validateConfig } from '../../domain/game/validateConfig'
-import { maxImpostorsFor } from '../../domain/game/impostorLimits'
+import { maxImpostorsFor, maxRandomImpostorsFor } from '../../domain/game/impostorLimits'
 import type { GameConfig, LocaleCode } from '../../domain/game/types'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
@@ -84,7 +84,7 @@ export function SetupScreen() {
     return count
   }
 
-  // The upper bound (players - 1) is enforced by validateConfig on Start so an
+  // The upper bound is also enforced by validateConfig on Start so an
   // out-of-range value still surfaces the invalid-count error.
   function changeCount(value: number) {
     setImpostorCount(clampCount(value, maxImpostors))
@@ -119,8 +119,11 @@ export function SetupScreen() {
   }
 
   // At least two impostors are possible either when random mode could draw them
-  // or when the fixed count is already >= 2.
-  const twoImpostorsPossible = randomImpostors ? maxImpostors >= 2 : impostorCount >= 2
+  // or when the fixed count is already >= 2. Random mode is judged with the
+  // see-each-other toggle off, so turning that toggle on can't disable itself.
+  const twoImpostorsPossible = randomImpostors
+    ? maxRandomImpostorsFor(players.length, false) >= 2
+    : impostorCount >= 2
 
   // The game might have >= 2 impostors, so enable the toggle when possible.
   const seeEachOtherDisabled = !twoImpostorsPossible
