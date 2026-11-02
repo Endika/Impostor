@@ -124,7 +124,7 @@
     "word": "Tots reben la mateixa paraula secreta, menys els impostors, que no la saben.",
     "clues": "Per torns, cadascú diu alguna cosa relacionada amb la paraula, sense dir-la ni posar-ho fàcil.",
     "vote": "Quan vullgueu, voteu qui creieu que és impostor: queda fora de la partida.",
-    "win": "Si expulseu tots els impostors, guanya la tripulació; si no queda cap tripulant, guanyen els impostors.",
+    "win": "Si expulseu tots els impostors, guanya la tripulació; si no queda cap tripulant, o només queden un impostor i un tripulant, guanyen els impostors.",
     "guess": "En qualsevol moment, un impostor pot arriscar-se a dir la paraula: si l'encerta, guanyen els impostors; si falla, queda fora."
   }
 }
