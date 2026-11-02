@@ -40,9 +40,19 @@ describe('assignRoles', () => {
     expect(assignment.impostorIds).toHaveLength(1)
   })
 
-  it('stays below the crew size in random mode when rng() is near 1', () => {
-    // 5 players -> at most 2 impostors against 3 crew.
+  it('leaves two crew in random mode when impostors do not see each other', () => {
+    // 5 players -> at most 3 impostors against 2 crew.
     const assignment = assignRoles(makeConfig({ randomImpostors: true }), bank, () => 0.99)
+    expect(assignment.impostorIds).toHaveLength(3)
+  })
+
+  it('keeps at most half the players in random mode when impostors see each other', () => {
+    // 5 players -> at most 2 impostors against 3 crew.
+    const assignment = assignRoles(
+      makeConfig({ randomImpostors: true, impostorsSeeEachOther: true }),
+      bank,
+      () => 0.99,
+    )
     expect(assignment.impostorIds).toHaveLength(2)
   })
 
