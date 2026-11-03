@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/Endika/Impostor/compare/v1.9.0...v1.10.0) (2026-11-03)
+
+
+### Features
+
+* **game:** allow up to half the players as impostors and leave two crew in blind random games ([55654c3](https://github.com/Endika/Impostor/commit/55654c3db7769642cc2366144405103457ca4852))
+
 ## [1.9.0](https://github.com/Endika/Impostor/compare/v1.8.2...v1.9.0) (2026-11-02)
 
 
