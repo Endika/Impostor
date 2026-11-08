@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0](https://github.com/Endika/Impostor/compare/v1.18.0...v1.19.0) (2026-11-08)
+
+
+### Features
+
+* **content:** subtler Galician hints and ten new words per category ([a3c535b](https://github.com/Endika/Impostor/commit/a3c535bbd8a441a756f58724de9bad5563cb5466))
+
 ## [1.18.0](https://github.com/Endika/Impostor/compare/v1.17.0...v1.18.0) (2026-11-08)
 
 
