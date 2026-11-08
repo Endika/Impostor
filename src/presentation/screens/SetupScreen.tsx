@@ -16,6 +16,7 @@ import { Toggle } from '../components/Toggle'
 import { RulesSheet } from '../components/RulesSheet'
 import { loadConfig, saveConfig } from '../state/persistence'
 import { loadUsedWords } from '../state/usedWords'
+import { loadImpostorStreaks } from '../state/impostorStreaks'
 import i18n from '../i18n'
 
 const LOCALES: LocaleCode[] = ['ca', 'en', 'es', 'eu', 'gl', 'va']
@@ -166,6 +167,7 @@ export function SetupScreen() {
       bank: new InMemoryWordBank(categoryData),
       rng: Math.random,
       excludeWords: loadUsedWords(config.locale),
+      impostorStreaks: loadImpostorStreaks(),
     })
   }
 

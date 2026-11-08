@@ -1,6 +1,7 @@
 import { uuidv7 } from 'uuidv7'
 import type { Assignment, GameConfig, Player, Rng } from '../domain/game/types'
 import type { WordBank } from '../domain/content/types'
+import { drawImpostorIndices } from '../domain/game/impostorRotation'
 import { maxImpostorsFor } from '../domain/game/impostorLimits'
 
 export function assignRoles(
@@ -8,6 +9,7 @@ export function assignRoles(
   bank: WordBank,
   rng: Rng,
   excludeWords: string[] = [],
+  streaks: Record<string, number> = {},
 ): Assignment {
   const impostorCount = config.randomImpostors
     ? drawImpostorCount(config, rng)
@@ -18,12 +20,7 @@ export function assignRoles(
     rng,
     excludeWords,
   )
-  const indices = config.players.map((_, i) => i)
-  for (let i = indices.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1))
-    ;[indices[i], indices[j]] = [indices[j]!, indices[i]!]
-  }
-  const impostorOrder = indices.slice(0, impostorCount)
+  const impostorOrder = drawImpostorIndices(config.players, impostorCount, streaks, rng)
   const impostorRank = new Map(impostorOrder.map((idx, rank) => [idx, rank]))
 
   // Decide each impostor's personal clue.

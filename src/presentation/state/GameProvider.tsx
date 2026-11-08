@@ -3,6 +3,7 @@ import { gameReducer, initialState, type GameState } from './gameReducer'
 import { loadConfig, saveConfig } from './persistence'
 import { loadGame, saveGame } from './gamePersistence'
 import { addUsedWord } from './usedWords'
+import { recordAssignment } from './impostorStreaks'
 import { GameContext } from './gameContext'
 
 function init(base: GameState): GameState {
@@ -44,6 +45,7 @@ export function GameProvider({
   useEffect(() => {
     if (state.assignment && state.config) {
       addUsedWord(state.config.locale, state.assignment.word)
+      recordAssignment(state.assignment)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.assignment])

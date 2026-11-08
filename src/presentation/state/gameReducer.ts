@@ -38,6 +38,7 @@ export type GameAction =
       bank: WordBank
       rng: Rng
       excludeWords?: string[]
+      impostorStreaks?: Record<string, number>
     }
   | { type: 'NEXT_REVEAL' }
   | { type: 'END_ROUND' }
@@ -61,6 +62,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         action.bank,
         action.rng,
         action.excludeWords ?? [],
+        action.impostorStreaks ?? {},
       )
       return {
         ...state,
