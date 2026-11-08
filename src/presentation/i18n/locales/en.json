@@ -23,7 +23,7 @@
     "audio": "Sound",
     "start": "Start game",
     "errorTooFewPlayers": "Add at least 3 players",
-    "errorInvalidImpostorCount": "Choose between 1 and {{max}} impostors (at least 1 crew must remain)",
+    "errorInvalidImpostorCount": "Choose between 1 and {{max}} impostors",
     "errorNoCategory": "Pick at least one category",
     "errorDuplicateNames": "Player names must be different",
     "fewerImpostors": "Fewer impostors",

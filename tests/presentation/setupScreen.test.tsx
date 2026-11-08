@@ -107,14 +107,14 @@ describe('SetupScreen', () => {
     fireEvent.click(screen.getByRole('button', { name: /add player/i }))
     fillPlayer(5, 'Fin')
 
-    // 6 players -> max 3 impostors, half the table.
-    setCount(3)
-    expect(impostorCount()).toBe('3')
+    // 6 players, impostors don't see each other (default) -> max 4 impostors (leave 2 crew).
+    setCount(4)
+    expect(impostorCount()).toBe('4')
     expect(screen.getByRole('button', { name: /more impostors/i })).toBeDisabled()
 
-    // Remove a player: max drops to 2, so the count is clamped.
+    // Remove a player: max drops to 3, so the count is clamped.
     fireEvent.click(screen.getAllByRole('button', { name: /remove/i })[0]!)
-    expect(impostorCount()).toBe('2')
+    expect(impostorCount()).toBe('3')
   })
 
   it('turns the stepper into the random maximum and saves it when the random toggle is on', () => {
@@ -267,5 +267,22 @@ describe('SetupScreen', () => {
     fillPlayer(0, 'Ana')
     expect(screen.getByRole('button', { name: 'Remove Ana' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Remove player 2' })).toBeInTheDocument()
+  })
+
+  it('offers up to 6 fixed impostors with 8 players, and 4 once they see each other', () => {
+    setup()
+    for (let i = 0; i < 5; i++) {
+      fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+      fillPlayer(i + 3, `Player${i + 4}`)
+    }
+
+    setCount(7)
+    expect(impostorCount()).toBe('6')
+    expect(screen.getByRole('button', { name: /more impostors/i })).toBeDisabled()
+
+    openSettings()
+    fireEvent.click(screen.getByRole('switch', { name: /impostors see each other/i }))
+    expect(impostorCount()).toBe('4')
+    expect(screen.getByRole('button', { name: /more impostors/i })).toBeDisabled()
   })
 })
