@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.1](https://github.com/Endika/Impostor/compare/v1.13.0...v1.13.1) (2026-11-08)
+
+
+### Bug Fixes
+
+* **setup:** refuse to start with an empty player row ([ce589f8](https://github.com/Endika/Impostor/commit/ce589f84c63a26ca7d66051eef695ca890d929bf))
+
 ## [1.13.0](https://github.com/Endika/Impostor/compare/v1.12.0...v1.13.0) (2026-11-08)
 
 
