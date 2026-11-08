@@ -6,6 +6,9 @@ import { useGame } from '../../src/presentation/state/useGame'
 import type { GameState } from '../../src/presentation/state/gameReducer'
 import type { Assignment } from '../../src/domain/game/types'
 
+const starterLine = (re: RegExp) => (_: string, el: Element | null) =>
+  el?.tagName === 'P' && re.test(el.textContent ?? '')
+
 function ScreenProbe() {
   const { state } = useGame()
   return <span data-testid="screen">{state.screen}</span>
@@ -39,7 +42,8 @@ const state: GameState = {
 describe('RoundScreen', () => {
   it('announces the random starting player (deterministic rng)', () => {
     renderWithProviders(<RoundScreen rng={() => 0} />, { initialState: state })
-    expect(screen.getByText(/ana starts/i)).toBeInTheDocument()
+    expect(screen.getByText(starterLine(/ana starts/i))).toBeInTheDocument()
+    expect(screen.getByText('Ana', { selector: 'p > span' })).toBeInTheDocument()
   })
 
   it('does not pick an eliminated player as the starter', () => {
@@ -49,8 +53,8 @@ describe('RoundScreen', () => {
     })
     // rng=0 would pick the first player (Ana/p0), but she is eliminated,
     // so the first alive player (Ben) starts instead.
-    expect(screen.getByText(/ben starts/i)).toBeInTheDocument()
-    expect(screen.queryByText(/ana starts/i)).not.toBeInTheDocument()
+    expect(screen.getByText(starterLine(/ben starts/i))).toBeInTheDocument()
+    expect(screen.queryByText(starterLine(/ana starts/i))).not.toBeInTheDocument()
   })
 
   it('shows the round number and a vote button, with the timer off by default', () => {

@@ -11,6 +11,7 @@ import { RulesSheet } from '../components/RulesSheet'
 import type { Rng } from '../../domain/game/types'
 
 const MUSIC_KEY = 'impostor.music'
+const NAME_SLOT = '\u2063'
 
 function loadMusicOn(): boolean {
   try {
@@ -67,12 +68,21 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
 
   if (!assignment || !starter) return null
 
+  // Split the translated sentence around the name so only the name grows, whatever the word order.
+  const [starterBefore = '', starterAfter = ''] = t('round.startsWith', {
+    name: NAME_SLOT,
+  }).split(NAME_SLOT)
+
   return (
     <div className="flex flex-1 flex-col gap-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-3xl font-extrabold tracking-tight">{t('round.title', { round })}</h1>
         <p className="text-2xl font-bold text-muted [overflow-wrap:anywhere]">
-          {t('round.startsWith', { name: starter.name })}
+          {starterBefore}
+          <span className="block py-1 text-6xl leading-none font-extrabold tracking-tight text-ink">
+            {starter.name}
+          </span>
+          {starterAfter}
         </p>
       </div>
 
