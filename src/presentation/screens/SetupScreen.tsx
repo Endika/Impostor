@@ -51,6 +51,7 @@ export function SetupScreen() {
   )
   const [impostorCount, setImpostorCount] = useState(() => saved?.impostorCount ?? 1)
   const [randomImpostors, setRandomImpostors] = useState(() => saved?.randomImpostors ?? false)
+  const [randomMax, setRandomMax] = useState(() => saved?.maxRandomImpostors)
   const [impostorSeesClue, setImpostorSeesClue] = useState(() => saved?.impostorSeesClue ?? false)
   const [impostorsSeeEachOther, setImpostorsSeeEachOther] = useState(
     () => saved?.impostorsSeeEachOther ?? false,
@@ -122,7 +123,7 @@ export function SetupScreen() {
   // or when the fixed count is already >= 2. Random mode is judged with the
   // see-each-other toggle off, so turning that toggle on can't disable itself.
   const twoImpostorsPossible = randomImpostors
-    ? maxRandomImpostorsFor(players.length, false) >= 2
+    ? Math.min(randomMax ?? Infinity, maxRandomImpostorsFor(players.length, false)) >= 2
     : impostorCount >= 2
 
   // The game might have >= 2 impostors, so enable the toggle when possible.
@@ -132,11 +133,18 @@ export function SetupScreen() {
   // can be at least two impostors to differentiate.
   const differentClueDisabled = !impostorSeesClue || !twoImpostorsPossible
 
+  const randomLimit = maxRandomImpostorsFor(
+    players.length,
+    seeEachOtherDisabled ? false : impostorsSeeEachOther,
+  )
+  const randomMaxShown = Math.min(randomMax ?? randomLimit, randomLimit)
+
   function handleStart() {
     const config: GameConfig = {
       players: players.map((p) => p.trim()),
       impostorCount,
       randomImpostors,
+      maxRandomImpostors: randomImpostors ? randomMaxShown : randomMax,
       impostorSeesClue,
       impostorsSeeEachOther: seeEachOtherDisabled ? false : impostorsSeeEachOther,
       differentCluePerImpostor: differentClueDisabled ? false : differentCluePerImpostor,
@@ -215,16 +223,17 @@ export function SetupScreen() {
 
       <section className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-4">
-          <SectionLabel id="impostor-count-label">{t('setup.impostors')}</SectionLabel>
+          <SectionLabel id="impostor-count-label">
+            {randomImpostors ? t('setup.maxImpostors') : t('setup.impostors')}
+          </SectionLabel>
           <Stepper
-            value={impostorCount}
+            value={randomImpostors ? randomMaxShown : impostorCount}
             min={1}
-            max={maxImpostors}
-            onChange={changeCount}
-            label={t('setup.impostorCount')}
+            max={randomImpostors ? randomLimit : maxImpostors}
+            onChange={randomImpostors ? setRandomMax : changeCount}
+            label={randomImpostors ? t('setup.maxImpostors') : t('setup.impostorCount')}
             decreaseLabel={t('setup.fewerImpostors')}
             increaseLabel={t('setup.moreImpostors')}
-            disabled={randomImpostors}
           />
         </div>
         <Toggle

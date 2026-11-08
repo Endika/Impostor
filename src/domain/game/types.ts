@@ -4,6 +4,7 @@ export interface GameConfig {
   players: string[]
   impostorCount: number // 1..players-1 (used when randomImpostors is false)
   randomImpostors: boolean // pick a random count in [1, players-1] each game
+  maxRandomImpostors?: number // upper bound for the random draw; unset means the table limit
   impostorSeesClue: boolean
   impostorsSeeEachOther: boolean
   differentCluePerImpostor: boolean // each impostor gets a distinct hint of the word

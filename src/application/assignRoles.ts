@@ -10,8 +10,7 @@ export function assignRoles(
   excludeWords: string[] = [],
 ): Assignment {
   const impostorCount = config.randomImpostors
-    ? 1 +
-      Math.floor(rng() * maxRandomImpostorsFor(config.players.length, config.impostorsSeeEachOther))
+    ? drawImpostorCount(config, rng)
     : config.impostorCount
   const { word, categoryId, hints } = bank.pick(
     config.categoryIds,
@@ -57,4 +56,10 @@ export function assignRoles(
     categoryId,
     impostorIds: players.filter((p) => p.isImpostor).map((p) => p.id),
   }
+}
+
+function drawImpostorCount(config: GameConfig, rng: Rng): number {
+  const limit = maxRandomImpostorsFor(config.players.length, config.impostorsSeeEachOther)
+  const max = Math.max(1, Math.min(config.maxRandomImpostors ?? limit, limit))
+  return 1 + Math.floor(rng() * max)
 }
