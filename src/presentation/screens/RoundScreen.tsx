@@ -9,6 +9,8 @@ import { Toggle } from '../components/Toggle'
 import { DebateTimer, TENSE_FROM_SECONDS } from '../components/DebateTimer'
 import { RulesSheet } from '../components/RulesSheet'
 import type { Rng } from '../../domain/game/types'
+import { drawByStreaks } from '../../domain/game/streakRotation'
+import { loadOpenerStreaks } from '../state/openerStreaks'
 
 const MUSIC_KEY = 'impostor.music'
 const NAME_SLOT = '\u2063'
@@ -35,7 +37,15 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
 
   // The starter is drawn once per round and kept in the game state, so leaving
   // for a guess or reloading the app never reshuffles who opens the debate.
-  const [drawn] = useState(() => alive[Math.floor(rng() * alive.length)] ?? alive[0])
+  const [drawn] = useState(() => {
+    const index = drawByStreaks(
+      alive.map((p) => p.name),
+      1,
+      loadOpenerStreaks(),
+      rng,
+    )[0]
+    return index === undefined ? undefined : alive[index]
+  })
   const starter = alive.find((p) => p.id === starterId) ?? drawn
 
   useEffect(() => {

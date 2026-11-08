@@ -1,7 +1,7 @@
 import { uuidv7 } from 'uuidv7'
 import type { Assignment, GameConfig, Player, Rng } from '../domain/game/types'
 import type { WordBank } from '../domain/content/types'
-import { drawImpostorIndices } from '../domain/game/impostorRotation'
+import { drawByStreaks } from '../domain/game/streakRotation'
 import { maxImpostorsFor } from '../domain/game/impostorLimits'
 
 export function assignRoles(
@@ -20,7 +20,7 @@ export function assignRoles(
     rng,
     excludeWords,
   )
-  const impostorOrder = drawImpostorIndices(config.players, impostorCount, streaks, rng)
+  const impostorOrder = drawByStreaks(config.players, impostorCount, streaks, rng)
   const impostorRank = new Map(impostorOrder.map((idx, rank) => [idx, rank]))
 
   // Decide each impostor's personal clue.

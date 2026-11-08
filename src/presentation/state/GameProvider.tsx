@@ -4,6 +4,7 @@ import { loadConfig, saveConfig } from './persistence'
 import { loadGame, saveGame } from './gamePersistence'
 import { addUsedWord } from './usedWords'
 import { recordAssignment } from './impostorStreaks'
+import { recordOpener } from './openerStreaks'
 import { GameContext } from './gameContext'
 
 function init(base: GameState): GameState {
@@ -49,6 +50,17 @@ export function GameProvider({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.assignment])
+
+  // Count the opener once it is final. The round key makes it idempotent, so a
+  // reload that restores the same starter and round never counts it twice.
+  useEffect(() => {
+    const { assignment, starterId, round, eliminatedIds } = state
+    if (!assignment || !starterId) return
+    const alive = assignment.players.filter((p) => !eliminatedIds.includes(p.id))
+    if (!alive.some((p) => p.id === starterId)) return
+    recordOpener(assignment, round, alive, starterId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.starterId, state.round])
 
   return <GameContext.Provider value={{ state, dispatch }}>{children}</GameContext.Provider>
 }
