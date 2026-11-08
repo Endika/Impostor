@@ -23,6 +23,7 @@
     "audio": "Sound",
     "start": "Start game",
     "errorTooFewPlayers": "Add at least 3 players",
+    "errorEmptyPlayer": "Fill in or remove the empty player rows",
     "errorInvalidImpostorCount": "Choose between 1 and {{max}} impostors",
     "errorNoCategory": "Pick at least one category",
     "errorDuplicateNames": "Player names must be different",
