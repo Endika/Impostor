@@ -1,5 +1,6 @@
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useRef, type ReactNode } from 'react'
 import { X } from 'lucide-react'
+import { useModalDialog } from './useModalDialog'
 
 interface SheetProps {
   open: boolean
@@ -13,17 +14,7 @@ interface SheetProps {
 export function Sheet({ open, onClose, title, closeLabel, children }: SheetProps) {
   const ref = useRef<HTMLDialogElement>(null)
 
-  useEffect(() => {
-    const dialog = ref.current
-    if (!dialog) return
-    if (open && !dialog.open) {
-      if (typeof dialog.showModal === 'function') dialog.showModal()
-      else dialog.setAttribute('open', '')
-    } else if (!open && dialog.open) {
-      if (typeof dialog.close === 'function') dialog.close()
-      else dialog.removeAttribute('open')
-    }
-  }, [open])
+  useModalDialog(ref, open)
 
   return (
     <dialog

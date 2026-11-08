@@ -74,7 +74,12 @@
     "guess": "Inpostore batek asmatzen du",
     "players": "Jokalariak",
     "out": "kanpo",
-    "reminder": "Txandaka, bakoitzak hitzarekin lotutako zerbait esaten du. Bozkatu nahi duzuenean."
+    "reminder": "Txandaka, bakoitzak hitzarekin lotutako zerbait esaten du. Bozkatu nahi duzuenean.",
+    "peekHint": "Ukitu zure izena zure txartela berriro ikusteko",
+    "peekConfirm": "{{name}} zara?",
+    "peekYes": "Bai, ni naiz",
+    "peekCancel": "Utzi",
+    "peekDone": "Eginda"
   },
   "guess": {
     "title": "Asmatu hitza",

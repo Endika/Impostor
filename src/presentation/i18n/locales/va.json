@@ -74,7 +74,12 @@
     "guess": "Un impostor endevina",
     "players": "Jugadors",
     "out": "fora",
-    "reminder": "Per torns, cadascú diu alguna cosa relacionada amb la paraula. Voteu quan vullgueu."
+    "reminder": "Per torns, cadascú diu alguna cosa relacionada amb la paraula. Voteu quan vullgueu.",
+    "peekHint": "Toca el teu nom per a tornar a veure la teua targeta",
+    "peekConfirm": "Eres {{name}}?",
+    "peekYes": "Sí, sóc jo",
+    "peekCancel": "Cancel·lar",
+    "peekDone": "Fet"
   },
   "guess": {
     "title": "Endevina la paraula",

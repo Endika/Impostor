@@ -74,7 +74,12 @@
     "guess": "An impostor guesses",
     "players": "Players",
     "out": "out",
-    "reminder": "Take turns saying something related to the word. Vote whenever you like."
+    "reminder": "Take turns saying something related to the word. Vote whenever you like.",
+    "peekHint": "Tap your name to see your card again",
+    "peekConfirm": "Are you {{name}}?",
+    "peekYes": "Yes, it's me",
+    "peekCancel": "Cancel",
+    "peekDone": "Done"
   },
   "guess": {
     "title": "Guess the word",

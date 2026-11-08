@@ -150,6 +150,18 @@ h1[tabindex='-1']:focus {
   animation: confetti-fall 2.6s linear infinite;
 }
 
+/* ---- Centered peek dialog ----------------------------------------------- */
+dialog.peek {
+  margin: auto;
+  max-height: 100dvh;
+  width: 100%;
+  max-width: 28rem;
+  border: none;
+  padding: 1.25rem;
+  background: transparent;
+  color: var(--color-ink);
+}
+
 /* ---- Bottom sheet dialog ------------------------------------------------ */
 dialog.sheet {
   margin: auto auto 0;
@@ -163,6 +175,10 @@ dialog.sheet {
 }
 dialog.sheet::backdrop {
   background: rgb(5 7 16 / 0.7);
+}
+/* Nearly opaque: the question must read cleanly and the card is private. */
+dialog.peek::backdrop {
+  background: color-mix(in srgb, var(--color-ground) 96%, transparent);
 }
 dialog.sheet[open] {
   animation: sheet-up 0.32s var(--ease-out-quart) both;
