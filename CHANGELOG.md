@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/Endika/Impostor/compare/v1.14.0...v1.15.0) (2026-11-08)
+
+
+### Features
+
+* **round:** make a recent debate opener less likely to open again ([5dfb5a7](https://github.com/Endika/Impostor/commit/5dfb5a7a329fdf65aca8d82848f956352045bd6d))
+
 ## [1.14.0](https://github.com/Endika/Impostor/compare/v1.13.1...v1.14.0) (2026-11-08)
 
 
