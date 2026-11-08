@@ -47,7 +47,8 @@
     "places": "Lekuak",
     "cinema": "Zinema",
     "nature": "Natura",
-    "transport": "Garraioa"
+    "transport": "Garraioa",
+    "sports": "Kirolak"
   },
   "reveal": {
     "passTo": "Pasatu mugikorra {{name}}(r)i",

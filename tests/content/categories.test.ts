@@ -2,11 +2,21 @@ import { describe, expect, it } from 'vitest'
 import { categoryData, categoryIds } from '../../src/content/categories'
 import type { LocaleCode } from '../../src/domain/game/types'
 
-const expectedIds = ['home', 'food', 'animals', 'music', 'places', 'cinema', 'nature', 'transport']
+const expectedIds = [
+  'home',
+  'food',
+  'animals',
+  'music',
+  'places',
+  'cinema',
+  'nature',
+  'transport',
+  'sports',
+]
 const locales: LocaleCode[] = ['ca', 'en', 'es', 'eu', 'gl', 'va']
 
 describe('bundled categories', () => {
-  it('exposes exactly the eight expected category ids', () => {
+  it('exposes exactly the nine expected category ids', () => {
     expect([...categoryIds].sort()).toEqual([...expectedIds].sort())
     expect(Object.keys(categoryData).sort()).toEqual([...expectedIds].sort())
   })
@@ -18,9 +28,9 @@ describe('bundled categories', () => {
       })
 
       for (const locale of locales) {
-        it(`has at least 28 valid, unique entries for "${locale}"`, () => {
+        it(`has at least 40 valid, unique entries for "${locale}"`, () => {
           const entries = categoryData[id]![locale]!
-          expect(entries.length).toBeGreaterThanOrEqual(28)
+          expect(entries.length).toBeGreaterThanOrEqual(40)
 
           const seen = new Set<string>()
           for (const { word, hints } of entries) {
