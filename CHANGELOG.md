@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.0](https://github.com/Endika/Impostor/compare/v1.19.0...v1.20.0) (2026-11-08)
+
+
+### Features
+
+* **content:** subtler Basque hints and ten new words per category ([77f2ef1](https://github.com/Endika/Impostor/commit/77f2ef1ab9ae71439dab5c83f1f3002fab3037da))
+
 ## [1.19.0](https://github.com/Endika/Impostor/compare/v1.18.0...v1.19.0) (2026-11-08)
 
 
