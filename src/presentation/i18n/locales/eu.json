@@ -48,7 +48,8 @@
     "cinema": "Zinema",
     "nature": "Natura",
     "transport": "Garraioa",
-    "sports": "Kirolak"
+    "sports": "Kirolak",
+    "jobs": "Lanbideak"
   },
   "reveal": {
     "passTo": "Pasatu mugikorra {{name}}(r)i",

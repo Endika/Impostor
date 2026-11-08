@@ -48,7 +48,8 @@
     "cinema": "Cinema",
     "nature": "Nature",
     "transport": "Transport",
-    "sports": "Sports"
+    "sports": "Sports",
+    "jobs": "Jobs"
   },
   "reveal": {
     "passTo": "Pass the phone to {{name}}",
