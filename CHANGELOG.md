@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.25.0](https://github.com/Endika/Impostor/compare/v1.24.0...v1.25.0) (2026-11-08)
+
+
+### Features
+
+* **round:** let a player look at their card again during the round ([9745ed2](https://github.com/Endika/Impostor/commit/9745ed27b6837a0e95fa9dcef4441b8ee1b6483a))
+
 ## [1.24.0](https://github.com/Endika/Impostor/compare/v1.23.0...v1.24.0) (2026-11-08)
 
 
