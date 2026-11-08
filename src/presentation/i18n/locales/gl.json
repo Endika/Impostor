@@ -49,7 +49,8 @@
     "nature": "Natureza",
     "transport": "Transporte",
     "sports": "Deportes",
-    "jobs": "Profesións"
+    "jobs": "Profesións",
+    "clothes": "Roupa e complementos"
   },
   "reveal": {
     "passTo": "Pásalle o móbil a {{name}}",
