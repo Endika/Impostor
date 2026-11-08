@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/Endika/Impostor/compare/v1.11.0...v1.12.0) (2026-11-08)
+
+
+### Features
+
+* **game:** let a fixed count reach players - 2 when impostors don't see each other ([c89a2b7](https://github.com/Endika/Impostor/commit/c89a2b7be3d175a6dcebc20bedb0f26ddf274f8b))
+
 ## [1.11.0](https://github.com/Endika/Impostor/compare/v1.10.0...v1.11.0) (2026-11-08)
 
 
