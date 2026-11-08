@@ -2,6 +2,8 @@ import { useEffect, useReducer, useRef, type ReactNode } from 'react'
 import { gameReducer, initialState, type GameState } from './gameReducer'
 import { loadConfig, saveConfig } from './persistence'
 import { loadGame, saveGame } from './gamePersistence'
+import { categoryData } from '../../content/categories'
+import { poolWords } from '../../domain/content/usedWordCycle'
 import { addUsedWord } from './usedWords'
 import { recordAssignment } from './impostorStreaks'
 import { recordOpener } from './openerStreaks'
@@ -45,7 +47,11 @@ export function GameProvider({
   // runs once per assignment.
   useEffect(() => {
     if (state.assignment && state.config) {
-      addUsedWord(state.config.locale, state.assignment.word)
+      addUsedWord(
+        state.config.locale,
+        state.assignment.word,
+        poolWords(categoryData, state.config.categoryIds, state.config.locale),
+      )
       recordAssignment(state.assignment)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

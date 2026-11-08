@@ -1,3 +1,4 @@
+import { nextUsedWords } from '../../domain/content/usedWordCycle'
 import type { LocaleCode } from '../../domain/game/types'
 
 const keyFor = (locale: LocaleCode): string => `impostor.usedWords.${locale}`
@@ -15,12 +16,11 @@ export function loadUsedWords(locale: LocaleCode): string[] {
   }
 }
 
-export function addUsedWord(locale: LocaleCode, word: string): void {
+export function addUsedWord(locale: LocaleCode, word: string, pool: string[]): void {
   if (typeof window === 'undefined') return
   try {
-    const current = loadUsedWords(locale)
-    if (current.includes(word)) return
-    window.localStorage.setItem(keyFor(locale), JSON.stringify([...current, word]))
+    const next = nextUsedWords(loadUsedWords(locale), word, pool)
+    window.localStorage.setItem(keyFor(locale), JSON.stringify(next))
   } catch {
     // Ignore storage failures (private mode, quota, etc.).
   }
