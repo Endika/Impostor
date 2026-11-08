@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/Endika/Impostor/compare/v1.12.0...v1.13.0) (2026-11-08)
+
+
+### Features
+
+* **round:** show the starting player's name large ([3357082](https://github.com/Endika/Impostor/commit/3357082043383bd13ed621638d20472640ca4f62))
+
 ## [1.12.0](https://github.com/Endika/Impostor/compare/v1.11.0...v1.12.0) (2026-11-08)
 
 
