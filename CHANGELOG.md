@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://github.com/Endika/Impostor/compare/v1.13.1...v1.14.0) (2026-11-08)
+
+
+### Features
+
+* **game:** make a recent impostor less likely to be drawn again ([91a6649](https://github.com/Endika/Impostor/commit/91a6649abece08dd15c766993d1190a5a501de6e))
+
 ## [1.13.1](https://github.com/Endika/Impostor/compare/v1.13.0...v1.13.1) (2026-11-08)
 
 
