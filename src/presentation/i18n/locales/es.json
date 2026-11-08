@@ -50,7 +50,8 @@
     "transport": "Transporte",
     "sports": "Deportes",
     "jobs": "Profesiones",
-    "clothes": "Ropa y complementos"
+    "clothes": "Ropa y complementos",
+    "festivities": "Fiestas y tradiciones"
   },
   "reveal": {
     "passTo": "Pasa el móvil a {{name}}",
