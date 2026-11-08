@@ -48,7 +48,8 @@
     "cinema": "Cinema",
     "nature": "Natura",
     "transport": "Transport",
-    "sports": "Esports"
+    "sports": "Esports",
+    "jobs": "Professions"
   },
   "reveal": {
     "passTo": "Passa el mòbil a {{name}}",
