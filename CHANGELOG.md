@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.22.0](https://github.com/Endika/Impostor/compare/v1.21.0...v1.22.0) (2026-11-08)
+
+
+### Features
+
+* **content:** add a jobs category ([f901ac1](https://github.com/Endika/Impostor/commit/f901ac11bb947192a5213c6ff8ec80242ac729b7))
+
 ## [1.21.0](https://github.com/Endika/Impostor/compare/v1.20.1...v1.21.0) (2026-11-08)
 
 
