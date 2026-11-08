@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.24.0](https://github.com/Endika/Impostor/compare/v1.23.0...v1.24.0) (2026-11-08)
+
+
+### Features
+
+* **content:** add a festivities category ([5721691](https://github.com/Endika/Impostor/commit/572169154fa66613a321da4da3b9a89adeedadea))
+
 ## [1.23.0](https://github.com/Endika/Impostor/compare/v1.22.0...v1.23.0) (2026-11-08)
 
 
