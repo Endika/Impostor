@@ -243,6 +243,18 @@ describe('SetupScreen', () => {
     expect(toggle).not.toBeDisabled()
   })
 
+  it('refuses to start with an empty player row instead of dealing a role to it', () => {
+    setup()
+    fillPlayer(0, 'Ana')
+    fillPlayer(1, 'Ben')
+    fillPlayer(2, 'Cleo')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+
+    expect(screen.getByText(/fill in or remove the empty player rows/i)).toBeInTheDocument()
+    expect(screen.getByTestId('screen')).toHaveTextContent('setup')
+  })
+
   it('shows the duplicate names error', () => {
     setup()
     fillPlayer(0, 'Ana')

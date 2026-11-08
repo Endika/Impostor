@@ -23,6 +23,7 @@
     "audio": "So",
     "start": "Comença la partida",
     "errorTooFewPlayers": "Afegeix com a mínim 3 jugadors",
+    "errorEmptyPlayer": "Omple o elimina les files de jugador buides",
     "errorInvalidImpostorCount": "Tria entre 1 i {{max}} impostors",
     "errorNoCategory": "Tria com a mínim una categoria",
     "errorDuplicateNames": "Els noms dels jugadors han de ser diferents",

@@ -25,6 +25,24 @@ describe('validateConfig', () => {
     })
   })
 
+  it('rejects an empty or blank player row once there are three names', () => {
+    expect(validateConfig({ ...base, players: ['Ana', 'Ben', 'Cleo', ''] })).toEqual({
+      ok: false,
+      error: 'empty_player',
+    })
+    expect(validateConfig({ ...base, players: ['Ana', '  ', 'Ben', 'Cleo'] })).toEqual({
+      ok: false,
+      error: 'empty_player',
+    })
+  })
+
+  it('asks for more players before complaining about empty rows', () => {
+    expect(validateConfig({ ...base, players: ['Ana', 'Ben', ''] })).toEqual({
+      ok: false,
+      error: 'too_few_players',
+    })
+  })
+
   it('rejects a fixed impostor count of 0', () => {
     expect(validateConfig({ ...base, impostorCount: 0 })).toEqual({
       ok: false,

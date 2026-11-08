@@ -4,6 +4,7 @@ import { maxImpostorsFor } from './impostorLimits'
 export function validateConfig(c: GameConfig): ValidationResult {
   const names = c.players.map((n) => n.trim()).filter(Boolean)
   if (names.length < 3) return { ok: false, error: 'too_few_players' }
+  if (names.length !== c.players.length) return { ok: false, error: 'empty_player' }
   if (new Set(names).size !== names.length) return { ok: false, error: 'duplicate_names' }
   // With randomImpostors the count is drawn at runtime; the draw clamps the maximum to the table limit.
   if (!c.randomImpostors) {

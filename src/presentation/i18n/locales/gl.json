@@ -23,6 +23,7 @@
     "audio": "Son",
     "start": "Comezar partida",
     "errorTooFewPlayers": "Engade polo menos 3 xogadores",
+    "errorEmptyPlayer": "Enche ou elimina as filas de xogador baleiras",
     "errorInvalidImpostorCount": "Escolle entre 1 e {{max}} impostores",
     "errorNoCategory": "Escolle polo menos unha categoría",
     "errorDuplicateNames": "Os nomes dos xogadores deben ser distintos",

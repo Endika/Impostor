@@ -32,6 +32,7 @@ const LOCALE_NAMES: Record<LocaleCode, string> = {
 
 const ERROR_KEY = {
   too_few_players: 'setup.errorTooFewPlayers',
+  empty_player: 'setup.errorEmptyPlayer',
   invalid_impostor_count: 'setup.errorInvalidImpostorCount',
   no_category: 'setup.errorNoCategory',
   duplicate_names: 'setup.errorDuplicateNames',
