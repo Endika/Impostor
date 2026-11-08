@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.1](https://github.com/Endika/Impostor/compare/v1.20.0...v1.20.1) (2026-11-08)
+
+
+### Bug Fixes
+
+* **words:** start a fresh no-repeat cycle once every word has been played ([71ab8d0](https://github.com/Endika/Impostor/commit/71ab8d03d79f2eb084b9497630a86289252abd58))
+
 ## [1.20.0](https://github.com/Endika/Impostor/compare/v1.19.0...v1.20.0) (2026-11-08)
 
 
