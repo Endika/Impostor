@@ -46,6 +46,17 @@ describe('RoundScreen', () => {
     expect(screen.getByText('Ana', { selector: 'p > span' })).toBeInTheDocument()
   })
 
+  it('makes a player who keeps opening the debate less likely to open again', () => {
+    // rng 0.01 lands on Ana while all weights are equal, but past her 1/1024 share once she has a long streak.
+    window.localStorage.setItem(
+      'impostor.openerStreaks',
+      JSON.stringify({ lastRoundKey: null, streaks: { Ana: 10 } }),
+    )
+    renderWithProviders(<RoundScreen rng={() => 0.01} />, { initialState: state })
+    expect(screen.getByText(starterLine(/ben starts/i))).toBeInTheDocument()
+    window.localStorage.clear()
+  })
+
   it('does not pick an eliminated player as the starter', () => {
     const withElim: GameState = { ...state, eliminatedIds: ['p0'] }
     renderWithProviders(<RoundScreen rng={() => 0} />, {
