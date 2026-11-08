@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/Endika/Impostor/compare/v1.10.0...v1.11.0) (2026-11-08)
+
+
+### Features
+
+* **game:** let the table cap how many impostors a random game can draw ([e5fa903](https://github.com/Endika/Impostor/commit/e5fa90390105470ffe5e2cd0ee49ee4bee051777))
+
 ## [1.10.0](https://github.com/Endika/Impostor/compare/v1.9.0...v1.10.0) (2026-11-03)
 
 
