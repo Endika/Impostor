@@ -9,6 +9,7 @@ import { nature } from './categories/nature'
 import { transport } from './categories/transport'
 import { sports } from './categories/sports'
 import { jobs } from './categories/jobs'
+import { clothes } from './categories/clothes'
 
 export const categoryIds = [
   'home',
@@ -21,6 +22,7 @@ export const categoryIds = [
   'transport',
   'sports',
   'jobs',
+  'clothes',
 ] as const
 
 export const categoryData: CategoryData = {
@@ -34,4 +36,5 @@ export const categoryData: CategoryData = {
   transport,
   sports,
   jobs,
+  clothes,
 }

@@ -49,7 +49,8 @@
     "nature": "Natura",
     "transport": "Garraioa",
     "sports": "Kirolak",
-    "jobs": "Lanbideak"
+    "jobs": "Lanbideak",
+    "clothes": "Arropa eta osagarriak"
   },
   "reveal": {
     "passTo": "Pasatu mugikorra {{name}}(r)i",

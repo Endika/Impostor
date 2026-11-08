@@ -49,7 +49,8 @@
     "nature": "Natura",
     "transport": "Transport",
     "sports": "Esports",
-    "jobs": "Professions"
+    "jobs": "Professions",
+    "clothes": "Roba i complements"
   },
   "reveal": {
     "passTo": "Passa el mòbil a {{name}}",
