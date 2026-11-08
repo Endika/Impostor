@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/Endika/Impostor/compare/v1.17.0...v1.18.0) (2026-11-08)
+
+
+### Features
+
+* **content:** subtler Catalan and Valencian hints and ten new words per category ([4e2099b](https://github.com/Endika/Impostor/commit/4e2099b1799cf323979e9cab6880a9417e99254d))
+
 ## [1.17.0](https://github.com/Endika/Impostor/compare/v1.16.0...v1.17.0) (2026-11-08)
 
 
