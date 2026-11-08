@@ -1,7 +1,7 @@
 import { uuidv7 } from 'uuidv7'
 import type { Assignment, GameConfig, Player, Rng } from '../domain/game/types'
 import type { WordBank } from '../domain/content/types'
-import { maxRandomImpostorsFor } from '../domain/game/impostorLimits'
+import { maxImpostorsFor } from '../domain/game/impostorLimits'
 
 export function assignRoles(
   config: GameConfig,
@@ -59,7 +59,7 @@ export function assignRoles(
 }
 
 function drawImpostorCount(config: GameConfig, rng: Rng): number {
-  const limit = maxRandomImpostorsFor(config.players.length, config.impostorsSeeEachOther)
+  const limit = maxImpostorsFor(config.players.length, config.impostorsSeeEachOther)
   const max = Math.max(1, Math.min(config.maxRandomImpostors ?? limit, limit))
   return 1 + Math.floor(rng() * max)
 }

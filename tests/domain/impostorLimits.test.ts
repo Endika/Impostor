@@ -1,32 +1,32 @@
 import { describe, expect, it } from 'vitest'
-import { maxImpostorsFor, maxRandomImpostorsFor } from '../../src/domain/game/impostorLimits'
+import { maxImpostorsFor } from '../../src/domain/game/impostorLimits'
 
 describe('maxImpostorsFor', () => {
-  it.each([
-    [3, 1],
-    [4, 2],
-    [5, 2],
-    [6, 3],
-    [7, 3],
-    [10, 5],
-  ])('allows %i players at most %i impostors, never more than the crew', (players, max) => {
-    expect(maxImpostorsFor(players)).toBe(max)
-    expect(max).toBeLessThanOrEqual(players - max)
-  })
-})
-
-describe('maxRandomImpostorsFor', () => {
-  it.each([
-    [3, 1],
-    [4, 2],
-    [6, 4],
-    [10, 8],
-  ])('leaves two crew with %i players when impostors do not see each other: %i', (players, max) => {
-    expect(maxRandomImpostorsFor(players, false)).toBe(max)
+  describe('when impostors do not see each other (leave two crew)', () => {
+    it.each([
+      [3, 1],
+      [4, 2],
+      [5, 3],
+      [6, 4],
+      [8, 6],
+      [10, 8],
+    ])('allows %i players at most %i impostors', (players, max) => {
+      expect(maxImpostorsFor(players, false)).toBe(max)
+      expect(max).toBeLessThanOrEqual(players - 2)
+    })
   })
 
-  it('keeps at most half the players when impostors see each other', () => {
-    expect(maxRandomImpostorsFor(6, true)).toBe(maxImpostorsFor(6))
-    expect(maxRandomImpostorsFor(10, true)).toBe(maxImpostorsFor(10))
+  describe('when impostors see each other (at most half, rounded down)', () => {
+    it.each([
+      [3, 1],
+      [4, 2],
+      [5, 2],
+      [6, 3],
+      [7, 3],
+      [10, 5],
+    ])('allows %i players at most %i impostors', (players, max) => {
+      expect(maxImpostorsFor(players, true)).toBe(max)
+      expect(max).toBeLessThanOrEqual(Math.floor(players / 2))
+    })
   })
 })

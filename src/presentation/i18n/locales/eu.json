@@ -23,7 +23,7 @@
     "audio": "Soinua",
     "start": "Hasi partida",
     "errorTooFewPlayers": "Gehitu gutxienez 3 jokalari",
-    "errorInvalidImpostorCount": "Aukeratu 1 eta {{max}} inpostore artean (gutxienez tripulatzaile 1 geratu behar da)",
+    "errorInvalidImpostorCount": "Aukeratu 1 eta {{max}} inpostore artean",
     "errorNoCategory": "Aukeratu gutxienez kategoria bat",
     "errorDuplicateNames": "Jokalarien izenek desberdinak izan behar dute",
     "fewerImpostors": "Inpostore gutxiago",

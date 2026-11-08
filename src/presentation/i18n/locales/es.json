@@ -23,7 +23,7 @@
     "audio": "Sonido",
     "start": "Empezar partida",
     "errorTooFewPlayers": "Añade al menos 3 jugadores",
-    "errorInvalidImpostorCount": "Elige entre 1 y {{max}} impostores (debe quedar al menos 1 tripulante)",
+    "errorInvalidImpostorCount": "Elige entre 1 y {{max}} impostores",
     "errorNoCategory": "Elige al menos una categoría",
     "errorDuplicateNames": "Los nombres de los jugadores deben ser distintos",
     "fewerImpostors": "Menos impostores",

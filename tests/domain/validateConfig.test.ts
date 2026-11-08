@@ -32,10 +32,15 @@ describe('validateConfig', () => {
     })
   })
 
-  it('rejects a fixed impostor count above half the players', () => {
-    // 4 players -> max 2; three impostors would outnumber the crew.
+  it('rejects a fixed impostor count above half the players when impostors see each other', () => {
+    // 4 players with impostors seeing each other -> max 2; three impostors would outnumber the crew.
     expect(
-      validateConfig({ ...base, players: ['Ana', 'Ben', 'Cleo', 'Dan'], impostorCount: 3 }),
+      validateConfig({
+        ...base,
+        players: ['Ana', 'Ben', 'Cleo', 'Dan'],
+        impostorCount: 3,
+        impostorsSeeEachOther: true,
+      }),
     ).toEqual({
       ok: false,
       error: 'invalid_impostor_count',
@@ -52,14 +57,37 @@ describe('validateConfig', () => {
     ).toEqual({ ok: false, error: 'invalid_impostor_count' })
   })
 
-  it('accepts a valid fixed count at the upper bound (8 players, 4 impostors)', () => {
+  it('accepts a valid fixed count at the upper bound (8 players, 4 impostors, see each other)', () => {
     expect(
       validateConfig({
         ...base,
         players: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
         impostorCount: 4,
+        impostorsSeeEachOther: true,
       }),
     ).toEqual({ ok: true })
+  })
+
+  it('accepts 8 players with 6 fixed impostors when they do not see each other', () => {
+    expect(
+      validateConfig({
+        ...base,
+        players: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+        impostorCount: 6,
+        impostorsSeeEachOther: false,
+      }),
+    ).toEqual({ ok: true })
+  })
+
+  it('rejects 8 players with 7 fixed impostors (only one crew left)', () => {
+    expect(
+      validateConfig({
+        ...base,
+        players: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+        impostorCount: 7,
+        impostorsSeeEachOther: false,
+      }),
+    ).toEqual({ ok: false, error: 'invalid_impostor_count' })
   })
 
   it('ignores the impostor count when randomImpostors is true (even out of range)', () => {

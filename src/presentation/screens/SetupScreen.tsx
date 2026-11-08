@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { categoryData, categoryIds } from '../../content/categories'
 import { InMemoryWordBank } from '../../domain/content/InMemoryWordBank'
 import { validateConfig } from '../../domain/game/validateConfig'
-import { maxImpostorsFor, maxRandomImpostorsFor } from '../../domain/game/impostorLimits'
+import { maxImpostorsFor } from '../../domain/game/impostorLimits'
 import type { GameConfig, LocaleCode } from '../../domain/game/types'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
@@ -77,7 +77,23 @@ export function SetupScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const maxImpostors = maxImpostorsFor(players.length)
+  // At least two impostors are possible either when random mode could draw them
+  // or when the fixed count is already >= 2. Random mode is judged with the
+  // see-each-other toggle off, so turning that toggle on can't disable itself.
+  const twoImpostorsPossible = randomImpostors
+    ? Math.min(randomMax ?? Infinity, maxImpostorsFor(players.length, false)) >= 2
+    : impostorCount >= 2
+
+  // The game might have >= 2 impostors, so enable the toggle when possible.
+  const seeEachOtherDisabled = !twoImpostorsPossible
+
+  // A different clue per impostor only makes sense when clues are on AND there
+  // can be at least two impostors to differentiate.
+  const differentClueDisabled = !impostorSeesClue || !twoImpostorsPossible
+
+  const seesEachOther = seeEachOtherDisabled ? false : impostorsSeeEachOther
+  const limit = maxImpostorsFor(players.length, seesEachOther)
+  const randomMaxShown = Math.min(randomMax ?? limit, limit)
 
   function clampCount(count: number, max: number): number {
     if (count < 1) return 1
@@ -88,7 +104,12 @@ export function SetupScreen() {
   // The upper bound is also enforced by validateConfig on Start so an
   // out-of-range value still surfaces the invalid-count error.
   function changeCount(value: number) {
-    setImpostorCount(clampCount(value, maxImpostors))
+    setImpostorCount(clampCount(value, limit))
+  }
+
+  function changeSeeEachOther(on: boolean) {
+    setImpostorsSeeEachOther(on)
+    if (on) setImpostorCount((c) => clampCount(c, maxImpostorsFor(players.length, true)))
   }
 
   function updatePlayer(index: number, value: string) {
@@ -102,7 +123,7 @@ export function SetupScreen() {
   function removePlayer(index: number) {
     setPlayers((prev) => {
       const next = prev.filter((_, i) => i !== index)
-      const max = maxImpostorsFor(next.length)
+      const max = maxImpostorsFor(next.length, seesEachOther)
       setImpostorCount((c) => clampCount(c, max))
       return next
     })
@@ -119,26 +140,6 @@ export function SetupScreen() {
     void i18n.changeLanguage(code)
   }
 
-  // At least two impostors are possible either when random mode could draw them
-  // or when the fixed count is already >= 2. Random mode is judged with the
-  // see-each-other toggle off, so turning that toggle on can't disable itself.
-  const twoImpostorsPossible = randomImpostors
-    ? Math.min(randomMax ?? Infinity, maxRandomImpostorsFor(players.length, false)) >= 2
-    : impostorCount >= 2
-
-  // The game might have >= 2 impostors, so enable the toggle when possible.
-  const seeEachOtherDisabled = !twoImpostorsPossible
-
-  // A different clue per impostor only makes sense when clues are on AND there
-  // can be at least two impostors to differentiate.
-  const differentClueDisabled = !impostorSeesClue || !twoImpostorsPossible
-
-  const randomLimit = maxRandomImpostorsFor(
-    players.length,
-    seeEachOtherDisabled ? false : impostorsSeeEachOther,
-  )
-  const randomMaxShown = Math.min(randomMax ?? randomLimit, randomLimit)
-
   function handleStart() {
     const config: GameConfig = {
       players: players.map((p) => p.trim()),
@@ -146,7 +147,7 @@ export function SetupScreen() {
       randomImpostors,
       maxRandomImpostors: randomImpostors ? randomMaxShown : randomMax,
       impostorSeesClue,
-      impostorsSeeEachOther: seeEachOtherDisabled ? false : impostorsSeeEachOther,
+      impostorsSeeEachOther: seesEachOther,
       differentCluePerImpostor: differentClueDisabled ? false : differentCluePerImpostor,
       categoryIds: selectedCategories,
       locale,
@@ -169,7 +170,7 @@ export function SetupScreen() {
 
   const errorMessage = error
     ? t(ERROR_KEY[error as keyof typeof ERROR_KEY], {
-        max: maxImpostors,
+        max: limit,
       })
     : null
 
@@ -229,7 +230,7 @@ export function SetupScreen() {
           <Stepper
             value={randomImpostors ? randomMaxShown : impostorCount}
             min={1}
-            max={randomImpostors ? randomLimit : maxImpostors}
+            max={limit}
             onChange={randomImpostors ? setRandomMax : changeCount}
             label={randomImpostors ? t('setup.maxImpostors') : t('setup.impostorCount')}
             decreaseLabel={t('setup.fewerImpostors')}
@@ -277,7 +278,7 @@ export function SetupScreen() {
                 checked={!seeEachOtherDisabled && impostorsSeeEachOther}
                 disabled={seeEachOtherDisabled}
                 disabledReason={t('setup.needsTwoImpostors')}
-                onChange={setImpostorsSeeEachOther}
+                onChange={changeSeeEachOther}
               />
               <Toggle
                 label={t('setup.differentClue')}
