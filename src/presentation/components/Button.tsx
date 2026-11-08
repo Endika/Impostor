@@ -1,9 +1,9 @@
-import type { ButtonHTMLAttributes } from 'react'
+import type { ComponentProps } from 'react'
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'positive' | 'warn' | 'danger'
 type Size = 'sm' | 'md' | 'lg' | 'icon'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ComponentProps<'button'> {
   variant?: Variant
   size?: Size
 }

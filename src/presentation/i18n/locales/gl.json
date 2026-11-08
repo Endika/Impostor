@@ -74,7 +74,12 @@
     "guess": "Un impostor adiviña",
     "players": "Xogadores",
     "out": "fóra",
-    "reminder": "Por quendas, cada quen di algo relacionado coa palabra. Votade cando queirades."
+    "reminder": "Por quendas, cada quen di algo relacionado coa palabra. Votade cando queirades.",
+    "peekHint": "Toca o teu nome para volver ver a túa tarxeta",
+    "peekConfirm": "Es {{name}}?",
+    "peekYes": "Si, son eu",
+    "peekCancel": "Cancelar",
+    "peekDone": "Feito"
   },
   "guess": {
     "title": "Adiviña a palabra",

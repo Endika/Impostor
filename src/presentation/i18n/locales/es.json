@@ -74,7 +74,12 @@
     "guess": "Un impostor adivina",
     "players": "Jugadores",
     "out": "fuera",
-    "reminder": "Por turnos, cada uno dice algo relacionado con la palabra. Votad cuando queráis."
+    "reminder": "Por turnos, cada uno dice algo relacionado con la palabra. Votad cuando queráis.",
+    "peekHint": "Toca tu nombre para volver a ver tu tarjeta",
+    "peekConfirm": "¿Eres {{name}}?",
+    "peekYes": "Sí, soy yo",
+    "peekCancel": "Cancelar",
+    "peekDone": "Listo"
   },
   "guess": {
     "title": "Adivina la palabra",

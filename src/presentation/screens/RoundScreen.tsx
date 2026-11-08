@@ -7,6 +7,7 @@ import { Button } from '../components/Button'
 import { Card } from '../components/Card'
 import { Toggle } from '../components/Toggle'
 import { DebateTimer, TENSE_FROM_SECONDS } from '../components/DebateTimer'
+import { PeekCard } from '../components/PeekCard'
 import { RulesSheet } from '../components/RulesSheet'
 import type { Rng } from '../../domain/game/types'
 import { drawByStreaks } from '../../domain/game/streakRotation'
@@ -32,7 +33,7 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
   const { state, dispatch } = useGame()
   const { startLoop, stopLoop, play, muted } = useAudio()
 
-  const { assignment, eliminatedIds, round, starterId } = state
+  const { assignment, config, eliminatedIds, round, starterId } = state
   const alive = (assignment?.players ?? []).filter((p) => !eliminatedIds.includes(p.id))
 
   // The starter is drawn once per round and kept in the game state, so leaving
@@ -55,6 +56,7 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
   const [musicOn, setMusicOn] = useState(loadMusicOn)
   const [tense, setTense] = useState(false)
   const [rulesOpen, setRulesOpen] = useState(false)
+  const [peekId, setPeekId] = useState<string | null>(null)
 
   useEffect(() => {
     try {
@@ -77,6 +79,8 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
   }
 
   if (!assignment || !starter) return null
+
+  const peeked = alive.find((p) => p.id === peekId)
 
   // Split the translated sentence around the name so only the name grows, whatever the word order.
   const [starterBefore = '', starterAfter = ''] = t('round.startsWith', {
@@ -109,12 +113,25 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
               }`}
             >
               {out && <UserX aria-hidden size={16} strokeWidth={2.5} />}
-              <span className="[overflow-wrap:anywhere]">{p.name}</span>
-              {out && <span className="sr-only">{t('round.out')}</span>}
+              {out ? (
+                <>
+                  <span className="[overflow-wrap:anywhere]">{p.name}</span>
+                  <span className="sr-only">{t('round.out')}</span>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  className="-mx-3.5 min-h-10 rounded-full px-3.5 [overflow-wrap:anywhere] focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ink"
+                  onClick={() => setPeekId(p.id)}
+                >
+                  {p.name}
+                </button>
+              )}
             </li>
           )
         })}
       </ul>
+      <p className="-mt-3 text-base text-muted">{t('round.peekHint')}</p>
 
       <div className="flex flex-col items-start gap-1">
         <p className="text-lg text-muted">{t('round.reminder')}</p>
@@ -152,6 +169,15 @@ export function RoundScreen({ rng = Math.random }: RoundScreenProps) {
           {t('round.guess')}
         </Button>
       </div>
+
+      {peeked && (
+        <PeekCard
+          player={peeked}
+          assignment={assignment}
+          impostorsSeeEachOther={config?.impostorsSeeEachOther ?? false}
+          onClose={() => setPeekId(null)}
+        />
+      )}
 
       <RulesSheet open={rulesOpen} onClose={() => setRulesOpen(false)} />
     </div>
