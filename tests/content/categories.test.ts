@@ -14,11 +14,12 @@ const expectedIds = [
   'sports',
   'jobs',
   'clothes',
+  'festivities',
 ]
 const locales: LocaleCode[] = ['ca', 'en', 'es', 'eu', 'gl', 'va']
 
 describe('bundled categories', () => {
-  it('exposes exactly the eleven expected category ids', () => {
+  it('exposes exactly the twelve expected category ids', () => {
     expect([...categoryIds].sort()).toEqual([...expectedIds].sort())
     expect(Object.keys(categoryData).sort()).toEqual([...expectedIds].sort())
   })

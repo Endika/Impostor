@@ -50,7 +50,8 @@
     "transport": "Garraioa",
     "sports": "Kirolak",
     "jobs": "Lanbideak",
-    "clothes": "Arropa eta osagarriak"
+    "clothes": "Arropa eta osagarriak",
+    "festivities": "Jaiak eta ohiturak"
   },
   "reveal": {
     "passTo": "Pasatu mugikorra {{name}}(r)i",

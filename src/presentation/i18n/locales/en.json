@@ -50,7 +50,8 @@
     "transport": "Transport",
     "sports": "Sports",
     "jobs": "Jobs",
-    "clothes": "Clothes"
+    "clothes": "Clothes",
+    "festivities": "Festivities"
   },
   "reveal": {
     "passTo": "Pass the phone to {{name}}",
