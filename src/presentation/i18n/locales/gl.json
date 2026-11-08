@@ -14,6 +14,7 @@
     "impostors": "Impostores",
     "impostorCount": "Número de impostores",
     "randomImpostors": "Número de impostores aleatorio",
+    "maxImpostors": "Máximo de impostores",
     "seesClue": "Os impostores ven unha pista sobre a palabra",
     "seeEachOther": "Os impostores vense entre si",
     "differentClue": "Cada impostor recibe unha pista distinta",

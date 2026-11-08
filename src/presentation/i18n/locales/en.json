@@ -14,6 +14,7 @@
     "impostors": "Impostors",
     "impostorCount": "Number of impostors",
     "randomImpostors": "Random number of impostors",
+    "maxImpostors": "Maximum impostors",
     "seesClue": "Impostors see a clue about the word",
     "seeEachOther": "Impostors see each other",
     "differentClue": "Each impostor gets a different clue",

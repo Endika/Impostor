@@ -68,6 +68,13 @@ describe('validateConfig', () => {
     })
   })
 
+  it('rejects a random maximum below 1', () => {
+    expect(validateConfig({ ...base, randomImpostors: true, maxRandomImpostors: 0 })).toEqual({
+      ok: false,
+      error: 'invalid_impostor_count',
+    })
+  })
+
   it('rejects empty categoryIds', () => {
     expect(validateConfig({ ...base, categoryIds: [] })).toEqual({
       ok: false,

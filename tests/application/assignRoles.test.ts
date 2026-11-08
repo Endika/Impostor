@@ -56,6 +56,25 @@ describe('assignRoles', () => {
     expect(assignment.impostorIds).toHaveLength(2)
   })
 
+  it('never draws more impostors than the chosen maximum in random mode', () => {
+    const assignment = assignRoles(
+      makeConfig({ randomImpostors: true, maxRandomImpostors: 2 }),
+      bank,
+      () => 0.99,
+    )
+    expect(assignment.impostorIds).toHaveLength(2)
+  })
+
+  it('clamps a maximum above the table limit in random mode', () => {
+    // 5 players -> at most 3 impostors, whatever maximum was saved.
+    const assignment = assignRoles(
+      makeConfig({ randomImpostors: true, maxRandomImpostors: 9 }),
+      bank,
+      () => 0.99,
+    )
+    expect(assignment.impostorIds).toHaveLength(3)
+  })
+
   it('assigns the picked word and category', () => {
     const assignment = assignRoles(makeConfig(), bank, () => 0)
     expect(assignment.word).toBe('Playa')

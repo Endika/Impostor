@@ -117,7 +117,7 @@ describe('SetupScreen', () => {
     expect(impostorCount()).toBe('2')
   })
 
-  it('disables the count stepper and starts a random game when the random toggle is on', () => {
+  it('turns the stepper into the random maximum and saves it when the random toggle is on', () => {
     setup()
     fillPlayer(0, 'Ana')
     fillPlayer(1, 'Ben')
@@ -127,14 +127,26 @@ describe('SetupScreen', () => {
     fireEvent.click(toggle)
     expect(toggle).toBeChecked()
 
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(3, 'Dan')
+    fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+    fillPlayer(4, 'Eva')
+    const maximum = () =>
+      within(screen.getByRole('group', { name: /^maximum impostors$/i })).getByRole('status')
+        .textContent
+    // 5 players with impostors blind to each other -> up to 3, leaving two crew.
+    expect(maximum()).toBe('3')
     expect(screen.getByRole('button', { name: /more impostors/i })).toBeDisabled()
-    expect(screen.getByRole('button', { name: /fewer impostors/i })).toBeDisabled()
+
+    fireEvent.click(screen.getByRole('button', { name: /fewer impostors/i }))
+    expect(maximum()).toBe('2')
 
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
 
     expect(screen.getByTestId('screen')).toHaveTextContent('reveal')
     const saved = JSON.parse(window.localStorage.getItem('impostor.config') ?? '{}')
     expect(saved.randomImpostors).toBe(true)
+    expect(saved.maxRandomImpostors).toBe(2)
   })
 
   it('renders chips for the new categories', () => {
