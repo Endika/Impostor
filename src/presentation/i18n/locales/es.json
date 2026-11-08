@@ -47,7 +47,8 @@
     "places": "Lugares",
     "cinema": "Cine",
     "nature": "Naturaleza",
-    "transport": "Transporte"
+    "transport": "Transporte",
+    "sports": "Deportes"
   },
   "reveal": {
     "passTo": "Pasa el móvil a {{name}}",

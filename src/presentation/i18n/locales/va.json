@@ -47,7 +47,8 @@
     "places": "Llocs",
     "cinema": "Cinema",
     "nature": "Natura",
-    "transport": "Transport"
+    "transport": "Transport",
+    "sports": "Esports"
   },
   "reveal": {
     "passTo": "Passa el mòbil a {{name}}",

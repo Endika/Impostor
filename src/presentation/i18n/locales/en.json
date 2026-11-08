@@ -47,7 +47,8 @@
     "places": "Places",
     "cinema": "Cinema",
     "nature": "Nature",
-    "transport": "Transport"
+    "transport": "Transport",
+    "sports": "Sports"
   },
   "reveal": {
     "passTo": "Pass the phone to {{name}}",
