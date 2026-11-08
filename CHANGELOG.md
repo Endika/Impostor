@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://github.com/Endika/Impostor/compare/v1.15.0...v1.16.0) (2026-11-08)
+
+
+### Features
+
+* **content:** subtler Spanish hints and ten new words per category ([dbc0a75](https://github.com/Endika/Impostor/commit/dbc0a75b6bcf41d5b328d90ae4712aac85ff16ca))
+
 ## [1.15.0](https://github.com/Endika/Impostor/compare/v1.14.0...v1.15.0) (2026-11-08)
 
 
