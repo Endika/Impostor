@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0](https://github.com/Endika/Impostor/compare/v1.20.1...v1.21.0) (2026-11-08)
+
+
+### Features
+
+* **content:** add a sports category ([e3f6acb](https://github.com/Endika/Impostor/commit/e3f6acb5cb075c831ec03449704b5a502fa01c09))
+
 ## [1.20.1](https://github.com/Endika/Impostor/compare/v1.20.0...v1.20.1) (2026-11-08)
 
 
