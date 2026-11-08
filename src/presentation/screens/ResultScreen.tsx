@@ -6,6 +6,7 @@ import { InMemoryWordBank } from '../../domain/content/InMemoryWordBank'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
 import { loadUsedWords } from '../state/usedWords'
+import { loadImpostorStreaks } from '../state/impostorStreaks'
 import { Button } from '../components/Button'
 import { Card } from '../components/Card'
 
@@ -54,6 +55,7 @@ export function ResultScreen() {
       bank: new InMemoryWordBank(categoryData),
       rng: Math.random,
       excludeWords: loadUsedWords(config.locale),
+      impostorStreaks: loadImpostorStreaks(),
     })
   }
 
