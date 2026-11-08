@@ -7,6 +7,9 @@ import { useGame } from '../../src/presentation/state/useGame'
 import { gameReducer, initialState, type GameState } from '../../src/presentation/state/gameReducer'
 import type { Assignment, GameConfig } from '../../src/domain/game/types'
 
+const starterLine = (re: RegExp) => (_: string, el: Element | null) =>
+  el?.tagName === 'P' && re.test(el.textContent ?? '')
+
 const config: GameConfig = {
   players: ['Ana', 'Ben', 'Cleo'],
   impostorCount: 1,
@@ -68,7 +71,7 @@ describe('debate screen', () => {
       { initialState: { ...round, starterId: 'p0' } },
     )
     // A stored starter wins over a fresh draw (which would pick Cleo).
-    expect(screen.getByText(/ana starts/i)).toBeInTheDocument()
+    expect(screen.getByText(starterLine(/ana starts/i))).toBeInTheDocument()
     unmount()
   })
 
