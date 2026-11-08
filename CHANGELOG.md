@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.0](https://github.com/Endika/Impostor/compare/v1.22.0...v1.23.0) (2026-11-08)
+
+
+### Features
+
+* **content:** add a clothes category ([cdedaea](https://github.com/Endika/Impostor/commit/cdedaea2b9a24bfda7f2b7d458266ff0a8690fb3))
+
 ## [1.22.0](https://github.com/Endika/Impostor/compare/v1.21.0...v1.22.0) (2026-11-08)
 
 
