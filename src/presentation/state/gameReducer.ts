@@ -46,6 +46,8 @@ export type GameAction =
   | { type: 'CANCEL_GUESS' }
   | { type: 'GUESS_FAILED'; playerId: string }
   | { type: 'CAST_VOTE'; votedPlayerId: string }
+  | { type: 'CANCEL_VOTE' }
+  | { type: 'VOTE_TIED' }
   | { type: 'NEXT_ROUND' }
   | { type: 'SET_STARTER'; playerId: string }
   | { type: 'SHOW_RESULT' }
@@ -143,6 +145,14 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         outcome,
         screen: 'elimination',
       }
+    }
+    case 'CANCEL_VOTE': {
+      if (state.screen !== 'vote') return state
+      return { ...state, screen: 'round' }
+    }
+    case 'VOTE_TIED': {
+      if (state.screen !== 'vote') return state
+      return { ...state, round: state.round + 1, starterId: null, screen: 'round' }
     }
     case 'NEXT_ROUND': {
       if (state.screen !== 'elimination') return state

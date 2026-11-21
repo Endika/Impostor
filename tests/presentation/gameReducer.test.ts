@@ -140,4 +140,27 @@ describe('gameReducer', () => {
     const s = gameReducer(initialState, { type: 'NEXT_REVEAL' })
     expect(s).toEqual(initialState)
   })
+
+  describe('vote cancel and tie', () => {
+    it('CANCEL_VOTE returns to the same round untouched', () => {
+      const vote = { ...startAndReachVote(config), round: 2, starterId: 'p1' }
+      const s = gameReducer(vote, { type: 'CANCEL_VOTE' })
+      expect(s).toEqual({ ...vote, screen: 'round' })
+    })
+
+    it('VOTE_TIED starts the next round with nobody eliminated and a fresh opener', () => {
+      const vote = { ...startAndReachVote(config), round: 2, starterId: 'p1' }
+      const s = gameReducer(vote, { type: 'VOTE_TIED' })
+      expect(s.screen).toBe('round')
+      expect(s.round).toBe(3)
+      expect(s.starterId).toBeNull()
+      expect(s.eliminatedIds).toEqual([])
+    })
+
+    it('ignores both actions outside the vote screen', () => {
+      const round = { ...startAndReachVote(config), screen: 'round' as const }
+      expect(gameReducer(round, { type: 'CANCEL_VOTE' })).toBe(round)
+      expect(gameReducer(round, { type: 'VOTE_TIED' })).toBe(round)
+    })
+  })
 })

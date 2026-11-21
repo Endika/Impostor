@@ -63,8 +63,8 @@ describe('VoteScreen', () => {
       { initialState: state },
     )
 
-    fireEvent.click(screen.getByRole('radio', { name: 'Ben' }))
-    fireEvent.click(screen.getByRole('button', { name: /confirm vote/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^Ben:/ }))
+    fireEvent.click(screen.getByRole('button', { name: 'Eliminate Ben' }))
 
     // CAST_VOTE always lands on the elimination screen now, even on a
     // terminal status, so the eliminated impostor can still guess the word.
@@ -89,9 +89,9 @@ describe('VoteScreen', () => {
     }
     renderWithProviders(<VoteScreen />, { initialState: state })
 
-    expect(screen.getByRole('radio', { name: 'Ana' })).toBeInTheDocument()
-    expect(screen.getByRole('radio', { name: 'Ben' })).toBeInTheDocument()
-    expect(screen.queryByRole('radio', { name: 'Cleo' })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^Ana:/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^Ben:/ })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^Cleo:/ })).not.toBeInTheDocument()
   })
 })
 

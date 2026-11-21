@@ -98,7 +98,14 @@
   },
   "vote": {
     "title": "Nor da inpostorea?",
-    "confirm": "Berretsi botoa"
+    "hint": "Ukitu izen bat boto bakoitzeko",
+    "counter": "Botoak: {{votes}} / {{total}}",
+    "eliminate": "Kanporatu {{name}}",
+    "tie": "Berdinketa: beste txanda bat",
+    "cancel": "Utzi",
+    "remove": "Kendu {{name}}(r)en boto bat",
+    "rowLabel_one": "{{name}}: {{count}} boto",
+    "rowLabel_other": "{{name}}: {{count}} boto"
   },
   "elimination": {
     "wasImpostor": "{{name}} inpostorea zen",

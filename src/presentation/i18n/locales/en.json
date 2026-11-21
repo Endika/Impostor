@@ -98,7 +98,14 @@
   },
   "vote": {
     "title": "Who is the impostor?",
-    "confirm": "Confirm vote"
+    "hint": "Tap a name for each vote",
+    "counter": "Votes: {{votes}} of {{total}}",
+    "eliminate": "Eliminate {{name}}",
+    "tie": "Tie: another round",
+    "cancel": "Cancel",
+    "remove": "Remove a vote from {{name}}",
+    "rowLabel_one": "{{name}}: {{count}} vote",
+    "rowLabel_other": "{{name}}: {{count}} votes"
   },
   "elimination": {
     "wasImpostor": "{{name}} was an impostor",
