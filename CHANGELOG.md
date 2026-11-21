@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.0](https://github.com/Endika/Impostor/compare/v1.25.0...v1.26.0) (2026-11-21)
+
+
+### Features
+
+* **setup:** let players be reordered by dragging ([4666136](https://github.com/Endika/Impostor/commit/4666136a015e6818cd025cf5adad3d61d13e318d))
+
 ## [1.25.0](https://github.com/Endika/Impostor/compare/v1.24.0...v1.25.0) (2026-11-08)
 
 
