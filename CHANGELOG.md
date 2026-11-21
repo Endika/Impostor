@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.0](https://github.com/Endika/Impostor/compare/v1.26.0...v1.27.0) (2026-11-21)
+
+
+### Features
+
+* **vote:** count votes by tapping and allow ties and cancel ([13682d7](https://github.com/Endika/Impostor/commit/13682d70753bc8cf0ca7aff8b81761c49f27b612))
+
 ## [1.26.0](https://github.com/Endika/Impostor/compare/v1.25.0...v1.26.0) (2026-11-21)
 
 
