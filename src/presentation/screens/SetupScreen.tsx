@@ -7,10 +7,26 @@ import { maxImpostorsFor } from '../../domain/game/impostorLimits'
 import type { GameConfig, LocaleCode } from '../../domain/game/types'
 import { useGame } from '../state/useGame'
 import { useAudio } from '../audio/useAudio'
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+  type Announcements,
+  type DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 import { Check, ChevronDown, CircleHelp, Plus, Settings2, X } from 'lucide-react'
 import { Button } from '../components/Button'
 import { Card, SectionLabel } from '../components/Card'
 import { Input } from '../components/Input'
+import { SortablePlayerRow } from '../components/SortablePlayerRow'
 import { Stepper } from '../components/Stepper'
 import { Toggle } from '../components/Toggle'
 import { RulesSheet } from '../components/RulesSheet'
@@ -18,6 +34,7 @@ import { loadConfig, saveConfig } from '../state/persistence'
 import { loadUsedWords } from '../state/usedWords'
 import { loadImpostorStreaks } from '../state/impostorStreaks'
 import i18n from '../i18n'
+import { createRow, moveRow, rowsFromNames } from './playerRows'
 
 const LOCALES: LocaleCode[] = ['ca', 'en', 'es', 'eu', 'gl', 'va']
 
@@ -44,13 +61,18 @@ export function SetupScreen() {
   const { dispatch } = useGame()
   const { muted, toggleMuted } = useAudio()
   const settingsId = useId()
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  )
 
   // Prefill from the last saved config so participants are remembered.
   const [saved] = useState(() => loadConfig())
 
-  const [players, setPlayers] = useState<string[]>(() =>
-    saved?.players && saved.players.length >= 3 ? saved.players : ['', '', ''],
+  const [rows, setRows] = useState(() =>
+    rowsFromNames(saved?.players && saved.players.length >= 3 ? saved.players : ['', '', '']),
   )
+  const players = rows.map((r) => r.name)
   const [impostorCount, setImpostorCount] = useState(() => saved?.impostorCount ?? 1)
   const [randomImpostors, setRandomImpostors] = useState(() => saved?.randomImpostors ?? false)
   const [randomMax, setRandomMax] = useState(() => saved?.maxRandomImpostors)
@@ -114,21 +136,56 @@ export function SetupScreen() {
     if (on) setImpostorCount((c) => clampCount(c, maxImpostorsFor(players.length, true)))
   }
 
-  function updatePlayer(index: number, value: string) {
-    setPlayers((prev) => prev.map((p, i) => (i === index ? value : p)))
+  function updatePlayer(id: string, value: string) {
+    setRows((prev) => prev.map((r) => (r.id === id ? { ...r, name: value } : r)))
   }
 
   function addPlayer() {
-    setPlayers((prev) => [...prev, ''])
+    setRows((prev) => [...prev, createRow()])
   }
 
-  function removePlayer(index: number) {
-    setPlayers((prev) => {
-      const next = prev.filter((_, i) => i !== index)
+  function removePlayer(id: string) {
+    setRows((prev) => {
+      const next = prev.filter((r) => r.id !== id)
       const max = maxImpostorsFor(next.length, seesEachOther)
       setImpostorCount((c) => clampCount(c, max))
       return next
     })
+  }
+
+  function handleDragEnd({ active, over }: DragEndEvent) {
+    if (over) setRows((prev) => moveRow(prev, String(active.id), String(over.id)))
+  }
+
+  function rowLabel(id: string): string {
+    const index = rows.findIndex((r) => r.id === id)
+    return rows[index]?.name.trim() || `${t('setup.playerName')} ${index + 1}`
+  }
+
+  function rowPosition(id: string) {
+    return { position: rows.findIndex((r) => r.id === id) + 1, total: rows.length }
+  }
+
+  const announcements: Announcements = {
+    onDragStart: ({ active }) =>
+      t('setup.reorderPickedUp', {
+        label: rowLabel(String(active.id)),
+        ...rowPosition(String(active.id)),
+      }),
+    onDragOver: ({ active, over }) =>
+      over
+        ? t('setup.reorderMoved', {
+            label: rowLabel(String(active.id)),
+            ...rowPosition(String(over.id)),
+          })
+        : undefined,
+    onDragEnd: ({ active, over }) =>
+      t('setup.reorderDropped', {
+        label: rowLabel(String(active.id)),
+        ...rowPosition(String(over?.id ?? active.id)),
+      }),
+    onDragCancel: ({ active }) =>
+      t('setup.reorderCancelled', { label: rowLabel(String(active.id)) }),
   }
 
   function toggleCategory(id: string) {
@@ -189,36 +246,58 @@ export function SetupScreen() {
 
       <section className="flex flex-col gap-3">
         <SectionLabel>{t('setup.players')}</SectionLabel>
-        <ul className="flex flex-col gap-2">
-          {players.map((name, index) => (
-            <li key={index} className="flex items-center gap-2">
-              <Input
-                aria-label={t('setup.playerName')}
-                className="flex-1"
-                value={name}
-                maxLength={16}
-                autoComplete="off"
-                enterKeyHint="next"
-                onChange={(e) => updatePlayer(index, e.target.value)}
-                placeholder={`${t('setup.playerName')} ${index + 1}`}
-              />
-              {players.length > 3 && (
-                <Button
-                  variant="ghost"
-                  aria-label={
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          accessibility={{
+            announcements,
+            screenReaderInstructions: { draggable: t('setup.reorderInstructions') },
+          }}
+        >
+          <SortableContext items={rows} strategy={verticalListSortingStrategy}>
+            <ul className="flex flex-col gap-2">
+              {rows.map(({ id, name }, index) => (
+                <SortablePlayerRow
+                  key={id}
+                  id={id}
+                  gripLabel={
                     name.trim()
-                      ? t('setup.removePlayerNamed', { name: name.trim() })
-                      : t('setup.removePlayerNumber', { number: index + 1 })
+                      ? t('setup.reorderPlayerNamed', { name: name.trim() })
+                      : t('setup.reorderPlayerNumber', { number: index + 1 })
                   }
-                  size="icon"
-                  onClick={() => removePlayer(index)}
+                  trailing={
+                    rows.length > 3 && (
+                      <Button
+                        variant="ghost"
+                        aria-label={
+                          name.trim()
+                            ? t('setup.removePlayerNamed', { name: name.trim() })
+                            : t('setup.removePlayerNumber', { number: index + 1 })
+                        }
+                        size="icon"
+                        onClick={() => removePlayer(id)}
+                      >
+                        <X aria-hidden size={22} strokeWidth={2.5} />
+                      </Button>
+                    )
+                  }
                 >
-                  <X aria-hidden size={22} strokeWidth={2.5} />
-                </Button>
-              )}
-            </li>
-          ))}
-        </ul>
+                  <Input
+                    aria-label={t('setup.playerName')}
+                    className="flex-1"
+                    value={name}
+                    maxLength={16}
+                    autoComplete="off"
+                    enterKeyHint="next"
+                    onChange={(e) => updatePlayer(id, e.target.value)}
+                    placeholder={`${t('setup.playerName')} ${index + 1}`}
+                  />
+                </SortablePlayerRow>
+              ))}
+            </ul>
+          </SortableContext>
+        </DndContext>
         <Button variant="secondary" onClick={addPlayer}>
           <Plus aria-hidden size={20} strokeWidth={2.75} />
           {t('setup.addPlayer')}

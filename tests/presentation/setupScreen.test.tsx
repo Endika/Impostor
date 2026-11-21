@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { fireEvent, screen, within } from '@testing-library/react'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import { renderWithProviders } from '../helpers/renderWithProviders'
 import { SetupScreen } from '../../src/presentation/screens/SetupScreen'
 import { useGame } from '../../src/presentation/state/useGame'
@@ -296,5 +296,73 @@ describe('SetupScreen', () => {
     fireEvent.click(screen.getByRole('switch', { name: /impostors see each other/i }))
     expect(impostorCount()).toBe('4')
     expect(screen.getByRole('button', { name: /more impostors/i })).toBeDisabled()
+  })
+
+  describe('reordering players', () => {
+    function names() {
+      return screen.getAllByLabelText(/player name/i).map((i) => (i as HTMLInputElement).value)
+    }
+
+    // jsdom has no layout, so rows are stacked 60px apart for dnd-kit's keyboard coordinates.
+    beforeEach(() => {
+      vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+        this: HTMLElement,
+      ) {
+        const row = this.closest('li')
+        const top = row ? Array.from(row.parentElement!.children).indexOf(row) * 60 : 0
+        return new DOMRect(0, top, 300, 48)
+      })
+    })
+
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    async function moveDownByKeyboard(label: string) {
+      const grip = screen.getByRole('button', { name: label })
+      grip.focus()
+      fireEvent.keyDown(grip, { code: 'Space', key: ' ' })
+      await waitFor(() => expect(grip).toHaveAttribute('aria-pressed', 'true'))
+      fireEvent.keyDown(document, { code: 'ArrowDown', key: 'ArrowDown' })
+      fireEvent.keyDown(document, { code: 'Space', key: ' ' })
+      await waitFor(() => expect(grip).not.toHaveAttribute('aria-pressed', 'true'))
+    }
+
+    function fillThree() {
+      fillPlayer(0, 'Ana')
+      fillPlayer(1, 'Ben')
+      fillPlayer(2, 'Cleo')
+    }
+
+    it('labels each grip with the player name or number', () => {
+      setup()
+      fillPlayer(1, 'Ben')
+      expect(screen.getByRole('button', { name: 'Reorder player 1' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Reorder Ben' })).toBeInTheDocument()
+    })
+
+    it('moves a player with the keyboard and saves the new order', async () => {
+      setup()
+      fillThree()
+      await moveDownByKeyboard('Reorder Ana')
+      fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+
+      const saved = JSON.parse(window.localStorage.getItem('impostor.config') ?? '{}')
+      expect(saved.players).toEqual(['Ben', 'Ana', 'Cleo'])
+    })
+
+    it('keeps edits and removals aligned after a move', async () => {
+      setup()
+      fillThree()
+      await moveDownByKeyboard('Reorder Ana')
+      expect(names()).toEqual(['Ben', 'Ana', 'Cleo'])
+
+      fireEvent.change(screen.getAllByLabelText(/player name/i)[1]!, { target: { value: 'Ada' } })
+      expect(names()).toEqual(['Ben', 'Ada', 'Cleo'])
+
+      fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+      fireEvent.click(screen.getByRole('button', { name: 'Remove Ben' }))
+      expect(names()).toEqual(['Ada', 'Cleo', ''])
+    })
   })
 })
