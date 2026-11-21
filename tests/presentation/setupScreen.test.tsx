@@ -364,5 +364,19 @@ describe('SetupScreen', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Remove Ben' }))
       expect(names()).toEqual(['Ada', 'Cleo', ''])
     })
+
+    it('keeps the remaining names aligned after removing a middle row', async () => {
+      setup()
+      fillThree()
+      fireEvent.click(screen.getByRole('button', { name: /add player/i }))
+      fillPlayer(3, 'Dan')
+      await moveDownByKeyboard('Reorder Ana')
+      expect(names()).toEqual(['Ben', 'Ana', 'Cleo', 'Dan'])
+
+      fireEvent.click(screen.getByRole('button', { name: 'Remove Ana' }))
+      expect(names()).toEqual(['Ben', 'Cleo', 'Dan'])
+      expect(screen.getByRole('button', { name: 'Reorder Cleo' })).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Reorder Ana' })).not.toBeInTheDocument()
+    })
   })
 })
