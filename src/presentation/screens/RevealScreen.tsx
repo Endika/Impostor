@@ -5,6 +5,7 @@ import { useAudio } from '../audio/useAudio'
 import { Button } from '../components/Button'
 import { RoleCard } from '../components/RoleCard'
 import { roleCardFace } from '../components/roleCardFace'
+import { useWakeLock } from '../components/useWakeLock'
 
 export function RevealScreen() {
   const { t } = useTranslation()
@@ -13,6 +14,7 @@ export function RevealScreen() {
   const [seen, setSeen] = useState(false)
   const heading = useRef<HTMLHeadingElement>(null)
   const firstPlayer = useRef(true)
+  useWakeLock()
 
   // Next re-locks itself for the new player, so hand focus to the new
   // "pass the phone" heading instead of leaving it on a disabled button.
