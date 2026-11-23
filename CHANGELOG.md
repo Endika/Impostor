@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.28.0](https://github.com/Endika/Impostor/compare/v1.27.1...v1.28.0) (2026-11-23)
+
+
+### Features
+
+* **reveal:** keep the screen awake while roles are handed out ([9cfff46](https://github.com/Endika/Impostor/commit/9cfff465fbf5e885d26cd642a52814b3b5d80f53))
+
 ## [1.27.1](https://github.com/Endika/Impostor/compare/v1.27.0...v1.27.1) (2026-11-23)
 
 
