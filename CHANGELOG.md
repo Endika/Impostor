@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.1](https://github.com/Endika/Impostor/compare/v1.27.0...v1.27.1) (2026-11-23)
+
+
+### Bug Fixes
+
+* **pwa:** precache the app again so installed apps update ([fc5cb29](https://github.com/Endika/Impostor/commit/fc5cb295cc20663b7095c3777be536eec8db2cea))
+
 ## [1.27.0](https://github.com/Endika/Impostor/compare/v1.26.0...v1.27.0) (2026-11-21)
 
 
